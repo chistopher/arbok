@@ -1,0 +1,6 @@
+
+#pragma once
+
+const auto REPO_ROOT = "${CMAKE_SOURCE_DIR}/";
+const auto DATA_DIR = "${CMAKE_SOURCE_DIR}/data/";
+
