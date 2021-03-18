@@ -5,11 +5,18 @@ find_package(OpenMP REQUIRED)
 set(target arbok)
 
 set(HEADERS
-    include/${target}/gabow.h
+        include/${target}/dsu.h
+        include/${target}/gabow.h
+        include/${target}/tarjan.h
+        include/${target}/treap.h
+
 )
 
 set(SOURCES
-    gabow.cpp
+        dsu.cpp
+        gabow.cpp
+        tarjan.cpp
+        treap.cpp
 )
 
 configure_file(include/${target}/paths.h.in include/${target}/paths.h)
