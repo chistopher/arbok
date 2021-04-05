@@ -12,12 +12,30 @@ class Tarjan {
   Tarjan(VertexIdentifier num_vertices) = delete;
   virtual ~Tarjan(){};  // virtual destructors need implementations
   virtual void create_edge(VertexIdentifier, VertexIdentifier, Weight) = 0;
-  void run() final {
+  void run(VertexIdentifier root) final {
     queue<VertexIdentifier> q;
     vector<VertexIdentifier> pi(num_vertices, -1);
+    // put all nodes v != root in queue
+    for (VertexIdentifier vertex = 0; vertex < num_vertices; vertex++) {
+        if (__builtin_expect(vertex != root,1)) q.push(vertex);
+    }
+
+    // while there is a node v in the queue
+    while (!q.empty()) {
+        VertexIdentifier v = co[q.front()];
+        q.pop();
+
+        auto& min_edge = get_min_edge(v):
+        pi[v] = min_edge.from;
+
+        Weight  w = get_edge_weight()
+
+
+    }
 
   };
   Weight weight() const;
+  virtual edge get_min_edge(VertexIdentifier v) = 0;
 
  protected:
   VertexIndentifier num_vertices;
@@ -36,7 +54,6 @@ class SetTarjan : public Tarjan {
  private:
   OffsetableSetManagingDSU<edge> co;
   CycleDetectionDSU cy;
-  VertexIdentifier num_vertices;
 };
 
 template <class VertexIdentifier = uint32_t, class Weight = int32_t>
