@@ -6,6 +6,8 @@
 
 #include "arbok/graph.h"
 
+using namespace std;
+
 namespace arbok {
 
 struct DSU {
@@ -45,9 +47,9 @@ class OffsetableSetManagingDSU {
   set<SetKey>* getSetElements(DSUKey element) { return &managedSets[find(element)]; }
   void merge(DSUKey a, DSUKey b) {
     if (find(a) == find(b)) return;
-    auto& setA = edges[find(a)];
+    auto& setA = managedSets[find(a)];
     OffsetValue offsetA = offsets[find(a)];
-    auto& setB = edges[find(b)];
+    auto& setB = managedSets[find(b)];
     OffsetValue offsetB = offsets[find(b)];
 
     // Herausfinden, welches Set größer ist

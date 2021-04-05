@@ -1,8 +1,15 @@
 #pragma once
 #include <cstdint>
+#include <iostream>
+#include <set>
+#include <queue>
+#include <numeric>
 #include <vector>
-
+ 
 #include "arbok/graph.h"
+#include "arbok/dsu.h"
+
+using namespace std;
 
 namespace arbok {
 
@@ -23,40 +30,41 @@ class Tarjan {
 
     // while there is a node v in the queue
     while (!q.empty()) {
-        VertexIdentifier v = co[q.front()];
+        VertexIdentifier v = identify(q.front()); 
         q.pop();
 
-        auto& min_edge = get_min_edge(v):
+        auto& min_edge = get_min_edge(v);
         pi[v] = min_edge.from;
 
         Weight edge_weight = get_edge_weight(v, min_edge);
         _weight += edge_weight;
         
-        update_incoming_edge_weights(v, wedge_weight);
+        update_incoming_edge_weights(v, edge_weight);
 
         if (!cy.merge(min_edge.from, min_edge.to)) continue;
         // we did build a cycle:
 
         // merge incoming edges of cycle, contract to one node
-        for (VertexIdentifier cur = co[pi[v]]; cur != co[v]; cur = co[pi[cur]]) merge_vertices(cur, v);
+        for (VertexIdentifier cur = identify(pi[v]); cur != identify(v); cur = identify(pi[cur])) merge_vertices(cur, v);
 
         delete_self_loops_of_cycle(v);
 
         // push contracted node
-        q.push(co[v]);
+        q.push(identify(v));
     }
 
   };
   Weight weight() { return _weight; };
+  virtual VertexIdentifier identify(VertexIdentifier v) = 0;
   virtual edge get_min_edge(VertexIdentifier v) = 0;
   virtual Weight get_edge_weight(VertexIdentifier v, edge e);
-  virtual void update_incoming_edge_weights(VertexIndentifier v, Weight w) = 0;
+  virtual void update_incoming_edge_weights(VertexIdentifier v, Weight w) = 0;
   virtual void merge_vertices(VertexIdentifier a, VertexIdentifier b) = 0;
   virtual void delete_self_loops_of_cycle(VertexIdentifier v) = 0;
 
  protected:
-  VertexIndentifier num_vertices;
-  CycleDetectionDSU cy;
+  VertexIdentifier num_vertices;
+  CycleDetectionDSU<> cy;
   Weight _weight;
 };
 
@@ -69,7 +77,7 @@ class SetTarjan : public Tarjan {
       edge e(from, to, weight); // TODO: TEMPLATIZE EDGE
       co.add_set_element(to, e);
   };
-
+  VertexIdentifier identify(VertexIdentifier v) { return co[v]; };
   edge get_min_edge(VertexIdentifier v) { return *co.getSetElements(v)->begin(); };
   Weight get_edge_weight(VertexIdentifier v, edge e) { return  co.getOffset(v) + e.weight; };
   void update_incoming_edge_weights(VertexIndentifier v, Weight w) { co.addWeightOffset(v, -w); };
