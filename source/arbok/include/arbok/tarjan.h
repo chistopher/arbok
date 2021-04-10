@@ -33,7 +33,7 @@ class Tarjan {
         VertexIdentifier v = identify(q.front()); 
         q.pop();
 
-        auto& min_edge = get_min_edge(v);
+        auto min_edge = get_min_edge(v);
         pi[v] = min_edge.from;
 
         Weight edge_weight = get_edge_weight(v, min_edge);
@@ -56,8 +56,8 @@ class Tarjan {
   };
   Weight weight() { return _weight; };
   virtual VertexIdentifier identify(VertexIdentifier v) = 0;
-  virtual edge& get_min_edge(VertexIdentifier v) = 0;
-  virtual Weight get_edge_weight(VertexIdentifier v, edge e);
+  virtual edge get_min_edge(VertexIdentifier v) = 0;
+  virtual Weight get_edge_weight(VertexIdentifier v, edge e) = 0;
   virtual void update_incoming_edge_weights(VertexIdentifier v, Weight w) = 0;
   virtual void merge_vertices(VertexIdentifier a, VertexIdentifier b) = 0;
   virtual void delete_self_loops_of_cycle(VertexIdentifier v) = 0;
@@ -78,7 +78,7 @@ class SetTarjan : public Tarjan<VertexIdentifier, Weight> {
       co.add_set_element(to, e);
   };
   VertexIdentifier identify(VertexIdentifier v) { return co[v]; };
-  edge& get_min_edge(VertexIdentifier v) { return *co.getSetElements(v)->begin(); };
+  edge get_min_edge(VertexIdentifier v) { return *co.getSetElements(v)->begin(); };
   Weight get_edge_weight(VertexIdentifier v, edge e) { return  co.getOffset(v) + e.weight; };
   void update_incoming_edge_weights(VertexIdentifier v, Weight w) { co.addOffset(v, -w); };
   void merge_vertices(VertexIdentifier a, VertexIdentifier b) { co.merge(a, b); };

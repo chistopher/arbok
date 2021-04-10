@@ -83,7 +83,12 @@ class OffsetableSetManagingDSU {
   vector<set<SetKey, SetCompare>> managedSets;
   vector<OffsetValue> offsets;
   vector<DSUKey> parent;
-  DSUKey find(DSUKey element);
+  DSUKey find(DSUKey element) {
+    if (parent[element] != element) {
+        parent[element] = find(parent[element]);
+    }
+    return parent[element];
+  }
 };
 
 template <class DSUKey = uint32_t>
