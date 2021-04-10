@@ -16,7 +16,7 @@ namespace arbok {
 template <class VertexIdentifier = uint32_t, class Weight = int32_t>
 class Tarjan {
  public:
-  Tarjan(VertexIdentifier num_vertices) = delete;
+  Tarjan(VertexIdentifier _num_vertices) : num_vertices(_num_vertices), _weight(0) { };
   virtual ~Tarjan(){};  // virtual destructors need implementations
   virtual void create_edge(VertexIdentifier, VertexIdentifier, Weight) = 0;
   void run(VertexIdentifier root) final {
@@ -69,10 +69,10 @@ class Tarjan {
 };
 
 template <class VertexIdentifier = uint32_t, class Weight = int32_t>
-class SetTarjan : public Tarjan {
+class SetTarjan : public Tarjan<VertexIdentifier, Weight> {
  public:
   SetTarjan() = default;
-  SetTarjan(VertexIdentifier num_vertices) : co(num_vertices), cy(num_vetices), num_vertices(num_vertices), _weight(0) { };
+  SetTarjan(VertexIdentifier _num_vertices) : Tarjan<VertexIdentifier, Weight>(_num_vertices), co(_num_vertices) { };
   void create_edge(VertexIdentifier from, VertexIdentifier to, Weight weight) override {
       edge e(from, to, weight); // TODO: TEMPLATIZE EDGE
       co.add_set_element(to, e);
@@ -80,24 +80,24 @@ class SetTarjan : public Tarjan {
   VertexIdentifier identify(VertexIdentifier v) { return co[v]; };
   edge get_min_edge(VertexIdentifier v) { return *co.getSetElements(v)->begin(); };
   Weight get_edge_weight(VertexIdentifier v, edge e) { return  co.getOffset(v) + e.weight; };
-  void update_incoming_edge_weights(VertexIndentifier v, Weight w) { co.addWeightOffset(v, -w); };
+  void update_incoming_edge_weights(VertexIdentifier v, Weight w) { co.addOffset(v, -w); };
   void merge_vertices(VertexIdentifier a, VertexIdentifier b) { co.merge(a, b); };
   void delete_self_loops_of_cycle(VertexIdentifier v) {
-    while (co[co.getEdges(v)->begin()->from] == co[v]) {
-        co.getEdges(v)->erase(co.getEdges(v)->begin());
+    while (co[co.getSetElements(v)->begin()->from] == co[v]) {
+        co.getSetElements(v)->erase(co.getSetElements(v)->begin());
     }
   };
  private:
   OffsetableSetManagingDSU<edge> co;
 };
 
-template <class VertexIdentifier = uint32_t, class Weight = int32_t>
+/* template <class VertexIdentifier = uint32_t, class Weight = int32_t>
 class MatrixTarjan : public Tarjan {
  public:
   MatrixTarjan() = default;
   MatrixTarjan(VertexIdentifier);
   void create_edge(VertexIdentifier, VertexIdentifier, Weight) override;
-};
+}; */
 
 // TODO: TreapTarjan
 
