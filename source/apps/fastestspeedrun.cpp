@@ -14,7 +14,7 @@ int main() {
 
   int n;
   cin >> n;
-  SetTarjan<> tarjan(n + 1);
+  arbok::SetTarjan<> tarjan(n + 1);
   // G.resize(n + 1);
   for (int level = 1; level <= n; level++) {
     int shortcut_item, time;

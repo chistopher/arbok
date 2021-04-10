@@ -16,10 +16,10 @@ namespace arbok {
 template <class VertexIdentifier = uint32_t, class Weight = int32_t>
 class Tarjan {
  public:
-  Tarjan(VertexIdentifier _num_vertices) : num_vertices(_num_vertices), _weight(0) { };
+  Tarjan(VertexIdentifier _num_vertices) : num_vertices(_num_vertices), cy(num_vertices), _weight(0) { };
   virtual ~Tarjan(){};  // virtual destructors need implementations
   virtual void create_edge(VertexIdentifier, VertexIdentifier, Weight) = 0;
-  void run(VertexIdentifier root) final {
+  void run(VertexIdentifier root) {
     queue<VertexIdentifier> q;
     vector<VertexIdentifier> pi(num_vertices, -1);
     _weight = 0;
@@ -56,7 +56,7 @@ class Tarjan {
   };
   Weight weight() { return _weight; };
   virtual VertexIdentifier identify(VertexIdentifier v) = 0;
-  virtual edge get_min_edge(VertexIdentifier v) = 0;
+  virtual edge& get_min_edge(VertexIdentifier v) = 0;
   virtual Weight get_edge_weight(VertexIdentifier v, edge e);
   virtual void update_incoming_edge_weights(VertexIdentifier v, Weight w) = 0;
   virtual void merge_vertices(VertexIdentifier a, VertexIdentifier b) = 0;
@@ -78,7 +78,7 @@ class SetTarjan : public Tarjan<VertexIdentifier, Weight> {
       co.add_set_element(to, e);
   };
   VertexIdentifier identify(VertexIdentifier v) { return co[v]; };
-  edge get_min_edge(VertexIdentifier v) { return *co.getSetElements(v)->begin(); };
+  edge& get_min_edge(VertexIdentifier v) { return *co.getSetElements(v)->begin(); };
   Weight get_edge_weight(VertexIdentifier v, edge e) { return  co.getOffset(v) + e.weight; };
   void update_incoming_edge_weights(VertexIdentifier v, Weight w) { co.addOffset(v, -w); };
   void merge_vertices(VertexIdentifier a, VertexIdentifier b) { co.merge(a, b); };
