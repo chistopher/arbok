@@ -74,7 +74,7 @@ class SetTarjan : public Tarjan<VertexIdentifier, Weight> {
   SetTarjan() = default;
   SetTarjan(VertexIdentifier _num_vertices) : Tarjan<VertexIdentifier, Weight>(_num_vertices), co(_num_vertices) { };
   void create_edge(VertexIdentifier from, VertexIdentifier to, Weight weight) override {
-      edge<VertexIdentifier, Weight> e(from, to, weight); // TODO: TEMPLATIZE EDGE
+      edge<VertexIdentifier, Weight> e(from, to, weight);
       co.add_set_element(to, e);
   };
   VertexIdentifier identify(VertexIdentifier v) { return co[v]; };
