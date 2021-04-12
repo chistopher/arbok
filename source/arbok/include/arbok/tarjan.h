@@ -13,7 +13,7 @@ using namespace std;
 
 namespace arbok {
 
-template <class VertexIdentifier = uint32_t, class Weight = int32_t>
+template <class VertexIdentifier = uint32_t, class Weight = int64_t>
 class Tarjan {
  public:
   Tarjan(VertexIdentifier _num_vertices) : num_vertices(_num_vertices), cy(num_vertices), _weight(0) { };
@@ -56,8 +56,8 @@ class Tarjan {
   };
   Weight weight() { return _weight; };
   virtual VertexIdentifier identify(VertexIdentifier v) = 0;
-  virtual edge get_min_edge(VertexIdentifier v) = 0;
-  virtual Weight get_edge_weight(VertexIdentifier v, edge e) = 0;
+  virtual edge<VertexIdentifier, Weight> get_min_edge(VertexIdentifier v) = 0;
+  virtual Weight get_edge_weight(VertexIdentifier v, edge<VertexIdentifier, Weight> e) = 0;
   virtual void update_incoming_edge_weights(VertexIdentifier v, Weight w) = 0;
   virtual void merge_vertices(VertexIdentifier a, VertexIdentifier b) = 0;
   virtual void delete_self_loops_of_cycle(VertexIdentifier v) = 0;
@@ -68,18 +68,18 @@ class Tarjan {
   Weight _weight;
 };
 
-template <class VertexIdentifier = uint32_t, class Weight = int32_t>
+template <class VertexIdentifier = uint32_t, class Weight = int64_t>
 class SetTarjan : public Tarjan<VertexIdentifier, Weight> {
  public:
   SetTarjan() = default;
   SetTarjan(VertexIdentifier _num_vertices) : Tarjan<VertexIdentifier, Weight>(_num_vertices), co(_num_vertices) { };
   void create_edge(VertexIdentifier from, VertexIdentifier to, Weight weight) override {
-      edge e(from, to, weight); // TODO: TEMPLATIZE EDGE
+      edge<VertexIdentifier, Weight> e(from, to, weight); // TODO: TEMPLATIZE EDGE
       co.add_set_element(to, e);
   };
   VertexIdentifier identify(VertexIdentifier v) { return co[v]; };
-  edge get_min_edge(VertexIdentifier v) { return *co.getSetElements(v)->begin(); };
-  Weight get_edge_weight(VertexIdentifier v, edge e) { return  co.getOffset(v) + e.weight; };
+  edge<VertexIdentifier, Weight> get_min_edge(VertexIdentifier v) { return *co.getSetElements(v)->begin(); };
+  Weight get_edge_weight(VertexIdentifier v, edge<VertexIdentifier, Weight> e) { return  co.getOffset(v) + e.weight; };
   void update_incoming_edge_weights(VertexIdentifier v, Weight w) { co.addOffset(v, -w); };
   void merge_vertices(VertexIdentifier a, VertexIdentifier b) { co.merge(a, b); };
   void delete_self_loops_of_cycle(VertexIdentifier v) {
@@ -88,7 +88,7 @@ class SetTarjan : public Tarjan<VertexIdentifier, Weight> {
     }
   };
  private:
-  OffsetableSetManagingDSU<edge> co;
+  OffsetableSetManagingDSU<edge<VertexIdentifier, Weight>> co;
 };
 
 /* template <class VertexIdentifier = uint32_t, class Weight = int32_t>
