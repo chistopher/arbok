@@ -4,8 +4,6 @@
 #include <set>
 #include <vector>
 
-#include "arbok/graph.h"
-
 using namespace std;
 
 namespace arbok {
@@ -28,9 +26,10 @@ struct PersistentDSU {
   bool join(int i, int j, int t);
 };
 
+// TODO disentangle this structure from the DSU and move its implementation to SetImpl in tarjan.cpp
 // SetKey is currently required to have  a "weight" variable, which should (TODO) be defined using a C++20 concept
 template <class SetKey, class SetCompare = std::less<SetKey>, class DSUKey = uint32_t,
-          class OffsetValue = int64_t>
+          class OffsetValue = int>
 class OffsetableSetManagingDSU {
  public:
   explicit OffsetableSetManagingDSU(DSUKey num_elements) {
@@ -90,36 +89,5 @@ class OffsetableSetManagingDSU {
     return parent[element];
   }
 };
-
-template <class DSUKey = uint32_t>
-class CycleDetectionDSU {
-    vector<DSUKey> parent;
-public:
-    CycleDetectionDSU(DSUKey num_elements) {
-        parent.resize(num_elements);
-        iota(parent.begin(), parent.end(), 0);
-    }
-    bool merge(DSUKey a, DSUKey b) {
-        // nicht kommutativ
-        if(find(a) == find(b)){
-            // Cycle
-            return true;
-        }
-        parent[find(a)] = find(b);
-        return false;
-    }
-    int operator[](DSUKey element) {
-        // returns set representant
-        return find(element);
-    }
-private:
-    int find(DSUKey element) {
-        if (parent[element] != element) {
-            parent[element] = find(parent[element]);
-        }
-        return parent[element];
-    }
-};
-
 
 }  // namespace arbok
