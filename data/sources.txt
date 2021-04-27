@@ -1,0 +1,22 @@
+
+tsp-heidelberg: 
+http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/atsp/
+
+konect: 
+http://konect.cc/
+
+networkrepository: 
+http://networkrepository.com/
+
+snap: 
+https://snap.stanford.edu/data/
+
+fastestspeedrun: 
+NWERC2018 problem
+https://speedyguy17.info/icpc/data/nwerc/2018/fastestspeedrun/data/secret/
+
+hrg:
+generated hyperbolic random graphs
+https://github.com/chistopher/girgs
+
+
