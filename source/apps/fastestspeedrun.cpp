@@ -11,10 +11,11 @@ using namespace std;
 int main() {
   ios::sync_with_stdio(false);
   cin.tie(NULL);
+  //freopen("../data/fastestspeedrun/035-itsybitsycycles05.in", "r", stdin);
 
   int n;
   cin >> n;
-  arbok::SetTarjan<> tarjan(n + 1);
+  arbok::Tarjan tarjan(n+1, arbok::TarjanVariant::MATRIX);
   // G.resize(n + 1);
   for (int level = 1; level <= n; level++) {
     int shortcut_item, time;
@@ -28,8 +29,8 @@ int main() {
     }
   }
 
-  tarjan.run(0);
-  cout << tarjan.weight() << endl;
+  auto weight = tarjan.run(0);
+  cout << weight << endl;
 
   return 0;
 }

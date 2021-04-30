@@ -14,10 +14,10 @@ enum class TarjanVariant { SET, MATRIX, TREAP };
 class Tarjan {
 public:
     Tarjan(int num_vertices, TarjanVariant variant);
-    virtual ~Tarjan() = default;
+    ~Tarjan();
 
     void create_edge(int from, int to, int weight);
-    int run(int root);
+    long long run(int root);
     std::vector<std::pair<int,int>> reconstruct();
 
 protected:

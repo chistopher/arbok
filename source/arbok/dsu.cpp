@@ -9,7 +9,9 @@ using namespace arbok;
 const int INF = 1e9;
 
 DSU::DSU(int n) : p(n, -1) {}
-int DSU::find(int i) { return p[i] < 0 ? i : p[i] = find(p[i]); }
+int DSU::find(int i) {
+    return p[i] < 0 ? i : p[i] = find(p[i]);
+}
 bool DSU::same(int i, int j) { return find(i) == find(j); }
 int DSU::size(int i) { return -p[find(i)]; }
 bool DSU::join(int i, int j) {
