@@ -16,6 +16,9 @@ set(SOURCES
         dsu.cpp
         gabow.cpp
         tarjan.cpp
+        tarjan_impl.h
+        tarjan_matrix.cpp
+        tarjan_set.cpp
         treap.cpp
 )
 

@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 
 from __future__ import print_function
 
@@ -15,13 +16,13 @@ def eprint(*args, **kwargs):
 
 parser = argparse.ArgumentParser()
 parser.add_argument('executable', help='the executable we want to test')
-parser.add_argument('--datadir', required=False, default='fastestspeedrun', help='specify the directory containing the test files', nargs=1)
+parser.add_argument('--datadir', required=False, default='fastestspeedrun', help='specify the directory containing the test files')
 parser.add_argument('--testcase', required=False, help="specify a single testcase to be done", nargs=1)
 args = parser.parse_args()
 
 # wget -r --no-parent https://speedyguy17.info/icpc/data/nwerc/2018/fastestspeedrun/data/secret/
 pp.pprint(args)
-datadir = pathlib.Path(args.datadir[0])
+datadir = pathlib.Path(args.datadir)
 for filename in os.listdir(datadir):
     if filename.endswith(".in"):
         scenario_name = filename[:-3]
