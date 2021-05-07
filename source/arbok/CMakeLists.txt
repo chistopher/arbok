@@ -19,6 +19,7 @@ set(SOURCES
         tarjan_impl.h
         tarjan_matrix.cpp
         tarjan_set.cpp
+        tarjan_treap.cpp
         treap.cpp
 )
 

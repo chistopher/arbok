@@ -42,4 +42,17 @@ private:
     vector<vector<int>> adj;
 };
 
+struct Node; // FWD for treap
+class TreapImpl : public TarjanImpl {
+public:
+    TreapImpl(int n);
+    ~TreapImpl() override;
+    void create_edge(int from, int to, int weight) override;
+    Edge get_min_edge(int v, arbok::DSU& dsu) override;
+    void update_incoming_edge_weights(int v, int w) override;
+    void move_edges(int from, int to) override;
+private:
+    vector<Node*> managedSets;
+};
+
 }

@@ -24,7 +24,7 @@ Tarjan::Tarjan(int _num_vertices, TarjanVariant variant)
     if(variant == TarjanVariant::MATRIX)
         m_impl = make_unique<MatrixImpl>(_num_vertices);
     if(variant == TarjanVariant::TREAP)
-        exit(0); // TODO implement Treap tarjan
+        m_impl = make_unique<TreapImpl>(_num_vertices);
 }
 
 void Tarjan::create_edge(int from, int to, int weight) {
