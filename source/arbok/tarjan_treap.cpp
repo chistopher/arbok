@@ -25,10 +25,10 @@ TreapImpl::~TreapImpl() {
 }
 
 void TreapImpl::create_edge(int from, int to, int weight) {
-    managedSets[to] = merge(managedSets[to], new Node(weight, from, to));
+    managedSets[to] = merge(managedSets[to], new Node(from, to, weight));
 }
 
-TarjanImpl::Edge TreapImpl::get_min_edge(int v, DSU& dsu) {
+Edge TreapImpl::get_min_edge(int v, DSU& dsu) {
     assert(managedSets[v] != nullptr);
     Node* res = nullptr;
     while(res == nullptr) {
@@ -40,7 +40,7 @@ TarjanImpl::Edge TreapImpl::get_min_edge(int v, DSU& dsu) {
     }
     auto e = res->x;
     delete res;
-    return {e.from, e.to, (int)e.weight};
+    return e;
 }
 
 void TreapImpl::update_incoming_edge_weights(int v, int w) {

@@ -13,10 +13,10 @@ SetImpl::SetImpl(int n) : managedSets(n), offsets(n,0) {
 }
 
 void SetImpl::create_edge(int from, int to, int weight) {
-    managedSets[to].insert({from, to, weight});
+    managedSets[to].insert({from, to, weight, weight});
 }
 
-TarjanImpl::Edge SetImpl::get_min_edge(int v, DSU& dsu) {
+Edge SetImpl::get_min_edge(int v, DSU& dsu) {
     assert(size(managedSets[v]));
     while(dsu.find(managedSets[v].begin()->from) == v)
         managedSets[v].erase(managedSets[v].begin()); // delete selfloops

@@ -14,17 +14,20 @@ using namespace arbok;
 
 Tarjan::~Tarjan() = default;
 
-Tarjan::Tarjan(int _num_vertices, TarjanVariant variant)
-: num_vertices(_num_vertices)
-, cy(_num_vertices)
-, co(_num_vertices)
+Tarjan::Tarjan(int n, TarjanVariant variant)
+: num_vertices(n)
+, cy(n)
+, co(n)
+, queue_id(n)
 {
+    inc.reserve(2*n);
+    forest.reserve(2*n);
     if(variant == TarjanVariant::SET)
-        m_impl = make_unique<SetImpl>(_num_vertices);
+        m_impl = make_unique<SetImpl>(n);
     if(variant == TarjanVariant::MATRIX)
-        m_impl = make_unique<MatrixImpl>(_num_vertices);
+        m_impl = make_unique<MatrixImpl>(n);
     if(variant == TarjanVariant::TREAP)
-        m_impl = make_unique<TreapImpl>(_num_vertices);
+        m_impl = make_unique<TreapImpl>(n);
 }
 
 void Tarjan::create_edge(int from, int to, int weight) {
@@ -33,51 +36,54 @@ void Tarjan::create_edge(int from, int to, int weight) {
 
 long long Tarjan::run(int root) {
 
-    long long answer = 0;
-    queue<int> q;
-    vector<int> pi(num_vertices, -1);
     // put all nodes v != root in queue
-    for (int vertex = 0; vertex < num_vertices; vertex++) {
+    vector<int> q;
+    q.reserve(2*num_vertices);
+    for (int vertex = 0; vertex < num_vertices; vertex++)
         if (vertex != root)
-            q.push(vertex);
-    }
+            q.push_back(vertex);
 
     // while there is a node v in the queue
-    while (!q.empty()) {
-        int v = q.front(); q.pop();
+    long long answer = 0;
+    for(int i=0; i<size(q); ++i) {
+        int v = q[i];
+        queue_id[v] = i;
         assert(v==co.find(v));
 
-        auto min_edge = m_impl->get_min_edge(v, co);
-        min_edge.from = co.find(min_edge.from);
-        assert(min_edge.from != v); // no self-loops allowed here
+        const auto min_edge = m_impl->get_min_edge(v, co);
+        assert(co.find(min_edge.from) != v); // no self-loops allowed here
 
-        pi[v] = min_edge.from;
+        inc.push_back(min_edge); // inc edges are stored at queue_id[node] because same node can be rep multiple times
+        forest.push_back(i); // at first each edge is a root in forest
 
         answer += min_edge.weight;
         m_impl->update_incoming_edge_weights(v, min_edge.weight);
 
         if (cy.join(min_edge.from, min_edge.to))
             continue;
-        // we did build a cycle:
 
-        // merge incoming edges of cycle, contract to one node
+        // we built a cycle. now merge incoming edges of cycle into one node
         int merged = v;
-        for (int cur = co.find(pi[v]); cur != merged; cur = co.find(pi[cur])) {
+        auto next_in_cyc = [&](int last) { return co.find(inc[queue_id[last]].from); };
+        for (int cur = next_in_cyc(v); cur != merged; cur = next_in_cyc(cur)) {
             int from = cur, to = merged;
             co.join(cur, merged);
             if (co.find(merged)==cur) swap(from,to);
             m_impl->move_edges(from, to);
-            merged = co.find(merged); // merged = to;
+            merged = to;
+
+            forest[queue_id[cur]] = static_cast<unsigned>(size(q)); // size of queue is where the merged supernode will be in the queue
         }
+        forest[i] = static_cast<unsigned>(size(q)); // edge to v is also part of cycle
 
         // push contracted node
-        q.push(merged);
+        q.push_back(merged);
     }
 
     return answer;
 }
 
-std::vector<std::pair<int,int>> Tarjan::reconstruct() {
+std::vector<Edge> Tarjan::reconstruct() {
     // TODO
     return {};
 }

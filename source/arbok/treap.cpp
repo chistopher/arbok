@@ -11,18 +11,14 @@ using namespace std;
 
 namespace arbok {
 
-static mt19937 rng((unsigned int) chrono::duration_cast<chrono::nanoseconds>(
-        chrono::high_resolution_clock::now().time_since_epoch()).count());
+static mt19937 rng(1337);
 
-bool Edge::operator<(const Edge &o) const { return tie(weight, from, to) < tie(o.weight, o.from, o.to); }
-bool Edge::operator==(const Edge &o) const { return tie(weight, from, to) == tie(o.weight, o.from, o.to); }
+Node::Node(int from, int to, int weight) : y(rng()), x{from, to, weight, weight}, mn{from, to, weight, weight} {}
 
-Node::Node(ll weight, int from, int to) : y(rng()), x{weight, from, to}, mn{weight, from, to} {}
-
-Edge mn(Node *v) { return v ? v->mn : MAXE; }
+Edge mn(Node *v) { return v ? v->mn : NO_EDGE; }
 void update(Node *v) { v->mn = min({mn(v->l), v->x, mn(v->r)}); }
 
-void apply(Node *v, ll lz) {
+void apply(Node *v, int lz) {
     if (!v) return;
     v->x.weight += lz;
     v->mn.weight += lz;
