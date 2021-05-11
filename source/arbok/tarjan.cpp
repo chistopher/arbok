@@ -84,6 +84,43 @@ long long Tarjan::run(int root) {
 }
 
 std::vector<Edge> Tarjan::reconstruct() {
-    // TODO
-    return {};
+    assert(size(inc));
+    assert(size(inc) == size(forest));
+    auto n = static_cast<int>(size(inc));
+
+    // build adj list out of children in forest
+    // and collect initial roots
+    vector<vector<int>> adj(n);
+    queue<int> roots;
+    for(int i=0; i<n; ++i) {
+        if(forest[i]==i) roots.push(i);
+        else adj[forest[i]].push_back(i);
+    }
+
+    // check that the first n-1 picked edges are leaves
+    for(int i=0; i<num_vertices-1; ++i) {
+        assert(inc[i].to == i || inc[i].to==i+1);
+        assert(size(adj[i])==0);
+    }
+
+    vector<Edge> res;
+    while(size(roots)) {
+        auto root = roots.front();
+        roots.pop();
+
+        auto leaf = inc[root].to;
+        if(inc[leaf].to!=leaf) leaf--; // if arbo-root<to then the first incoming edge of to is at to-1
+
+        // we take the edge at position root and 'delete' the path from the leaf to the root from the forest
+        res.push_back(inc[root]);
+        for(int i=leaf; i!=root; i=forest[i])
+            for(auto ch : adj[forest[i]]) // go over all my siblings
+                if(ch!=i)
+                    roots.push(ch); // they become roots now
+    }
+
+    assert(size(res)==num_vertices-1);
+
+
+    return res;
 }
