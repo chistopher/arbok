@@ -28,6 +28,8 @@ Tarjan::Tarjan(int n, TarjanVariant variant)
         m_impl = make_unique<MatrixImpl>(n);
     if(variant == TarjanVariant::TREAP)
         m_impl = make_unique<TreapImpl>(n);
+    if(variant == TarjanVariant::PQ)
+        m_impl = make_unique<PQImpl>(n);
 }
 
 void Tarjan::create_edge(int from, int to, int weight) {

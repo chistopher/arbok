@@ -9,11 +9,12 @@ namespace arbok {
 
 // TODO rename this to be more expressive; what this does is manage the edges
 class TarjanImpl; // FWD
-enum class TarjanVariant { SET, MATRIX, TREAP };
+enum class TarjanVariant { SET, MATRIX, TREAP, PQ };
 struct Edge {
     int from, to, weight, orig_weight;
     inline bool operator<(const Edge& rhs) const { return tie(weight,from) < tie(rhs.weight, rhs.from); }
     inline bool operator==(const Edge& rhs) const { return tie(weight,from) == tie(rhs.weight,rhs.from); }
+    inline bool operator>(const Edge& rhs) const { return rhs < *this; }
 };
 static const Edge NO_EDGE = {(int)1e9, (int)1e9, (int)1e9, (int)1e9};
 

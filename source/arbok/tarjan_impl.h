@@ -1,5 +1,6 @@
 
 #include <arbok/tarjan.h>
+#include <queue>
 
 namespace arbok {
 
@@ -23,6 +24,20 @@ public:
     void move_edges(int from, int to) override;
 private:
     vector<set<Edge>> managedSets;
+    vector<int> offsets;
+};
+
+class PQImpl : public TarjanImpl {
+public:
+    PQImpl(int n);
+    ~PQImpl() override = default;
+    void create_edge(int from, int to, int weight) override;
+    Edge get_min_edge(int v, arbok::DSU& dsu) override;
+    void update_incoming_edge_weights(int v, int w) override;
+    void move_edges(int from, int to) override;
+private:
+    using PQ = priority_queue<Edge, vector<Edge>, greater<>>;
+    vector<PQ> managedSets;
     vector<int> offsets;
 };
 
