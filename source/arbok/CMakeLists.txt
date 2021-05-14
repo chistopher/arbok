@@ -9,10 +9,11 @@ set(HEADERS
         include/${target}/gabow.h
         include/${target}/tarjan.h
         include/${target}/treap.h
-
+        include/${target}/cf_solution.h
 )
 
 set(SOURCES
+        cf_solution.cpp
         dsu.cpp
         gabow.cpp
         tarjan.cpp

@@ -9,6 +9,7 @@ set(target tests)
 
 add_executable(${target}
     test_find_data.cpp
+    test_fastestspeedrun.cpp
 )
 
 target_link_libraries(${target} GTest::Main arbok)
