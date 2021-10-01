@@ -4,8 +4,6 @@
 #include <set>
 #include <vector>
 
-using namespace std;
-
 namespace arbok {
 
 struct DSU {

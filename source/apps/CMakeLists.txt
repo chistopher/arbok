@@ -10,3 +10,5 @@ target_link_libraries(compprog2 arbok)
 
 add_executable(fastestspeedrun fastestspeedrun.cpp)
 target_link_libraries(fastestspeedrun arbok)
+
+add_executable(fastestspeedrun2 fastestspeedrun2.cpp)

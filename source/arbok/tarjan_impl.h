@@ -23,8 +23,8 @@ public:
     void update_incoming_edge_weights(int v, int w) override;
     void move_edges(int from, int to) override;
 private:
-    vector<set<Edge>> managedSets;
-    vector<int> offsets;
+    std::vector<std::set<Edge>> managedSets;
+    std::vector<int> offsets;
 };
 
 class PQImpl : public TarjanImpl {
@@ -36,9 +36,9 @@ public:
     void update_incoming_edge_weights(int v, int w) override;
     void move_edges(int from, int to) override;
 private:
-    using PQ = priority_queue<Edge, vector<Edge>, greater<>>;
-    vector<PQ> managedSets;
-    vector<int> offsets;
+    using PQ = std::priority_queue<Edge, std::vector<Edge>, std::greater<>>;
+    std::vector<PQ> managedSets;
+    std::vector<int> offsets;
 };
 
 class MatrixImpl : public TarjanImpl {
@@ -50,7 +50,7 @@ public:
     void update_incoming_edge_weights(int v, int w) override;
     void move_edges(int from, int to) override;
 private:
-    vector<vector<Edge>> adj;
+    std::vector<std::vector<Edge>> adj;
 };
 
 struct Node; // FWD for treap
@@ -63,7 +63,7 @@ public:
     void update_incoming_edge_weights(int v, int w) override;
     void move_edges(int from, int to) override;
 private:
-    vector<Node*> managedSets;
+    std::vector<Node*> managedSets;
 };
 
 }

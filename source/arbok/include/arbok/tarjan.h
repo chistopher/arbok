@@ -12,8 +12,8 @@ class TarjanImpl; // FWD
 enum class TarjanVariant { SET, MATRIX, TREAP, PQ };
 struct Edge {
     int from, to, weight, orig_weight;
-    inline bool operator<(const Edge& rhs) const { return tie(weight,from) < tie(rhs.weight, rhs.from); }
-    inline bool operator==(const Edge& rhs) const { return tie(weight,from) == tie(rhs.weight,rhs.from); }
+    inline bool operator<(const Edge& rhs) const { return std::tie(weight,from) < std::tie(rhs.weight, rhs.from); }
+    inline bool operator==(const Edge& rhs) const { return std::tie(weight,from) == std::tie(rhs.weight,rhs.from); }
     inline bool operator>(const Edge& rhs) const { return rhs < *this; }
 };
 static const Edge NO_EDGE = {(int)1e9, (int)1e9, (int)1e9, (int)1e9};
@@ -34,9 +34,9 @@ protected:
 
     // last time a representative appeared in the queue
     // this is the pos in inc where the most recent incoming edge is stored for this node
-    vector<unsigned> queue_id;
+    std::vector<unsigned> queue_id;
     // edges that the algorithm picked in each iteration of the queue
-    vector<Edge> inc;
+    std::vector<Edge> inc;
     // forest over the edges in inc that stores parent indices
     std::vector<unsigned> forest;
 
