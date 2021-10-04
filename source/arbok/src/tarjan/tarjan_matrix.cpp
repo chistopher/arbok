@@ -1,9 +1,9 @@
 
-#include <arbok/tarjan.h>
+#include <arbok/tarjan/tarjan.h>
+#include <arbok/tarjan/impl.h>
 
 #include <cassert>
 
-#include "tarjan_impl.h"
 
 using namespace std;
 using namespace arbok;

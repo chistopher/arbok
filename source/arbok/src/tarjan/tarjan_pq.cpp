@@ -3,7 +3,7 @@
 #include <vector>
 #include <cassert>
 
-#include "tarjan_impl.h"
+#include <arbok/tarjan/impl.h>
 
 using namespace std;
 using namespace arbok;

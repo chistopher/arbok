@@ -1,5 +1,5 @@
 
-#include <arbok/gabow.h>
+#include <arbok/gabow/gabow.h>
 
 arbok::Gabow::Gabow(int n) : num_vertices(n), co(n) {
     /*

@@ -5,27 +5,28 @@ find_package(OpenMP REQUIRED)
 set(target arbok)
 
 set(HEADERS
-        include/${target}/dsu.h
-        include/${target}/gabow.h
-        include/${target}/tarjan.h
-        include/${target}/treap.h
-        include/${target}/cf_solution.h
+        include/${target}/data_structures/dsu.h
+        include/${target}/gabow/gabow.h
+        include/${target}/tarjan/tarjan.h
+        include/${target}/tarjan/impl.h
+        include/${target}/data_structures/treap.h
+        include/${target}/data_structures/fibheap.h
+        include/${target}/utils/cf_solution.h
 )
 
 set(SOURCES
-        cf_solution.cpp
-        dsu.cpp
-        gabow.cpp
-        tarjan.cpp
-        tarjan_impl.h
-        tarjan_matrix.cpp
-        tarjan_set.cpp
-        tarjan_pq.cpp
-        tarjan_treap.cpp
-        treap.cpp
+        src/utils/cf_solution.cpp
+        src/data_structures/dsu.cpp
+        src/data_structures/treap.cpp
+        src/gabow/gabow.cpp
+        src/tarjan/tarjan.cpp
+        src/tarjan/tarjan_matrix.cpp
+        src/tarjan/tarjan_set.cpp
+        src/tarjan/tarjan_pq.cpp
+        src/tarjan/tarjan_treap.cpp
 )
 
-configure_file(include/${target}/paths.h.in include/${target}/paths.h)
+configure_file(include/${target}/utils/paths.h.in include/${target}/utils/paths.h)
 
 add_library(${target} SHARED ${HEADERS} ${SOURCES})
 

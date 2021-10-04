@@ -5,9 +5,9 @@
 #include <string_view>
 #include <gtest/gtest.h>
 
-#include <arbok/tarjan.h>
-#include <arbok/cf_solution.h>
-#include <arbok/paths.h>
+#include <arbok/tarjan/tarjan.h>
+#include <arbok/utils/cf_solution.h>
+#include <arbok/utils/paths.h>
 
 using namespace std;
 using ::testing::TestWithParam;

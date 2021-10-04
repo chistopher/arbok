@@ -1,6 +1,6 @@
-#include "arbok/cf_solution.h"
+#include <arbok/utils/cf_solution.h>
 
-#include "arbok/tarjan.h"
+#include <arbok/tarjan/tarjan.h>
 #include <iostream>
 
 void arbok::cf_solution::solve(std::istream& inp, std::ostream& out, const arbok::TarjanVariant variant) {

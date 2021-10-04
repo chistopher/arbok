@@ -6,11 +6,12 @@
 #include <map>
 #include <cassert>
 
-#include <arbok/treap.h>
-#include <arbok/dsu.h>
+#include <arbok/data_structures/treap.h>
+#include <arbok/data_structures/dsu.h>
 
 using namespace std;
 using namespace arbok;
+using namespace arbok::treap;
 
 #define sz(x)       ((int)::size(x))
 
@@ -33,7 +34,7 @@ int main() {
     rep(_, m) {
         int a, b; ll w; cin >> a >> b >> w; --a, --b;
         if (a != b)
-            inc[b] = merge(inc[b], new Node(w, a, b));
+            inc[b] = merge(inc[b], new Node(static_cast<int>(w), a, b));
         auto it = ecost.emplace(pair(a, b), w).first;
         it->second = min(w, it->second);
     }
@@ -60,7 +61,7 @@ int main() {
         f[v] = {vmin->x.from, vmin->x.to};
         inc[v] = merge(vmin, vrest);
         ans += cost;
-        apply(inc[v], -cost);
+        apply(inc[v], static_cast<int>(-cost));
 
         if (dsu1.join(v, dsu2.find(f[v].first)))
             continue;

@@ -1,9 +1,7 @@
-
 #pragma once
 
 #include <utility>
-
-#include <arbok/tarjan.h>
+#include <arbok/tarjan/tarjan.h> // TODO: We need this for the Edge data type, but maybe the Edge data type should be refactored into its own header due to encapsulation (treap shouldn't know Tarjan, per se...)
 
 namespace arbok::treap {
 

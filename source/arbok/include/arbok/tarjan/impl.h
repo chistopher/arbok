@@ -1,7 +1,7 @@
 
-#include <arbok/tarjan.h>
+#include <arbok/tarjan/tarjan.h>
 #include <queue>
-#include <arbok/treap.h>
+#include <arbok/data_structures/treap.h>
 
 namespace arbok {
 

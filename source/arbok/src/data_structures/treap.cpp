@@ -1,5 +1,5 @@
 
-#include <arbok/treap.h>
+#include <arbok/data_structures/treap.h>
 
 #include <tuple>
 #include <cmath>

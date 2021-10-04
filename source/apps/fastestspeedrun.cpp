@@ -1,8 +1,8 @@
 #include <iostream>
 #include <vector>
 
-#include <arbok/cf_solution.h>
-#include <arbok/tarjan.h>
+#include <arbok/utils/cf_solution.h>
+#include <arbok/tarjan/tarjan.h>
 
 using namespace std;
 

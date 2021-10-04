@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iostream>
-#include "tarjan.h"
+#include <arbok/tarjan/tarjan.h>
 
 namespace arbok::cf_solution {
 

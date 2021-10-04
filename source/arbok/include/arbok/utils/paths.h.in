@@ -1,4 +1,3 @@
-
 #pragma once
 
 const auto REPO_ROOT = "${CMAKE_SOURCE_DIR}/";

@@ -2,9 +2,8 @@
 #include <cassert>
 #include <vector>
 
-#include <arbok/treap.h>
-
-#include "tarjan_impl.h"
+#include <arbok/data_structures/treap.h>
+#include <arbok/tarjan/impl.h>
 
 using namespace std;
 using namespace arbok;

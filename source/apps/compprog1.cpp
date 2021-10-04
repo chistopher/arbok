@@ -4,11 +4,12 @@
 #include <iostream>
 #include <queue>
 
-#include <arbok/treap.h>
-#include <arbok/dsu.h>
+#include <arbok/data_structures/treap.h>
+#include <arbok/data_structures/dsu.h>
 
 using namespace std;
 using namespace arbok;
+using namespace arbok::treap;
 
 using ll = long long;
 
@@ -25,7 +26,7 @@ int main() {
     for(int i=0; i<m; ++i) {
         int a, b; ll w; cin >> a >> b >> w; --a, --b;
         if (a != b)
-            inc[b] = merge(inc[b], new Node(w, a, b));
+            inc[b] = merge(inc[b], new Node(static_cast<int>(w), a, b));
     }
 
     int r = 0;
@@ -48,7 +49,7 @@ int main() {
         f[v] = dsu2.find(vmin->x.from);
         inc[v] = merge(vmin, vrest);
         ans += cost;
-        apply(inc[v], -cost);
+        apply(inc[v], static_cast<int>(-cost));
 
         if (dsu1.join(v, f[v]))
             continue;

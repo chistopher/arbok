@@ -1,5 +1,5 @@
 
-#include <arbok/dsu.h>
+#include <arbok/data_structures/dsu.h>
 
 #include <utility>
 
@@ -22,7 +22,7 @@ bool DSU::join(int i, int j) {
     return true;
 }
 
-PersistentDSU::PersistentDSU(int n) : p(n, pair(-1, -INF)) {}
+PersistentDSU::PersistentDSU(int n) : p(n, pair<int,int>(-1, -INF)) {}
 int PersistentDSU::find(int i, int t) {
     while (p[i].first >= 0 && p[i].second < t)
         i = p[i].first;

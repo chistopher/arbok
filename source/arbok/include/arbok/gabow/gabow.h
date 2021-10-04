@@ -5,7 +5,7 @@
 #include <list>
 #include <functional>
 
-#include <arbok/dsu.h>
+#include <arbok/data_structures/dsu.h>
 
 namespace arbok {
 

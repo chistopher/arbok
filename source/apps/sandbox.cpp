@@ -4,8 +4,8 @@
 #include <random>
 #include <chrono>
 
-#include <arbok/paths.h>
-#include <arbok/tarjan.h>
+#include <arbok/utils/paths.h>
+#include <arbok/tarjan/tarjan.h>
 #include <cassert>
 
 using namespace std;

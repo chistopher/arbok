@@ -1,7 +1,7 @@
 
 #include <gtest/gtest.h>
 
-#include <arbok/paths.h>
+#include <arbok/utils/paths.h>
 
 using namespace std;
 

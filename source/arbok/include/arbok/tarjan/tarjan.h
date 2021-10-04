@@ -3,7 +3,7 @@
 #include <vector>
 #include <memory>
 
-#include <arbok/dsu.h>
+#include <arbok/data_structures/dsu.h>
 
 namespace arbok {
 
