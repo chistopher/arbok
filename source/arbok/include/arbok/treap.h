@@ -5,7 +5,7 @@
 
 #include <arbok/tarjan.h>
 
-namespace arbok {
+namespace arbok::treap {
 
     struct Node {
         Node *l = nullptr, *r = nullptr;
@@ -29,4 +29,4 @@ namespace arbok {
     // returns a pair with the minimum node in the treap and the rest
     std::pair<Node *, Node *> split_min(Node *v);
 
-} // end namespace arbok
+} // end namespace arbok::treap

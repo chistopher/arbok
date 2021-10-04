@@ -9,7 +9,7 @@
 using ll = long long;
 using namespace std;
 
-namespace arbok {
+namespace arbok::treap {
 
 static mt19937 rng(1337);
 
@@ -58,12 +58,12 @@ pair<Node *, Node *> split_min(Node *v) {
         update(v);
         return {v, rest};
     } else if (mn(v->l) == v->mn) {
-        auto[vmin, vrest] = split_min(v->l);
+        auto [vmin, vrest] = split_min(v->l);
         v->l = vrest;
         update(v);
         return {vmin, v};
     } else {
-        auto[vmin, vrest] = split_min(v->r);
+        auto [vmin, vrest] = split_min(v->r);
         v->r = vrest;
         update(v);
         return {vmin, v};

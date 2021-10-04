@@ -1,6 +1,7 @@
 
 #include <arbok/tarjan.h>
 #include <queue>
+#include <arbok/treap.h>
 
 namespace arbok {
 
@@ -63,7 +64,7 @@ public:
     void update_incoming_edge_weights(int v, int w) override;
     void move_edges(int from, int to) override;
 private:
-    std::vector<Node*> managedSets;
+    std::vector<treap::Node*> managedSets;
 };
 
 }

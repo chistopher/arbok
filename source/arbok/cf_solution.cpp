@@ -20,5 +20,5 @@ void arbok::cf_solution::solve(std::istream& inp, std::ostream& out, const arbok
     }
 
     auto weight = tarjan.run(0);
-    out << weight << endl;
+    out << weight << std::endl;
 }

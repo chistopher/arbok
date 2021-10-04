@@ -10,13 +10,13 @@
 namespace arbok {
 
 
-struct OffsetDSU {
+/*struct OffsetDSU {
     std::vector<int> p; // ?
     //explicit OffsetDSU(int n);
     int find(int i);
     int find_value(int i);
     bool join(int i, int j);
-};
+};*/
 
 struct Edge {
     int from, to, weight, orig_weight;
@@ -37,7 +37,7 @@ public:
 
 protected:
     const int num_vertices;
-    OffsetDSU co; // for actual merges; TODO this needs to also manage offsets and needs to work with path compression
+    DSU co; // for actual merges; TODO this needs to also manage offsets and needs to work with path compression
 
     struct EdgeLink {
         Edge e;
