@@ -8,6 +8,7 @@ endif (NOT GTEST_FOUND)
 set(target tests)
 
 add_executable(${target}
+    test_pqactiveset.cpp
     test_find_data.cpp
     test_fastestspeedrun.cpp
 )

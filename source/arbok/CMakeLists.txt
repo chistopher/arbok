@@ -1,5 +1,4 @@
 
-find_package(Boost)
 find_package(OpenMP REQUIRED)
 
 set(target arbok)
@@ -10,7 +9,7 @@ set(HEADERS
         include/${target}/tarjan/tarjan.h
         include/${target}/tarjan/impl.h
         include/${target}/data_structures/treap.h
-        include/${target}/data_structures/fibheap.h
+        include/${target}/data_structures/activeset.h
         include/${target}/utils/cf_solution.h
 )
 
@@ -18,6 +17,7 @@ set(SOURCES
         src/utils/cf_solution.cpp
         src/data_structures/dsu.cpp
         src/data_structures/treap.cpp
+        src/data_structures/activeset.cpp
         src/gabow/gabow.cpp
         src/tarjan/tarjan.cpp
         src/tarjan/tarjan_matrix.cpp

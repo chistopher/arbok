@@ -37,18 +37,18 @@ public:
 
 protected:
     const int num_vertices;
-    DSU co; // for actual merges; TODO this needs to also manage offsets and needs to work with path compression
+    DSU co; // for actual merges; TODO this needs to also manage offsets and needs to work with path compression // 2021 update: kp was wir hier meinten mit dem todo, das sollte ja eig so sein
 
     struct EdgeLink {
         Edge e;
         size_t id; // pos in edges
         std::list<int>::iterator exit_list_iter;
         std::list<int>::iterator passive_list_iter;
-        std::set<int>::iterator active_set_iter;
+        std::set<int>::iterator active_set_iter; // active set = fib heap, so this does not make sense
     };
 
     std::vector<EdgeLink> edges; // all edges
-    std::vector<std::vector<int>> pending_edges;
+    std::vector<std::vector<int>> pending_edges; // weiß gerade auch nicht mehr was das soll
 
     std::vector<int> growth_path;
     std::vector<bool> in_path;
@@ -57,7 +57,7 @@ protected:
     std::vector<std::list<int>> passive_list;
 
     using comp = std::function<bool(int,int)>;
-    std::vector<std::set<int,comp>> active_set;
+    std::vector<std::set<int,comp>> active_set; // active sets are fib heaps, why do we have this comp thing?
 
     std::vector<Edge> chosen;
 };
