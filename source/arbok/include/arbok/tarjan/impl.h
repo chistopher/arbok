@@ -54,7 +54,6 @@ private:
     std::vector<std::vector<Edge>> adj;
 };
 
-struct Node; // FWD for treap
 class TreapImpl : public TarjanImpl {
 public:
     TreapImpl(int n);
