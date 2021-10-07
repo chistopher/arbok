@@ -23,7 +23,7 @@ jobs:
       run: git lfs checkout
 
     - name: unpack test data
-      run: unzip data/fastestspeedrun.zip
+      run: unzip data/fastestspeedrun.zip -d data
 
     - name: Install GTest
       run: |
