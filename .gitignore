@@ -11,6 +11,8 @@ code/data/
 # hidden stuff like jupyter notebook checkpoints
 .*
 !/.gitignore
+!/.github
+!/.gitattributes
 
 # paper
 paper/
