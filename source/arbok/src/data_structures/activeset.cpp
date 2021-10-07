@@ -1,5 +1,6 @@
 #include <map>
 #include <limits>
+#include <memory>
 #include <arbok/data_structures/activeset.h>
 
 unsigned long int StdPQActiveSet::size() const {
@@ -16,14 +17,12 @@ std::pair<KeyType,NodeType> StdPQActiveSet::extractMin() {
     return m;
 }
 
-void StdPQActiveSet::meld(std::vector<AbstractActiveSet>& active_sets) {
-    for (auto& as : active_sets) {
-        // when we coded this, we have been young and free
-        StdPQActiveSet& _as = dynamic_cast<StdPQActiveSet&>(as); // wyld
-        while (!_as._pq.empty()) {
-            pq_element_type el = _as._pq.top();
-            _as._pq.pop();
-            _pq.push(el);
+void StdPQActiveSet::meld(std::vector<std::shared_ptr<AbstractActiveSet>>& active_sets) {
+    for (std::shared_ptr<AbstractActiveSet> as : active_sets) {
+        if (as.get() == nullptr) continue;
+        while (!as->empty()) {
+            std::pair<KeyType,NodeType> el = as->extractMin();
+            _pq.push(static_cast<pq_element_type>(el));
         }
     }
 }
@@ -32,7 +31,7 @@ void StdPQActiveSet::insert(KeyType key, NodeType node) {
     _pq.emplace(key, node);
 }
 
-void StdPQActiveSet::_move_and_modify_key(NodeType node, AbstractActiveSet& target_set, KeyType new_key = std::numeric_limits<KeyType>::min()) {
+void StdPQActiveSet::move_and_modify_key(NodeType node, AbstractActiveSet& target_set, KeyType new_key = std::numeric_limits<KeyType>::min()) {
     std::vector<pq_element_type> element_cache;
     while (!empty() && _pq.top().second != node) {
         element_cache.push_back(std::move(const_cast<pq_element_type&>(_pq.top())));
@@ -50,21 +49,9 @@ void StdPQActiveSet::_move_and_modify_key(NodeType node, AbstractActiveSet& targ
 }
 
 void StdPQActiveSet::decreaseKey(NodeType node, KeyType new_key) {
-    _move_and_modify_key(node, *this, new_key);
-//    std::vector<pq_element_type> element_cache;
-//    while (!empty() && _pq.top().second != node) {
-//        element_cache.push_back(std::move(const_cast<pq_element_type&>(_pq.top())));
-//        _pq.pop();
-//    }
-//
-//    if (!empty()) {
-//        _pq.pop();
-//        _pq.emplace(new_key, node);
-//    }
-//    
-//    for (auto& el : element_cache) _pq.emplace(el);
+    move_and_modify_key(node, *this, new_key);
 }
 
 void StdPQActiveSet::move(NodeType node, AbstractActiveSet& target_set) {
-    _move_and_modify_key(node, target_set);
+    move_and_modify_key(node, target_set);
 }
