@@ -8,6 +8,7 @@ namespace arbok {
 
 struct DSU {
   std::vector<int> p;
+  int num_partitions;
   explicit DSU(int n);
   int find(int i);
   bool same(int i, int j);

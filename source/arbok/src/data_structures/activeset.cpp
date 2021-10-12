@@ -3,6 +3,8 @@
 #include <memory>
 #include <arbok/data_structures/activeset.h>
 
+namespace arbok {
+
 unsigned long int StdPQActiveSet::size() const {
     return _pq.size();
 }
@@ -54,4 +56,6 @@ void StdPQActiveSet::decreaseKey(NodeType node, KeyType new_key) {
 
 void StdPQActiveSet::move(NodeType node, AbstractActiveSet& target_set) {
     move_and_modify_key(node, target_set);
+}
+
 }

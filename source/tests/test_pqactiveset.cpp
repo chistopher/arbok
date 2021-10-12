@@ -6,6 +6,8 @@
 
 using ::testing::Test;
 
+namespace arbok {
+
 // Test fixture required to access private priority queue
 class PQActiveSetTest : public ::testing::Test {
 public:
@@ -197,4 +199,6 @@ TEST_F(PQActiveSetTest,  MoveWithKeyUpdateToNonMinimumTest) {
 
     ASSERT_EQ(getPQ()->top().second, 3);
     ASSERT_EQ(getPQ()->top().first, 4711);
+}
+
 }

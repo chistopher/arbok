@@ -8,7 +8,7 @@ using namespace arbok;
 
 const int INF = 1e9;
 
-DSU::DSU(int n) : p(n, -1) {}
+DSU::DSU(int n) : p(n, -1), num_partitions(n) {}
 int DSU::find(int i) {
     return p[i] < 0 ? i : p[i] = find(p[i]);
 }
@@ -17,6 +17,7 @@ int DSU::size(int i) { return -p[find(i)]; }
 bool DSU::join(int i, int j) {
     i = find(i), j = find(j);
     if (i == j) return false;
+    num_partitions--;
     if (p[i] > p[j]) swap(i, j);
     p[i] += p[j], p[j] = i;
     return true;

@@ -4,11 +4,12 @@
 #include <set>
 #include <list>
 #include <functional>
+#include <memory>
 
 #include <arbok/data_structures/dsu.h>
+#include <arbok/data_structures/activeset.h>
 
 namespace arbok {
-
 
 /*struct OffsetDSU {
     std::vector<int> p; // ?
@@ -32,6 +33,8 @@ public:
     ~Gabow() = default;
 
     void create_edge(int from, int to, int weight);
+    void init_root(int root);
+    void ensure_strongly_connected();
     long long run(int root);
     // std::vector<Edge> reconstruct();
 
@@ -48,16 +51,14 @@ protected:
     };
 
     std::vector<EdgeLink> edges; // all edges
-    std::vector<std::vector<int>> pending_edges; // weiß gerade auch nicht mehr was das soll
+    //std::vector<std::vector<int>> pending_edges; // weiß gerade auch nicht mehr was das soll
 
     std::vector<int> growth_path;
     std::vector<bool> in_path;
 
-    std::vector<std::list<int>> exit_list;
-    std::vector<std::list<int>> passive_list;
-
-    using comp = std::function<bool(int,int)>;
-    std::vector<std::set<int,comp>> active_set; // active sets are fib heaps, why do we have this comp thing?
+    std::vector<std::list<int>> exit_list; // stores the index into edges
+    std::vector<std::list<int>> passive_set; // stores the index into edges
+    std::vector<std::shared_ptr<AbstractActiveSet>> active_set; // shared_ptr to avoid object-cutoff that would happen if we insert polymorphic objects here
 
     std::vector<Edge> chosen;
 };

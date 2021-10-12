@@ -5,10 +5,11 @@
 #include <utility>
 #include <memory>
 
-#include <arbok/gabow/gabow.h>
 using NodeType = uint64_t; // TODO remove and define in gabow.h
 using KeyType = uint64_t;
 using pq_element_type = std::pair<KeyType,NodeType>;
+
+namespace arbok {
 
 class AbstractActiveSet {
 public:
@@ -37,3 +38,4 @@ private:
     std::priority_queue<pq_element_type, std::vector<pq_element_type>, std::greater<>> _pq;
 };
 
+}
