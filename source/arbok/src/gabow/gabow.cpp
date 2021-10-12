@@ -7,7 +7,7 @@ using namespace arbok;
 Gabow::Gabow(int n) : num_vertices(n), co(n), in_path(n, false), exit_list(n), passive_set(n) {
     growth_path.reserve(n); // cannot become larger
     active_set.reserve(n);
-
+    // TODO: somehow parametrize this in the type of active set used... not sure whether one can pass class objects as arguments in c++, otherwise it could be done using if statements and passing a string, I guess
     for (int i = 0; i < num_vertices; i++) {
         active_set.push_back(std::make_shared<StdPQActiveSet>()); // cannot do this in initializer list cause it would only create a single object
     }
