@@ -35,8 +35,7 @@ public:
     ~Gabow() = default;
 
     void create_edge(int from, int to, int weight);
-    void init_root(int root);
-    void ensure_strongly_connected();
+
     long long run(int root);
 
     void debug();
@@ -47,12 +46,11 @@ protected:
     DSU co; // for actual merges; TODO this needs to also manage offsets and needs to work with path compression // 2021 update: kp was wir hier meinten mit dem todo, das sollte ja eig so sein
 
     struct EdgeLink {
-        EdgeLink(int from, int to, int weight, int _id, std::optional<std::list<int>::iterator> _exit_list_iter, std::optional<std::list<int>::iterator> _passive_list_iter) : e(from, to, weight, weight), id(_id), exit_list_iter(_exit_list_iter), passive_list_iter(_passive_list_iter) {};
+        EdgeLink(int from, int to, int weight, int _id, std::optional<std::list<int>::iterator> _exit_list_iter, std::optional<std::list<int>::iterator> _passive_set_iter) : e(from, to, weight, weight), id(_id), exit_list_iter(_exit_list_iter), passive_set_iter(_passive_set_iter) {};
         Edge e;
         int id; // pos in edges
         std::optional<std::list<int>::iterator> exit_list_iter;
-        std::optional<std::list<int>::iterator> passive_list_iter;
-        //std::optional<std::set<int>::iterator> active_set_iter; // active set = fib heap, so this does not make sense
+        std::optional<std::list<int>::iterator> passive_set_iter;
     };
 
     std::vector<EdgeLink> edges; // all edges
@@ -64,8 +62,17 @@ protected:
     std::vector<std::list<int>> exit_list; // stores the index into edges
     std::vector<std::list<int>> passive_set; // stores the index into edges
     std::vector<std::shared_ptr<AbstractActiveSet>> active_set; // shared_ptr to avoid object-cutoff that would happen if we insert polymorphic objects here
+    std::vector<int> active_set_pointer; // maps vertices to keys into the activeset
 
-    std::vector<Edge> chosen;
+    std::vector<int> chosen;
+
+    void add_edge_to_exit_list(int v, int edge_id);
+    void insert_vertex_into_activeset(int v, int u, int key); // insert v into u's AS
+    void init_root(int root);
+    void ensure_strongly_connected(int root);
+    void extendPath(int u);
+    void contractPathPrefix(int u);
+
 };
 
 }  // end namespace arbok

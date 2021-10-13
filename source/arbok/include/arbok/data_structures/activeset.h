@@ -5,8 +5,8 @@
 #include <utility>
 #include <memory>
 
-using NodeType = uint64_t; // TODO remove and define in gabow.h
-using KeyType = uint64_t;
+using NodeType = int; // TODO remove and define in gabow.h - not so easy, would introduce circular dependency...
+using KeyType = int;
 using pq_element_type = std::pair<KeyType,NodeType>;
 
 namespace arbok {
