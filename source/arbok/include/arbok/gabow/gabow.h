@@ -5,6 +5,7 @@
 #include <list>
 #include <functional>
 #include <memory>
+#include <optional>
 
 #include <arbok/data_structures/dsu.h>
 #include <arbok/data_structures/activeset.h>
@@ -36,6 +37,8 @@ public:
     void init_root(int root);
     void ensure_strongly_connected();
     long long run(int root);
+
+    void debug();
     // std::vector<Edge> reconstruct();
 
 protected:
@@ -43,15 +46,16 @@ protected:
     DSU co; // for actual merges; TODO this needs to also manage offsets and needs to work with path compression // 2021 update: kp was wir hier meinten mit dem todo, das sollte ja eig so sein
 
     struct EdgeLink {
+        EdgeLink(int from, int to, int weight, int _id, std::optional<std::list<int>::iterator> _exit_list_iter, std::optional<std::list<int>::iterator> _passive_list_iter) : e(from, to, weight, weight), id(_id), exit_list_iter(_exit_list_iter), passive_list_iter(_passive_list_iter) {};
         Edge e;
-        size_t id; // pos in edges
-        std::list<int>::iterator exit_list_iter;
-        std::list<int>::iterator passive_list_iter;
-        std::set<int>::iterator active_set_iter; // active set = fib heap, so this does not make sense
+        int id; // pos in edges
+        std::optional<std::list<int>::iterator> exit_list_iter;
+        std::optional<std::list<int>::iterator> passive_list_iter;
+        //std::optional<std::set<int>::iterator> active_set_iter; // active set = fib heap, so this does not make sense
     };
 
     std::vector<EdgeLink> edges; // all edges
-    //std::vector<std::vector<int>> pending_edges; // weiß gerade auch nicht mehr was das soll
+    std::vector<std::vector<int>> incoming_edges; // adjacency list pointing into edges
 
     std::vector<int> growth_path;
     std::vector<bool> in_path;
