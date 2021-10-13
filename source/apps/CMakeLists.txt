@@ -15,3 +15,7 @@ add_executable(fastestspeedrun2 fastestspeedrun2.cpp)
 
 add_executable(gabow_test gabow_test.cpp)
 target_link_libraries(gabow_test arbok)
+
+add_executable(arbok-cli arbok-cli.cpp)
+target_link_libraries(arbok-cli arbok)
+

@@ -8,6 +8,10 @@ from tempfile import TemporaryDirectory
 
 konect_dir = os.path.abspath('./konect/')
 
+def is_good_weight(w):
+    w = str(w,'utf-8')
+    return all('0'<=c<='9' for c in w[w[0]=='-':])
+
 def parse_and_convert(konect_file, out_name):
     n = 0
     m = 0
@@ -28,8 +32,12 @@ def parse_and_convert(konect_file, out_name):
         for line in konect_file:
             if line[0] == ord('%'):
                 continue
-            m += 1
-            n = max(n, max(map(int,line.split()[:2])))
+            parts = line.split()
+            if weighted and not is_good_weight(parts[2]):
+                print(f'\tweight {str(parts[2],"utf-8")} invalid; treating graph as unweighted')
+                weighted = False
+            m += parts[0]!=parts[1] # do not count self-loops
+            n = max(n, max(map(int,parts[:2])))
         
         
         # write result
@@ -40,6 +48,8 @@ def parse_and_convert(konect_file, out_name):
                 continue
             parts = line.split()
             fr,to = map(int,parts[:2])
+            if fr==to:
+                continue
             if not weighted:
                 outf.write(f'{str(fr-1)} {str(to-1)}\n')
             else:
@@ -58,7 +68,7 @@ with TemporaryDirectory() as tmp_dir:
         print(f'processing {name} : {archive}')
 
         if any(os.path.isfile(f'{konect_dir}/{name}.{ext}') for ext in ('soap','wsoap')):
-            print('\tsoap file found for {name}; skipping archive')
+            print(f'\tsoap file found for {name}; skipping archive')
             continue
 
         with tarfile.open(archive, 'r:bz2') as tar:

@@ -10,6 +10,9 @@ url = 'http://konect.cc/networks/'
 page = requests.get(url)
 soup = BeautifulSoup(page.text, features="lxml")
 
+# they are larger than 5GB
+exclude = ['friendster', 'twitter_mpi', 'twitter', 'wikipedia_link_en']
+
 for link_tag in soup.find_all('a'):
     link = link_tag.get('href')
     if link.startswith(('/', 'http', 'mailto')):
@@ -17,6 +20,10 @@ for link_tag in soup.find_all('a'):
     if not link_tag.parent.parent.find('img', title='Unipartite, directed'):
         continue
     print(f'network {link[:-1]} seems to be directed, tying to download')
+
+    if link[:-1] in exclude:
+        print(f'skipping network because of manual exclude')
+        continue
 
     subpage = requests.get(url + link)
     subsoup = BeautifulSoup(subpage.text, features="lxml")
