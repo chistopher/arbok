@@ -21,6 +21,7 @@ namespace arbok {
 };*/
 
 struct Edge {
+    Edge(int _from, int _to, int _weight, int _orig_weight) : from(_from), to(_to), weight(_weight), orig_weight(_orig_weight) {};
     int from, to, weight, orig_weight;
     inline bool operator<(const Edge& rhs) const { return std::tie(weight,from) < std::tie(rhs.weight, rhs.from); }
     inline bool operator==(const Edge& rhs) const { return std::tie(weight,from) == std::tie(rhs.weight,rhs.from); }
