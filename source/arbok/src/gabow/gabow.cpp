@@ -225,7 +225,7 @@ int Gabow::contractPathPrefix(int u) {
             first_edge.exit_list_iter = std::nullopt;
             exit_list[rep_vi].pop_front();
             std::cout << "removing " << active_set_pointer[rep_vi] << " from active set of " << co.find(first_edge.e.to) << std::endl;
-            active_set[co.find(first_edge.e.to)]->remove(active_set_pointer[rep_vi]);
+            active_set[co.find(first_edge.e.to)]->remove(active_set_pointer[rep_vi], false);
         }
     }    
 

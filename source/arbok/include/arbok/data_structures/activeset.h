@@ -18,7 +18,7 @@ public:
     virtual std::pair<KeyType,NodeType> extractMin() = 0;
     virtual void meld(std::vector<std::shared_ptr<AbstractActiveSet>>& active_sets) = 0;
     virtual void insert(KeyType key, NodeType node) = 0;
-    virtual void remove(NodeType node) = 0;
+    virtual void remove(NodeType node, bool warn_if_item_does_not_exist=true) = 0;
     virtual void decreaseKey(NodeType node, KeyType new_key) = 0;
     virtual void move(NodeType node, AbstractActiveSet& target_set) = 0;
     virtual void move_and_modify_key(NodeType node, AbstractActiveSet& target_set, KeyType new_key) = 0;
@@ -32,7 +32,7 @@ public:
     virtual std::pair<KeyType,NodeType> extractMin();
     virtual void meld(std::vector<std::shared_ptr<AbstractActiveSet>>& active_sets);
     virtual void insert(KeyType key, NodeType node);
-    virtual void remove(NodeType node);
+    virtual void remove(NodeType node, bool warn_if_item_does_not_exist);
     virtual void decreaseKey(NodeType node, KeyType new_key);
     virtual void move(NodeType node, AbstractActiveSet& target_set);
     virtual void move_and_modify_key(NodeType node, AbstractActiveSet& target_set, KeyType new_key);

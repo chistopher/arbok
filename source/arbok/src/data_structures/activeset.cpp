@@ -66,10 +66,8 @@ void StdPQActiveSet::move(NodeType node, AbstractActiveSet& target_set) {
     move_and_modify_key(node, target_set);
 }
 
-void StdPQActiveSet::remove(NodeType node) {
+void StdPQActiveSet::remove(NodeType node, bool warn_if_item_does_not_exist) {
     // i know this it lots of duplicated code atm
-
-    if (_pq.empty()) std::cerr << "holy shit" << std::endl;
 
     std::vector<pq_element_type> element_cache;
     while (!empty() && _pq.top().second != node) {
@@ -79,15 +77,8 @@ void StdPQActiveSet::remove(NodeType node) {
     
     if (!empty()) {
         _pq.pop();
-    } else {
-        std::cerr << "FATAL: Tried to remove node " << node << " which does not exist in heap! Element cache:" << std::endl;
-        for (auto& elem : element_cache) {
-            std::cout << elem.second << " ";
-        }
-        std::cout << std::endl;
-        std::cout << "Exiting," << std::endl;
-        
-        std::exit(-1);
+    } else if (warn_if_item_does_not_exist) {
+        std::cerr << "WARNING: Tried to remove node " << node << " which does not exist in heap!" << std::endl;
     }
     
     for (auto& el : element_cache) _pq.emplace(el);
