@@ -44,6 +44,7 @@ public:
 protected:
     const int num_vertices;
     DSU co; // for actual merges; TODO this needs to also manage offsets and needs to work with path compression // 2021 update: kp was wir hier meinten mit dem todo, das sollte ja eig so sein
+    std::vector<int> offsets;
 
     struct EdgeLink {
         EdgeLink(int from, int to, int weight, int _id, std::optional<std::list<int>::iterator> _exit_list_iter, std::optional<std::list<int>::iterator> _passive_set_iter) : e(from, to, weight, weight), id(_id), exit_list_iter(_exit_list_iter), passive_set_iter(_passive_set_iter) {};
@@ -57,6 +58,7 @@ protected:
     std::vector<std::vector<int>> incoming_edges; // adjacency list pointing into edges
 
     std::vector<int> growth_path;
+    std::vector<int> growth_path_edges;
     std::vector<bool> in_path;
 
     std::vector<std::list<int>> exit_list; // stores the index into edges
@@ -68,10 +70,11 @@ protected:
 
     void add_edge_to_exit_list(int v, int edge_id);
     void insert_vertex_into_activeset(int v, int u, int key); // insert v into u's AS
+    void insert_edge_into_passiveset(int edge_id, int u); // insert edge_id into u's PS
     void init_root(int root);
     void ensure_strongly_connected(int root);
     void extendPath(int u);
-    void contractPathPrefix(int u);
+    int contractPathPrefix(int u);
 
 };
 
