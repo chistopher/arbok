@@ -167,6 +167,8 @@ int Gabow::contractPathPrefix(int u) {
     assert(in_path[rep_u]); 
 
     // reverse growth path such that growth_path[0] == v0 in report == latest root of growth path
+    // TODO: not sure whether this reverse kills our runtime, if it goes in O(n) over the GP
+    // dunno if we are allowed to do so here
     std::reverse(growth_path.begin(), growth_path.end());
     std::reverse(growth_path_edges.begin(), growth_path_edges.end());
 
@@ -281,6 +283,15 @@ int Gabow::contractPathPrefix(int u) {
     assert(exit_list[new_root].empty());
     assert(passive_set[new_root].empty());
 
+    // in the following, we rebuild the growth path
+    // i.e. if the growth path before was 3 2 0, and we reached 2 again, and contract into 42,
+    // it is now 42 0
+    // however, how it is currently implemented MAYBE this kills our worst-case runtime
+    // because we have to iterate over the GP
+    // this should be fixed, but as I don't know how to slice vectors in constant time
+    // somebody else maybe can think about this
+    // maybe its also okay to have O(n) over the growth path (I think so because we also need to find k in O(n))
+
     std::vector<int> new_growth_path;
     
     for (int j = growth_path.size() - 1; j > k; j--) { // restore growth path suffix
@@ -289,8 +300,6 @@ int Gabow::contractPathPrefix(int u) {
     new_growth_path.push_back(new_root);
 
     growth_path = std::move(new_growth_path);
-
-
 
     std::vector<int> new_growth_path_edges;
     for (int j = growth_path_edges.size() - 1; j > k; j--) { // restore growth path suffix
@@ -354,6 +363,7 @@ long long Gabow::run(int root) {
         growth_path_edges.push_back(chosen_edge); // needed in both cases
 
         if (!in_path[co.find(u)]) {
+            
             cur_root = u;
             extendPath(u);
         } else {
