@@ -16,13 +16,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      with:
-        lfs: true
 
-    - name: Checkout LFS objects
-      run: git lfs checkout
+    - name: Download test data
+      run: wget -O data/fastestspeedrun.zip https://owncloud.hpi.de/s/tGKfRrmTUejNhRH/download
 
-    - name: unpack test data
+    - name: Unpack test data
       run: unzip data/fastestspeedrun.zip -d data
 
     - name: Install GTest
@@ -32,7 +30,7 @@ jobs:
     - name: Configure
       run: |
         cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Debug
-        
+
     - name: Build
       run: |
         cmake --build build --config Debug
