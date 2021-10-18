@@ -104,7 +104,7 @@ void Gabow::init_root(int root) {
 
 // Algorithm 3 in Report
 void Gabow::extendPath(int u) {
-    std::cout << "extending path by " << u << std::endl;
+    std::cout << "extending path by find(" << co.find(u) << ") = " << u << std::endl;
     assert(in_path[u] == false);
     assert(co.find(u) == u); 
     in_path[u] = true;
@@ -125,7 +125,7 @@ void Gabow::extendPath(int u) {
     // lines 6-20 in report
 
     for (int edge_id : incoming_edges[u]) {
-        std::cout << std::endl << "handling edge " << edge_id << " from " << edges[edge_id].e.from << " to " << edges[edge_id].e.to << std::endl;
+        //std::cout << std::endl << "handling edge " << edge_id << " from " << edges[edge_id].e.from << " to " << edges[edge_id].e.to << std::endl;
         auto& edgel = edges[edge_id];
         auto& edge = edgel.e;
         int rep_x = co.find(edge.from);
@@ -138,12 +138,12 @@ void Gabow::extendPath(int u) {
             auto& front_edge = edges[front_edge_id];
             int vi = front_edge.e.to;
             if (vi != u) {
-                std::cout << "exit list not empty, but edge in there goes to " << vi << ", not to " << u << " (edge id = " << front_edge_id << ")" << std::endl;
+                //std::cout << "exit list not empty, but edge in there goes to " << vi << ", not to " << u << " (edge id = " << front_edge_id << ")" << std::endl;
                 int rep_vi = co.find(vi);
                 insert_edge_into_passiveset(front_edge_id, rep_vi);
                 int as_ptr = active_set_pointer[rep_x];
                 assert(as_ptr > -1);
-                std::cout << "moving " << rep_x << " represented by " << as_ptr << " from heap of find(" << vi << ") = " << rep_vi << " to heap of " << u << " with new key " << edge.weight << std::endl;
+                //std::cout << "moving " << rep_x << " represented by " << as_ptr << " from heap of find(" << vi << ") = " << rep_vi << " to heap of " << u << " with new key " << edge.weight << std::endl;
                 active_set[rep_vi]->move_and_modify_key(as_ptr, *active_set[u], edge.weight);
                 add_edge_to_exit_list(rep_x, edge_id);
             } else {    
@@ -170,12 +170,23 @@ int Gabow::contractPathPrefix(int u) {
     std::reverse(growth_path.begin(), growth_path.end());
     std::reverse(growth_path_edges.begin(), growth_path_edges.end());
 
+    // DEBUG PRINT GROWTH PATH
+    std::cout << "gp: ";
+    for (int i = 0; i < growth_path.size(); i++) {
+        std::cout << co.find(growth_path[i]) << " ";
+    }
+    std::cout << std::endl;
+
+     std::cout << "gp edges: ";
+    for (int i = 0; i < growth_path_edges.size(); i++) {
+        std::cout << growth_path_edges[i] << " ";
+    }
+    std::cout << std::endl;
+    // END
+    
+
     int k = -1;
     for (int i = 0; i < growth_path.size(); i++) {
-        if (growth_path.size() == 1) { //DEBUG
-            std::cout << "gp is 1. rep_u = " << rep_u << ", find(growth_path[0]) = " << co.find(growth_path[i]) << std::endl;
-        }
-
         if (rep_u == co.find(growth_path[i])) {
             k = i;
             break;
@@ -183,6 +194,7 @@ int Gabow::contractPathPrefix(int u) {
     }
 
     assert(k > -1);
+    std::cout << "k = " << k << std::endl;
     
     for (int i = 0; i <= k; i++) {
         // the incoming edge that we chose for vertex vi corresponds to the same index in growth_path_edges ()
@@ -269,12 +281,40 @@ int Gabow::contractPathPrefix(int u) {
     assert(exit_list[new_root].empty());
     assert(passive_set[new_root].empty());
 
-    growth_path.clear();
-    growth_path_edges.clear();
-    growth_path.push_back(new_root);
+    std::vector<int> new_growth_path;
+    
+    for (int j = growth_path.size() - 1; j > k; j--) { // restore growth path suffix
+        new_growth_path.push_back(growth_path[j]);
+    }
+    new_growth_path.push_back(new_root);
+
+    growth_path = std::move(new_growth_path);
+
+
+
+    std::vector<int> new_growth_path_edges;
+    for (int j = growth_path_edges.size() - 1; j > k; j--) { // restore growth path suffix
+        new_growth_path_edges.push_back(growth_path_edges[j]);
+    }
+    growth_path_edges = std::move(new_growth_path_edges);
+
+    // DEBUG PRINT GROWTH PATH
+    std::cout << "new gp: ";
+    for (int i = growth_path.size() - 1; i >= 0; i--) {
+        std::cout << co.find(growth_path[i]) << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "new gp edges: ";
+    for (int i = growth_path_edges.size() - 1; i >= 0; i--) {
+        std::cout << growth_path_edges[i] << " ";
+    }
+    std::cout << std::endl;
+    // END
 
     std::fill(in_path.begin(), in_path.end(), false);
-    in_path[new_root] = true;
+    for (auto v: growth_path) in_path[v] = true;
+    
 
     return new_root;
 }
@@ -309,6 +349,8 @@ long long Gabow::run(int root) {
         }
 
         assert(co.find(u) == co.find(u_hat));
+        assert(co.find(u) != cur_root); // no self loop
+
         growth_path_edges.push_back(chosen_edge); // needed in both cases
 
         if (!in_path[co.find(u)]) {
