@@ -51,7 +51,11 @@ void StdPQActiveSet::move_and_modify_key(NodeType node, AbstractActiveSet& targe
         if (new_key == std::numeric_limits<KeyType>::min()) new_key = el.first;
         target_set.insert(new_key, node);
     } else {
-        std::cerr << "FATAL: Tried to move node " << node << " which does not exist in heap! Exiting." << std::endl;
+        std::cerr << "FATAL: Tried to move node " << node << " which does not exist in heap! Current elements in heap:" << std::endl;
+        for (auto& el : element_cache) {
+            std::cerr << el.second << std::endl;
+        }
+        std::cerr << "exiting." << std::endl;
         std::exit(-1);
     }
     

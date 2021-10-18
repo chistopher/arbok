@@ -71,19 +71,21 @@ void Gabow::ensure_strongly_connected(int root) {
 }
 
 void Gabow::add_edge_to_exit_list(int v, int edge_id) {
+    std::cout << "adding edge from " << edges[edge_id].e.from << " to " << edges[edge_id].e.to << " to exit list from " << v << std::endl;
+    assert(co.find(v) == co.find(edges[edge_id].e.from));
     exit_list[v].push_front(edge_id);
     edges[edge_id].exit_list_iter = exit_list[v].begin();
 }
 
 void Gabow::insert_vertex_into_activeset(int v, int u, int key) {
-    std::cout << "inserting " << v << " into active set of " << u << " with key " << key << " (exiting pointer: " << active_set_pointer[co.find(v)]  << ")" << std::endl;
+    std::cout << "inserting " << v << " (find = " << co.find(v) << ") into active set of " << u << " with key " << key << " (existing pointer: " << active_set_pointer[co.find(v)]  << ")" << std::endl;
     assert(active_set_pointer[co.find(v)] == -1);
     active_set[u]->insert(key, v);
     active_set_pointer[co.find(v)] = v;
 }
 
 void Gabow::insert_edge_into_passiveset(int edge_id, int u) {
-    std::cout << "inserting edge " << edge_id << " into passive set of " << u << std::endl;
+    std::cout << "inserting edge " << edge_id << " from " << edges[edge_id].e.from << " to " << edges[edge_id].e.to << " into passive set of " << u << std::endl;
     passive_set[u].push_front(edge_id);
     edges[edge_id].passive_set_iter = passive_set[u].begin();
 }
@@ -123,6 +125,7 @@ void Gabow::extendPath(int u) {
     // lines 6-20 in report
 
     for (int edge_id : incoming_edges[u]) {
+        std::cout << std::endl << "handling edge " << edge_id << " from " << edges[edge_id].e.from << " to " << edges[edge_id].e.to << std::endl;
         auto& edgel = edges[edge_id];
         auto& edge = edgel.e;
         int rep_x = co.find(edge.from);
@@ -135,10 +138,12 @@ void Gabow::extendPath(int u) {
             auto& front_edge = edges[front_edge_id];
             int vi = front_edge.e.to;
             if (vi != u) {
+                std::cout << "exit list not empty, but edge in there goes to " << vi << ", not to " << u << " (edge id = " << front_edge_id << ")" << std::endl;
                 int rep_vi = co.find(vi);
                 insert_edge_into_passiveset(front_edge_id, rep_vi);
                 int as_ptr = active_set_pointer[rep_x];
                 assert(as_ptr > -1);
+                std::cout << "moving " << rep_x << " represented by " << as_ptr << " from heap of find(" << vi << ") = " << rep_vi << " to heap of " << u << " with new key " << edge.weight << std::endl;
                 active_set[rep_vi]->move_and_modify_key(as_ptr, *active_set[u], edge.weight);
                 add_edge_to_exit_list(rep_x, edge_id);
             } else {    
@@ -157,7 +162,7 @@ void Gabow::extendPath(int u) {
 }
 
 int Gabow::contractPathPrefix(int u) {
-    std::cout << "contracting path prefix as we reached find(" << u << ") = " << co.find(u) << " again" << std::endl;
+    std::cout << "contracting path prefix as we reached find(" << u << ") = " << co.find(u) << " again. growth path is " << growth_path.size() << " long." << std::endl;
     int rep_u = co.find(u);
     assert(in_path[rep_u]); 
 
@@ -167,6 +172,10 @@ int Gabow::contractPathPrefix(int u) {
 
     int k = -1;
     for (int i = 0; i < growth_path.size(); i++) {
+        if (growth_path.size() == 1) { //DEBUG
+            std::cout << "gp is 1. rep_u = " << rep_u << ", find(growth_path[0]) = " << co.find(growth_path[i]) << std::endl;
+        }
+
         if (rep_u == co.find(growth_path[i])) {
             k = i;
             break;
@@ -226,14 +235,25 @@ int Gabow::contractPathPrefix(int u) {
             exit_list[rep_vi].pop_front();
             std::cout << "removing " << active_set_pointer[rep_vi] << " from active set of " << co.find(first_edge.e.to) << std::endl;
             active_set[co.find(first_edge.e.to)]->remove(active_set_pointer[rep_vi], false);
+            active_set_pointer[rep_vi] = -1;
         }
     }    
 
-    int new_root = -1;
     for (int i = 1; i <= k; i++) {
-        new_root = co.join(growth_path[0], growth_path[i]);
+        co.join(growth_path[0], growth_path[i]);
     } 
-    assert(new_root > -1);
+
+    // DEBUG remove later
+    int last_v = -1;
+    for (int i = 0; i <= k; i++) {
+        //std::cout << "growth path vertex " << i << " is now represented by " << co.find(growth_path[i]) << std::endl;
+        bool same = last_v == -1 || last_v == co.find(growth_path[i]);
+        assert(same);
+        last_v = co.find(growth_path[i]);
+    }
+
+    int new_root = co.find(growth_path[0]);
+    std::cout << "contracted vertices into " << new_root << std::endl;
 
     std::vector<std::shared_ptr<AbstractActiveSet>> active_sets_to_meld;
 
@@ -253,6 +273,9 @@ int Gabow::contractPathPrefix(int u) {
     growth_path_edges.clear();
     growth_path.push_back(new_root);
 
+    std::fill(in_path.begin(), in_path.end(), false);
+    in_path[new_root] = true;
+
     return new_root;
 }
 
@@ -265,14 +288,20 @@ long long Gabow::run(int root) {
     init_root(root);
     int cur_root = root;
 
+    long long answer = 0;
     while (co.num_partitions > 1) {
-        std::cout << "removing minimum from active set of " << cur_root << std::endl;
+        std::cout << std::endl <<  "removing minimum from active set of " << cur_root << std::endl;
         auto min = active_set[cur_root]->extractMin();
         int u_hat = min.second;
-        int chosen_edge = exit_list[co.find(u_hat)].front();
+        int u_hat_rep = co.find(u_hat);
+        int chosen_edge = exit_list[u_hat_rep].front();
         int u = edges[chosen_edge].e.from;
 
+        active_set_pointer[u_hat_rep] = -1;
+
         chosen.push_back(chosen_edge);
+
+        if (edges[chosen_edge].e.weight < std::numeric_limits<int>::max()) answer += edges[chosen_edge].e.weight;
 
         // TODO remove this later
         if (co.find(u) != co.find(u_hat)) {
@@ -290,5 +319,5 @@ long long Gabow::run(int root) {
         }
     }
     // TODO: make sure that arboresence is _really_ rooted at root in phase 2 (reconstruction)
-    return 0;
+    return answer;
 }
