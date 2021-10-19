@@ -323,7 +323,9 @@ int Gabow::contractPathPrefix(int u) {
 
     std::fill(in_path.begin(), in_path.end(), false);
     for (auto v: growth_path) in_path[v] = true;
-    
+
+    // TODO: we did not update offsets[new_root].
+    // we should do this somehow, but I don't know how...
 
     return new_root;
 }
@@ -339,18 +341,20 @@ long long Gabow::run(int root) {
 
     long long answer = 0;
     while (co.num_partitions > 1) {
-        std::cout << std::endl <<  "removing minimum from active set of " << cur_root << std::endl;
+       
         auto min = active_set[cur_root]->extractMin();
         int u_hat = min.second;
         int u_hat_rep = co.find(u_hat);
         int chosen_edge = exit_list[u_hat_rep].front();
         int u = edges[chosen_edge].e.from;
 
+        std::cout << std::endl <<  "removing minimum from active set of " << cur_root << " with weight " << edges[chosen_edge].e.weight << ", offset " << offsets[u_hat_rep] <<  std::endl;
+
         active_set_pointer[u_hat_rep] = -1;
 
         chosen.push_back(chosen_edge);
 
-        if (edges[chosen_edge].e.weight < std::numeric_limits<int>::max()) answer += edges[chosen_edge].e.weight;
+        if (edges[chosen_edge].e.orig_weight < std::numeric_limits<int>::max()) answer += edges[chosen_edge].e.weight + offsets[u_hat_rep];
 
         // TODO remove this later
         if (co.find(u) != co.find(u_hat)) {
@@ -363,7 +367,6 @@ long long Gabow::run(int root) {
         growth_path_edges.push_back(chosen_edge); // needed in both cases
 
         if (!in_path[co.find(u)]) {
-            
             cur_root = u;
             extendPath(u);
         } else {
