@@ -10,6 +10,8 @@ set(HEADERS
         include/${target}/tarjan/impl.h
         include/${target}/data_structures/treap.h
         include/${target}/data_structures/activeset.h
+        include/${target}/data_structures/compressed_tree.h
+        include/${target}/data_structures/compressed_tree.inl
         include/${target}/utils/cf_solution.h
 )
 

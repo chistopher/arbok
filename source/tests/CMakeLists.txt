@@ -10,6 +10,7 @@ set(target lighttests)
 add_executable(${target}
     test_pqactiveset.cpp
     test_find_data.cpp
+    test_compressed_tree.cpp
 )
 
 target_link_libraries(${target} GTest::Main arbok)
