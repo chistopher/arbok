@@ -1,7 +1,3 @@
-#pragma once
-
-
-#include "compressed_tree.h"
 
 namespace arbok {
 
