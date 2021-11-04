@@ -1,7 +1,6 @@
 
 #include <arbok/gabow/gabow.h>
 #include <algorithm>
-#include <memory>
 #include <optional>
 #include <iostream>
 #include <cassert>
@@ -10,14 +9,11 @@
 
 using namespace arbok;
 
-Gabow::Gabow(int n) : num_vertices(n), co(n), offsets(n, 0), incoming_edges(n), in_path(n, false), exit_list(n),passive_set(n), active_set_pointer(n, -1)  {
+Gabow::Gabow(int n) : num_vertices(n), co(n), incoming_edges(n), in_path(n, false), exit_list(n),passive_set(n), active_set_pointer(n)  {
+    in_which_active_set.resize(n,-1);
     growth_path.reserve(n); // cannot become larger
     growth_path_edges.reserve(n);
-    active_set.reserve(n);
-    // TODO: somehow parametrize this in the type of active set used... not sure whether one can pass class objects as arguments in c++, otherwise it could be done using if statements and passing a string, I guess
-    for (int i = 0; i < num_vertices; i++) {
-        active_set.push_back(std::make_shared<StdPQActiveSet>()); // cannot do this in initializer list cause it would only create a single object
-    }
+    active_set.resize(n);
 }
 
 void Gabow::debug() {
@@ -52,7 +48,7 @@ void Gabow::create_edge(int from, int to, int weight) {
     }
 
     int edge_id = static_cast<int>(edges.size()); // currently we assume we don't have too many edges to go out of int bounds...
-    edges.emplace_back(from, to, weight, edge_id, std::nullopt, std::nullopt);
+    edges.emplace_back(from, to, weight, edge_id, std::nullopt, std::nullopt,co);
 
     incoming_edges[to].push_back(edge_id);
 }
@@ -78,10 +74,16 @@ void Gabow::add_edge_to_exit_list(int v, int edge_id) {
 }
 
 void Gabow::insert_vertex_into_activeset(int v, int u, int key) {
-    std::cout << "inserting " << v << " (find = " << co.find(v) << ") into active set of " << u << " with key " << key << " (existing pointer: " << active_set_pointer[co.find(v)]  << ")" << std::endl;
-    assert(active_set_pointer[co.find(v)] == -1);
-    active_set[u]->insert(key, v);
-    active_set_pointer[co.find(v)] = v;
+    std::cout << "inserting " << v << " (find = " << co.find(v) << ") into active set of " << u << " with key " << key << std::endl;
+    assert(v == co.find(v));
+    //v = co.find(v);
+    assert(in_which_active_set[v] == -1);
+    assert(!exit_list[v].empty());
+    auto& edge = edges[exit_list[v].front()];
+    assert(key == edge.currentWeight());
+    auto it = active_set[u].insert(edge);
+    active_set_pointer[v] = it;
+    in_which_active_set[v] = u;
 }
 
 void Gabow::insert_edge_into_passiveset(int edge_id, int u) {
@@ -105,20 +107,26 @@ void Gabow::init_root(int root) {
 // Algorithm 3 in Report
 void Gabow::extendPath(int u) {
     std::cout << "extending path by find(" << co.find(u) << ") = " << u << std::endl;
+    int prev_root = growth_path.back();
     assert(in_path[u] == false);
     assert(co.find(u) == u); 
     in_path[u] = true;
     growth_path.push_back(u);
-    
-    
-    // lines 2-5 in report: data structure cleanup
+
+    // remove active edge that led to extend operation
+    assert(prev_root == co.find(in_which_active_set[u]));
+    assert(prev_root == co.find(edges[exit_list[u].front()].e.to));
+    active_set[prev_root].remove(active_set_pointer[u]);
+    in_which_active_set[u] = -1;
+    active_set_pointer[u] = {};
+    exit_list[u].pop_front();
+
+    // remove rest of exit list
     for (int edge_id : exit_list[u]) {
         auto& edgelink = edges[edge_id];
-        if (edgelink.passive_set_iter) {
-            // if edge is passive
-            passive_set[co.find(edgelink.e.to)].erase(edgelink.passive_set_iter.value());
-            edgelink.passive_set_iter = std::nullopt;
-        }
+        assert(edgelink.passive_set_iter); // edge is passive
+        passive_set[co.find(edgelink.e.to)].erase(edgelink.passive_set_iter.value());
+        edgelink.passive_set_iter = std::nullopt;
     }
     exit_list[u].clear();
 
@@ -128,11 +136,12 @@ void Gabow::extendPath(int u) {
         //std::cout << std::endl << "handling edge " << edge_id << " from " << edges[edge_id].e.from << " to " << edges[edge_id].e.to << std::endl;
         auto& edgel = edges[edge_id];
         auto& edge = edgel.e;
+        assert(edge.from == co.find(edge.from) || !in_path[edge.from]);
         int rep_x = co.find(edge.from);
         int x = edge.from;
         if (exit_list[rep_x].empty()) {
-            insert_vertex_into_activeset(x, u, edge.weight);
             add_edge_to_exit_list(rep_x, edge_id);
+            insert_vertex_into_activeset(rep_x, u, edge.weight);
         } else {
             int front_edge_id = exit_list[rep_x].front();
             auto& front_edge = edges[front_edge_id];
@@ -141,19 +150,19 @@ void Gabow::extendPath(int u) {
                 //std::cout << "exit list not empty, but edge in there goes to " << vi << ", not to " << u << " (edge id = " << front_edge_id << ")" << std::endl;
                 int rep_vi = co.find(vi);
                 insert_edge_into_passiveset(front_edge_id, rep_vi);
-                int as_ptr = active_set_pointer[rep_x];
-                assert(as_ptr > -1);
+                assert(in_which_active_set[rep_x] != -1);
+                assert(co.find(in_which_active_set[rep_x]) == rep_vi); // TODO this should fail after use *move* because we cannot maintain in_wich_active_set anymore
                 //std::cout << "moving " << rep_x << " represented by " << as_ptr << " from heap of find(" << vi << ") = " << rep_vi << " to heap of " << u << " with new key " << edge.weight << std::endl;
-                active_set[rep_vi]->move_and_modify_key(as_ptr, *active_set[u], edge.weight);
                 add_edge_to_exit_list(rep_x, edge_id);
-            } else {    
+                transfer_active_status(front_edge,edgel);
+            } else {
                 if (edge.weight < front_edge.e.weight) {
                     exit_list[rep_x].pop_front();
                     front_edge.exit_list_iter = std::nullopt;
                     add_edge_to_exit_list(rep_x, edge_id);
-                    int as_ptr = active_set_pointer[rep_x];
-                    assert(as_ptr > -1);
-                    active_set[u]->decreaseKey(as_ptr, edge.weight);
+                    assert(in_which_active_set[rep_x] == u);
+                    // we don't need to steal because this is a multi-edge and the heap elem is already in the right set
+                    active_set[u].decreaseKey(active_set_pointer[rep_x], edgel);
                 }
             }
         }
@@ -168,7 +177,7 @@ int Gabow::contractPathPrefix(int u) {
 
     // reverse growth path such that growth_path[0] == v0 in report == latest root of growth path
     // TODO: not sure whether this reverse kills our runtime, if it goes in O(n) over the GP
-    // dunno if we are allowed to do so here
+    // dunno if we are allowed to do so here (edit: no we are not)
     std::reverse(growth_path.begin(), growth_path.end());
     std::reverse(growth_path_edges.begin(), growth_path_edges.end());
 
@@ -203,29 +212,45 @@ int Gabow::contractPathPrefix(int u) {
         int vi = growth_path[i];
         int edge_id = growth_path_edges[i];
         auto& edge = edges[edge_id];
+        assert(co.find(edge.e.to) == vi);
 
         int rep_vi = co.find(vi);
-        offsets[rep_vi] = -(edge.e.weight + offsets[rep_vi]);
+        assert(rep_vi == vi); // TODO use vi instead of rep_vi in the following. growth path should contain only representatives
+        co.add_value(rep_vi, -edge.currentWeight());
     }
 
+    assert(empty(passive_set[growth_path.front()]));
     for (int i = 1; i <= k; i++) {
         int vi = growth_path[i];
         int rep_vi = co.find(vi);
+        assert(rep_vi == vi); // TODO use vi instead of rep_vi in the following. growth path should contain only representatives
+        // invariant: after we are done with vi, all exit lists of nodes x have no passive edges from vertices v0,..,vi
         for (int edge_id : passive_set[rep_vi]) { // not 100% sure whether rep here is correct, report says nothing, but I think it should be
             auto& edge = edges[edge_id];
             int rep_x = co.find(edge.e.from); // algo 4 line 8 of report says no DSU lookup, but text says so, and it makes sense to do so (I think)
             int first_edge_id = exit_list[rep_x].front();
             auto& first_edge = edges[first_edge_id];
+            int first_edge_to = co.find(first_edge.e.to);
             
             assert(rep_vi == co.find(edge.e.to));
 
-            if (first_edge.e.weight + offsets[co.find(first_edge.e.to)] > edge.e.weight + offsets[rep_vi]) {
+            // the exit list of x should look like: (x,vj), (x,vi), ...
+            // since all passive edges from nodes v0...v_{i-1} were deleted or became active
+            if (first_edge.currentWeight() > edge.currentWeight()) {
+                // we delete first_edge (x,vj) of x's exit list making the 2nd element (edge / (x,vi)) active
+                // we reuse the active_set element of x which is currently (x,vj) located in the active set of vj
+                // for this we move the active_set_element to the active set of vi and change the key of the element to (x,vi)
+                assert(first_edge_to!=vi); // equivalent to "no multi-edges"
+                assert(size(exit_list[rep_x])>=2); // namely first_edge and edge
                 exit_list[rep_x].pop_front();
                 first_edge.exit_list_iter = std::nullopt;
-                active_set[co.find(first_edge.e.to)]->move_and_modify_key(active_set_pointer[rep_x], *active_set[co.find(edge.e.to)], edge.e.weight);
+                assert(exit_list[rep_x].front()==edge_id); // next elem in x's exit list is edge
+                transfer_active_status(first_edge, edge);
             } else {
                 assert(std::find(exit_list[rep_x].begin(), exit_list[rep_x].end(), edge_id) != exit_list[rep_x].end());
-                exit_list[rep_x].remove(edge_id);
+                assert(edge.exit_list_iter.has_value());
+                assert(std::find(exit_list[rep_x].begin(), exit_list[rep_x].end(), edge_id) == edge.exit_list_iter.value());
+                exit_list[rep_x].erase(edge.exit_list_iter.value());
                 edge.exit_list_iter = std::nullopt;
             }
 
@@ -239,6 +264,7 @@ int Gabow::contractPathPrefix(int u) {
     for (int i = 1; i <= k; i++) {
         int vi = growth_path[i];
         int rep_vi = co.find(vi); // report does not state DSU lookup here but again I think it makes sense
+        assert(vi == rep_vi); // TODO growth path should only be representatives; if confirmed remove lookup
 
         assert(exit_list[rep_vi].size() < 2); // exit list is empty or single element
 
@@ -247,9 +273,12 @@ int Gabow::contractPathPrefix(int u) {
             auto& first_edge = edges[first_edge_id];
             first_edge.exit_list_iter = std::nullopt;
             exit_list[rep_vi].pop_front();
-            std::cout << "removing " << active_set_pointer[rep_vi] << " from active set of " << co.find(first_edge.e.to) << std::endl;
-            active_set[co.find(first_edge.e.to)]->remove(active_set_pointer[rep_vi], false);
-            active_set_pointer[rep_vi] = -1;
+            std::cout << "removing " << rep_vi << " from active set of " << co.find(first_edge.e.to) << std::endl;
+            assert(in_which_active_set[rep_vi] != -1);
+            assert(co.same(in_which_active_set[rep_vi], first_edge.e.to));
+            active_set[co.find(first_edge.e.to)].remove(active_set_pointer[rep_vi]);
+            active_set_pointer[rep_vi] = HackActiveSetDummy::iterator(); // TODO default constructed iterator is not the best choice for an empty value here
+            in_which_active_set[rep_vi] = -1;
         }
     }    
 
@@ -257,31 +286,21 @@ int Gabow::contractPathPrefix(int u) {
         co.join(growth_path[0], growth_path[i]);
     } 
 
-    // DEBUG remove later
-    int last_v = -1;
-    for (int i = 0; i <= k; i++) {
-        //std::cout << "growth path vertex " << i << " is now represented by " << co.find(growth_path[i]) << std::endl;
-        bool same = last_v == -1 || last_v == co.find(growth_path[i]);
-        assert(same);
-        last_v = co.find(growth_path[i]);
-    }
-
     int new_root = co.find(growth_path[0]);
     std::cout << "contracted vertices into " << new_root << std::endl;
 
-    std::vector<std::shared_ptr<AbstractActiveSet>> active_sets_to_meld;
-
+    // meld all active sets of contracted prefix
     for (int i = 0; i <=k; i++) {
         int vi = growth_path[i];
+        assert(co.find(vi) == new_root);
+        assert(exit_list[vi].empty());
+        assert(passive_set[vi].empty());
+        in_path[vi] = false; // TODO do this somewhere else maybe
         if (vi == new_root) continue;
-        active_sets_to_meld.push_back(active_set[vi]);
+        active_set[new_root].meld(std::move(active_set[vi])); // after this meld, in_which_active_set pointers still point to the vi instead of new_root. remember to make a lookup later
+        assert(active_set[vi].empty());
     }
-    
-    active_set[new_root]->meld(active_sets_to_meld);
-    active_set_pointer[new_root] = -1;
-
-    assert(exit_list[new_root].empty());
-    assert(passive_set[new_root].empty());
+    in_path[new_root] = true;
 
     // in the following, we rebuild the growth path
     // i.e. if the growth path before was 3 2 0, and we reached 2 again, and contract into 42,
@@ -291,6 +310,7 @@ int Gabow::contractPathPrefix(int u) {
     // this should be fixed, but as I don't know how to slice vectors in constant time
     // somebody else maybe can think about this
     // maybe its also okay to have O(n) over the growth path (I think so because we also need to find k in O(n))
+    // TODO rewrite this
 
     std::vector<int> new_growth_path;
     
@@ -321,12 +341,6 @@ int Gabow::contractPathPrefix(int u) {
     std::cout << std::endl;
     // END
 
-    std::fill(in_path.begin(), in_path.end(), false);
-    for (auto v: growth_path) in_path[v] = true;
-
-    // TODO: we did not update offsets[new_root].
-    // we should do this somehow, but I don't know how...
-
     return new_root;
 }
 
@@ -340,39 +354,48 @@ long long Gabow::run(int root) {
     int cur_root = root;
 
     long long answer = 0;
-    while (co.num_partitions > 1) {
-       
-        auto min = active_set[cur_root]->extractMin();
-        int u_hat = min.second;
-        int u_hat_rep = co.find(u_hat);
-        int chosen_edge = exit_list[u_hat_rep].front();
-        int u = edges[chosen_edge].e.from;
+    while (!active_set[cur_root].empty()) { // should be the same as "not everything contracted yet" because of strongly connected
 
-        std::cout << std::endl <<  "removing minimum from active set of " << cur_root << " with weight " << edges[chosen_edge].e.weight << ", offset " << offsets[u_hat_rep] <<  std::endl;
+        assert(co.find(cur_root) == cur_root);
+        // do not extract here because extend does this manually and contract does this when clearing out all exit lists of contracted vertices
+        EdgeLink edge = active_set[cur_root].top();
+        int u = co.find(edge.e.from);
+        assert(exit_list[u].front() == edge.id);
+        assert(u != cur_root); // no self loop
+        assert(co.find(in_which_active_set[u]) == cur_root);
 
-        active_set_pointer[u_hat_rep] = -1;
+        std::cout << std::endl <<  "removing minimum from active set of " << cur_root << " with weight " << edge.e.weight << ", offset " << co.find_value(u) <<  std::endl;
 
-        chosen.push_back(chosen_edge);
+        chosen.push_back(edge.id);
+        if (edge.e.orig_weight < std::numeric_limits<int>::max())
+            answer += edge.currentWeight();
 
-        if (edges[chosen_edge].e.orig_weight < std::numeric_limits<int>::max()) answer += edges[chosen_edge].e.weight + offsets[u_hat_rep];
+        growth_path_edges.push_back(edge.id); // needed in both cases
 
-        // TODO remove this later
-        if (co.find(u) != co.find(u_hat)) {
-            std::cerr << "assertion error. cur_root = " << cur_root << ", u = " << u << ", find(u) = " << co.find(u) << ", u_hat = " << u_hat << ", find(u_hat) = " << co.find(u_hat)  << ", edge weight = " << min.first << std::endl;
-        }
-
-        assert(co.find(u) == co.find(u_hat));
-        assert(co.find(u) != cur_root); // no self loop
-
-        growth_path_edges.push_back(chosen_edge); // needed in both cases
-
-        if (!in_path[co.find(u)]) {
+        if (!in_path[u]) {
+            assert(edge.e.from == u); // edge.from is not a contracted vertex
             cur_root = u;
             extendPath(u);
         } else {
             cur_root = contractPathPrefix(u);
         }
     }
+
+    for(int i=0; i<num_vertices; ++i) assert(co.find(i) == cur_root);
+
     // TODO: make sure that arboresence is _really_ rooted at root in phase 2 (reconstruction)
     return answer;
+}
+
+void Gabow::transfer_active_status(const EdgeLink& source, const EdgeLink& target) {
+    int x = co.find(source.e.from);
+    assert(co.same(source.e.from, target.e.from)); // both edges should be in the exit list of the same node
+    assert(in_which_active_set[x] != -1);
+    assert(co.same(in_which_active_set[x], source.e.to)); //
+    auto& source_set = active_set[co.find(source.e.to)];
+    auto& target_set = active_set[co.find(target.e.to)];
+    source_set.decreaseKey(active_set_pointer[x], target);
+    target_set.steal(active_set_pointer[x], source_set);
+    in_which_active_set[x] = co.find(target.e.to); // TODO remove later
+
 }

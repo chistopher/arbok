@@ -28,7 +28,7 @@ void CompressedTree<T>::add_value(int i, T increment) {
 
 template<typename T>
 bool CompressedTree<T>::same(int i, int j) {
-    return find(i) != find(j);
+    return find(i) == find(j);
 }
 
 template<typename T>
