@@ -1,6 +1,5 @@
 
 #include <arbok/gabow/gabow.h>
-#include <algorithm>
 #include <optional>
 #include <iostream>
 #include <cassert>
@@ -174,28 +173,24 @@ int Gabow::contractPathPrefix(int u) {
     assert(in_path[rep_u]);
     assert(size(growth_path) == size(growth_path_edges));
 
-    // reverse growth path such that growth_path[0] == v0 in report == latest root of growth path
-    // TODO: not sure whether this reverse kills our runtime, if it goes in O(n) over the GP
-    // dunno if we are allowed to do so here (edit: no we are not)
-    std::reverse(growth_path.begin(), growth_path.end());
-    std::reverse(growth_path_edges.begin(), growth_path_edges.end());
+    // TODO maybe we can merge some of these loops
 
     assert(find(begin(growth_path), end(growth_path), rep_u) != end(growth_path));
-    int k = int(find(begin(growth_path), end(growth_path), rep_u) - begin(growth_path));
+    int k = int(find(rbegin(growth_path), rend(growth_path), rep_u) - rbegin(growth_path));
 
     for (int i = 0; i <= k; i++) {
         // the incoming edge that we chose for vertex vi corresponds to the same index in growth_path_edges ()
-        int vi = growth_path[i];
-        int edge_id = growth_path_edges[i];
+        int vi = growth_path[size(growth_path)-i-1];
+        int edge_id = growth_path_edges[size(growth_path)-i-1];
         auto& edge = edges[edge_id];
         assert(co.find(edge.to) == vi);
         assert(co.find(vi) == vi); // all nodes on growth path are representatives
         co.add_value(vi, -edge.currentWeight());
     }
 
-    assert(empty(passive_set[growth_path.front()]));
+    assert(empty(passive_set[growth_path.back()]));
     for (int i = 1; i <= k; i++) {
-        int vi = growth_path[i];
+        int vi = growth_path[size(growth_path)-i-1];
         assert(co.find(vi) == vi); // all nodes on growth path are representatives
         // invariant: after we are done with vi, all exit lists of nodes x have no passive edges from vertices v0,..,vi
         for (int edge_id : passive_set[vi]) { // not 100% sure whether rep here is correct, report says nothing, but I think it should be
@@ -235,7 +230,7 @@ int Gabow::contractPathPrefix(int u) {
     }
 
     for (int i = 1; i <= k; i++) {
-        int vi = growth_path[i];
+        int vi = growth_path[size(growth_path)-i-1];
         assert(exit_list[vi].size() < 2); // exit list is empty or single element
 
         if (!exit_list[vi].empty()) {
@@ -255,14 +250,14 @@ int Gabow::contractPathPrefix(int u) {
 
     // merge prefix in dsu
     for (int i = 1; i <= k; i++) {
-        co.join(growth_path[0], growth_path[i]);
+        co.join(growth_path.back(), growth_path[size(growth_path)-i-1]);
     } 
 
-    int new_root = co.find(growth_path[0]);
+    int new_root = co.find(growth_path.back());
 
     // meld all active sets of contracted prefix
     for (int i = 0; i <=k; i++) {
-        int vi = growth_path[i];
+        int vi = growth_path[size(growth_path)-i-1];
         assert(co.find(vi) == new_root);
         assert(exit_list[vi].empty());
         assert(passive_set[vi].empty());
@@ -273,30 +268,10 @@ int Gabow::contractPathPrefix(int u) {
     }
     in_path[new_root] = true;
 
-    // in the following, we rebuild the growth path
-    // i.e. if the growth path before was 3 2 0, and we reached 2 again, and contract into 42,
-    // it is now 42 0
-    // however, how it is currently implemented MAYBE this kills our worst-case runtime
-    // because we have to iterate over the GP
-    // this should be fixed, but as I don't know how to slice vectors in constant time
-    // somebody else maybe can think about this
-    // maybe its also okay to have O(n) over the growth path (I think so because we also need to find k in O(n))
-    // TODO rewrite this
-
-    std::vector<int> new_growth_path;
-    
-    for (int j = growth_path.size() - 1; j > k; j--) { // restore growth path suffix
-        new_growth_path.push_back(growth_path[j]);
-    }
-    new_growth_path.push_back(new_root);
-
-    growth_path = std::move(new_growth_path);
-
-    std::vector<int> new_growth_path_edges;
-    for (int j = growth_path_edges.size() - 1; j > k; j--) { // restore growth path suffix
-        new_growth_path_edges.push_back(growth_path_edges[j]);
-    }
-    growth_path_edges = std::move(new_growth_path_edges);
+    // delete contracted path prefix (since path is saved reverse in memory we delete from back)
+    for(int i=0;i<=k;++i)
+        growth_path.pop_back(), growth_path_edges.pop_back();
+    growth_path.push_back(new_root);
 
     return new_root;
 }
