@@ -219,7 +219,7 @@ int main(int argc, char* argv[]) {
     auto dur = timer.stop();
 
     timer = ScopedTimer("reconstruct");
-    auto arbo = alg.reconstruct();
+    auto arbo = alg.reconstruct(root);
 
     timer = ScopedTimer("validate");
     isArborescence(graph, arbo, res, graph.n, root);

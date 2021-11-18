@@ -8,6 +8,7 @@
 #include <optional>
 #include <cassert>
 
+#include <arbok/tarjan/tarjan.h>
 #include <arbok/data_structures/dsu.h>
 #include <arbok/data_structures/compressed_tree.h>
 
@@ -58,8 +59,7 @@ public:
 
     long long run(int root);
 
-    void debug();
-    // std::vector<Edge> reconstruct();
+    inline std::vector<Edge> reconstruct(int root);
 
 protected:
     const int num_vertices;

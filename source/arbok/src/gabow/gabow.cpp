@@ -1,5 +1,6 @@
 
 #include <arbok/gabow/gabow.h>
+
 #include <optional>
 #include <iostream>
 #include <cassert>
@@ -13,24 +14,6 @@ Gabow::Gabow(int n) : num_vertices(n), co(n), incoming_edges(n), in_path(n, fals
     growth_path.reserve(n); // cannot become larger
     growth_path_edges.reserve(n);
     active_set.resize(n);
-}
-
-void Gabow::debug() {
-    std::cout << "size of incoming_edges: " << incoming_edges.size() << std::endl;
-    std::cout << "size of incoming_edges[0]: " << incoming_edges[0].size() << std::endl;
-    for (auto& edge: edges) {
-        std::cout << "found edge id " << edge.id << " from " << edge.from << " to " << edge.to << " with weight " << edge.weight;
-        if (edge.exit_list_iter) std::cout << " which has exit_list_iterator"; else std::cout << " which does not have exit_list_iterator";
-        if (edge.passive_set_iter) std::cout << " which has passive_list_iterator"; else std::cout << " which does not have passive_list_iterator";
-
-        std::cout << std::endl;
-    }
-
-    for (int i = 0; i < num_vertices; i++) {
-        for (int edge_it : incoming_edges[i]) {
-            std::cout << "found incoming edge of " << i << " originating at " << edges[edge_it].from << " and going to " << edges[edge_it].to << std::endl;
-        }
-    }
 }
 
 void Gabow::create_edge(int from, int to, int weight) {
@@ -330,4 +313,9 @@ void Gabow::transfer_active_status(const EdgeLink& source, const EdgeLink& targe
     target_set.steal(active_set_pointer[x], source_set);
     in_which_active_set[x] = co.find(target.to); // TODO remove later
 
+}
+
+std::vector<Edge> Gabow::reconstruct(int root) {
+    // TODO
+    return std::vector<Edge>();
 }

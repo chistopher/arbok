@@ -25,7 +25,7 @@ public:
 
     void create_edge(int from, int to, int weight);
     long long run(int root);
-    std::vector<Edge> reconstruct();
+    std::vector<Edge> reconstruct(int root);
 
 protected:
     const int num_vertices;
@@ -42,5 +42,12 @@ protected:
 
     std::unique_ptr<TarjanImpl> m_impl; // PImpl pattern (https://en.cppreference.com/w/cpp/language/pimpl)
 };
+
+template<TarjanVariant var>
+struct SpecificTarjan : Tarjan { SpecificTarjan(int n) : Tarjan(n, var) {} };
+using SetTarjan = SpecificTarjan<TarjanVariant::SET>;
+using MatrixTarjan = SpecificTarjan<TarjanVariant::MATRIX>;
+using TreapTarjan = SpecificTarjan<TarjanVariant::TREAP>;
+using PQTarjan = SpecificTarjan<TarjanVariant::PQ>;
 
 }  // end namespace arbok

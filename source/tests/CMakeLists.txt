@@ -24,7 +24,6 @@ add_executable(${target}
     test_pqactiveset.cpp
     test_find_data.cpp
     test_fastestspeedrun.cpp
-    test_gabow.cpp
 )
 
 target_link_libraries(${target} GTest::Main arbok)
