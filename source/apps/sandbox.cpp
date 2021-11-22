@@ -78,7 +78,7 @@ int main() {
     auto res = alg.run(root);
 
     auto t3 = chrono::steady_clock::now();
-    auto arbo = alg.reconstruct();
+    auto arbo = alg.reconstruct(root);
     auto t4 = chrono::steady_clock::now();
     isArborescence(graph, arbo, res, n+1, root);
     auto t5 = chrono::steady_clock::now();

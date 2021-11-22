@@ -59,7 +59,7 @@ public:
 
     long long run(int root);
 
-    inline std::vector<Edge> reconstruct(int root);
+    std::vector<Edge> reconstruct(int root);
 
 protected:
     const int num_vertices;
@@ -78,7 +78,11 @@ protected:
     std::vector<HackActiveSetDummy::iterator> active_set_pointer; // for each node, in which active set is it and the corresponding iterator
     std::vector<int> in_which_active_set; // TODO remove in final impl; this is just for debugging
 
-    std::vector<int> chosen;
+    // reconstruction
+    // forest over chosen edges as outlined in reconstruction paper
+    std::vector<int> chosen; // chosen edges
+    std::vector<int> forest; // forest[i]: parent in reconstruction forest of edge edges[chosen[i]] (as ids into chosen)
+    std::vector<int> chosen_path; // edges on growth path (just as growth_path_edges) but as ids into chosen
 
     void add_edge_to_exit_list(int v, int edge_id);
     void insert_vertex_into_activeset(int v, int u, int key); // insert v into u's AS

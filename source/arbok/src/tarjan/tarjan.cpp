@@ -96,7 +96,7 @@ std::vector<Edge> Tarjan::reconstruct(int arbo_root) {
 
     vector<Edge> res;
     vector del(n,false);
-    for(int r=n-1; r>=0; --r) {
+    for(int r=n-1; r>=0; --r) { // we exploit here that parent has always higher index; -> larger index first results in top-to-bottom traversal
         if(del[r]) continue;
         assert(forest[r]==r || del[forest[r]]); // we have a root
         res.push_back(inc[r]);

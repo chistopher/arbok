@@ -155,6 +155,7 @@ int Gabow::contractPathPrefix(int u) {
     int rep_u = co.find(u);
     assert(in_path[rep_u]);
     assert(size(growth_path) == size(growth_path_edges));
+    assert(size(growth_path_edges) == size(chosen_path));
 
     // TODO maybe we can merge some of these loops
 
@@ -252,8 +253,12 @@ int Gabow::contractPathPrefix(int u) {
     in_path[new_root] = true;
 
     // delete contracted path prefix (since path is saved reverse in memory we delete from back)
-    for(int i=0;i<=k;++i)
+    for(int i=0;i<=k;++i) {
         growth_path.pop_back(), growth_path_edges.pop_back();
+        // set the parent of the contracted edges in reconstruction forest
+        forest[chosen_path.back()] = static_cast<int>(size(chosen)); // next iteration in run will find an incoming edge into the here contracted prefix; this edge will be the next in chosen
+        chosen_path.pop_back();
+    }
     growth_path.push_back(new_root);
 
     return new_root;
@@ -281,11 +286,16 @@ long long Gabow::run(int root) {
 
         //std::cout << std::endl <<  "removing minimum from active set of " << cur_root << " with weight " << edge.e.weight << ", offset " << co.find_value(u) <<  std::endl;
 
+        // reconstruction stuff
+        int forest_id = static_cast<int>(size(chosen));
         chosen.push_back(edge.id);
+        forest.push_back(forest_id); // new edge initially has no parent
+
         if (edge.weight < std::numeric_limits<int>::max())
             answer += edge.currentWeight();
 
         growth_path_edges.push_back(edge.id); // needed in both cases
+        chosen_path.push_back(forest_id);
 
         if (!in_path[u]) {
             assert(edge.from == u); // edge.from is not a contracted vertex
@@ -316,6 +326,38 @@ void Gabow::transfer_active_status(const EdgeLink& source, const EdgeLink& targe
 }
 
 std::vector<Edge> Gabow::reconstruct(int root) {
-    // TODO
-    return std::vector<Edge>();
+
+    auto n = static_cast<int>(size(chosen));
+
+    // build leafs arary (first chosen edge for each node)
+    std::vector<int> leaf(num_vertices, -1);
+    for(int i=0; i<n; ++i) {
+        auto& edge = edges[chosen[i]];
+        if(leaf[edge.to]==-1) leaf[edge.to] = i;
+    }
+    assert(none_of(begin(leaf), end(leaf), [](int l) { return l==-1; })); // assert each node has an incoming edge
+
+    std::vector<int> res;
+    std::vector del(n,false);
+    for(int r=n-1; r>=0; --r) { // we exploit here that parent has always higher index; -> larger index first results in top-to-bottom traversal
+        if(del[r]) continue;
+        assert(forest[r]==n || del[forest[r]]); // we have a root (first check is due to last contraction having no incoming edge)
+        auto& edge = edges[chosen[r]];
+        if(edge.to != root) res.push_back(edge.id);
+        auto leaf_edge_pos = leaf[edge.to];
+        // we take the edge at position r and 'delete' the path from the leaf to the root from the forest
+        del[r] = true;
+        for(int i=leaf_edge_pos; i!=r; i=forest[i])
+            del[i] = true;
+    }
+
+    assert(size(res)==num_vertices-1);
+
+    std::vector<Edge> ret; // TODO change interface of reconstruct
+    for(auto idx : res) {
+        auto& e = edges[idx];
+        ret.push_back({e.from, e.to, e.weight, e.weight});
+    }
+
+    return ret;
 }
