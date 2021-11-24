@@ -137,11 +137,11 @@ protected:
         }
         void decrease_key(const value_type& new_key, node *root) {
 
-            assert(Compare(new_key, key)); // new key should be smaller than current key
+            assert(Compare()(new_key, key)); // new key should be smaller than current key
             key = new_key; // this is a copy, i hope this is okay
 
             // if we have a parent and we have a larger key than it -> heap property violation
-            if (parent != nullptr && Compare(key, parent->key))
+            if (parent != nullptr && Compare()(key, parent->key))
                 throw_in_root(root);
         }
     };
