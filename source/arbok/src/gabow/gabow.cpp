@@ -278,6 +278,7 @@ long long Gabow::run(int root) {
 
         assert(co.find(cur_root) == cur_root);
         // do not extract here because extend does this manually and contract does this when clearing out all exit lists of contracted vertices
+        // TODO: F-Heap does not support top, only pop! Hence, we will need to change that.
         EdgeLink edge = active_set[cur_root].top();
         int u = co.find(edge.from);
         assert(exit_list[u].front() == edge.id);
