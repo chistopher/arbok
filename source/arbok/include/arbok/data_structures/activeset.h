@@ -5,8 +5,8 @@
 #include <utility>
 #include <memory>
 
-#include <arbok/gabow/gabow.h>
 #include <arbok/data_structures/fibheap.h>
+#include <arbok/data_structures/edgelink.h>
 
 namespace arbok
 {
@@ -29,13 +29,12 @@ namespace arbok
         virtual void steal(std::shared_ptr<AbstractActiveSetHandle> handle) = 0;
     };
 
-    class FibHeapActiveSetHandle
+    class FibHeapActiveSetHandle : public AbstractActiveSetHandle
     {
     public:
         fheap::fibonacci_heap<EdgeLink>::handle handle;
     };
 
-    // Entry
     class FibHeapActiveSet : public AbstractActiveSet
     {
     public:
@@ -51,6 +50,30 @@ namespace arbok
 
     private:
         fheap::fibonacci_heap<EdgeLink> fheap_;
-    }
+    };
+
+    class DummyActiveSet : public AbstractActiveSet
+    {
+    public:
+        virtual unsigned long int size() const;
+        virtual bool empty() const;
+        virtual EdgeLink pop();
+        virtual void meld(std::shared_ptr<AbstractActiveSet> other);
+        virtual std::shared_ptr<AbstractActiveSetHandle> insert(EdgeLink v);
+        virtual void remove(std::shared_ptr<AbstractActiveSetHandle> handle);
+        // hacky: decrease key should update the EdgeLink at it to be equivalent to the new_key edgelink, i.e., Node->EdgeLink = new_key
+        virtual void decreaseKey(std::shared_ptr<AbstractActiveSetHandle> handle, EdgeLink new_key);
+        virtual void steal(std::shared_ptr<AbstractActiveSetHandle> handle);
+
+    private:
+        std::list<EdgeLink> m_elems_;
+    };
+
+    class DummyActiveSetHandle : public AbstractActiveSetHandle
+    {
+    public:
+        std::list<EdgeLink>::iterator it;
+        DummyActiveSet *in_which_active_set; // cannot use smart ptr here because we need to convert this to smart ptr which is not straightforward
+    };
 
 }

@@ -144,6 +144,49 @@ protected:
             if (parent != nullptr && Compare()(key, parent->key))
                 throw_in_root(root);
         }
+        node *remove(node *root) { // removes this from the fibonacci heap, returns new root
+            if (parent == nullptr) { // we are a root
+                if (left == this) { // we are the only root
+                    if (child != nullptr) { // we have children
+                        child->clear_parent(child);
+                        return child;
+                    } else { // we have no children
+                        return nullptr
+                    }
+                } else { // we are not the only root
+                    left->right = right;
+                    right->left = left;
+                    return left;
+                }
+            }
+            
+            // we are not a root and have a parent
+            // TODO maybe we have to do parent->order-- here
+            if (left == this) { // we have no siblings
+                parent->lose_child(this);
+            } else { // we have siblings
+                // tuck left and right sibling together
+                if (left != nullptr) left->right = right;
+                if (right != nullptr) right->left = left;
+            }
+
+            // clear children's pointers to us
+            child->clear_parent(child);
+
+            // tuck childrens list into the root list
+            node *cl = child;
+            node *cr = child->left;
+            node *rl = root;
+            node *rr = root->right;
+
+            // new order: rl <-> cl <...> cr <-> rr
+            cl->left = rl;
+            cr->right = rr;
+            rr->left = cr;
+            rl->right = cl;
+
+            return root;
+        }
     };
 
     // data
@@ -165,7 +208,7 @@ public:
         node *top_element = cleanup();
         value_type result_key = top_element->key;
         delete top_element;
-        return reuslt_key;
+        return result_key;
     }
     handle push(const value_type& key) {
         handle new_node = new node{key, nullptr, nullptr, nullptr, nullptr, false, 0};
@@ -187,8 +230,10 @@ public:
     void steal(handle x) { // steal entire subtree out
         // TODO
     }
-    void remove(handle x) { // remove a single element
-        // TODO
+    void remove(handle x) { // remove a single element, invalidates handle
+        root = x->remove(root); // we have a new root
+        n--;
+        delete x;
     }
     void meld(fibonacci_heap&& other) {
         // TODO

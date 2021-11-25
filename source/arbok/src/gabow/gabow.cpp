@@ -9,11 +9,10 @@
 
 using namespace arbok;
 
-Gabow::Gabow(int n) : num_vertices(n), co(n), incoming_edges(n), in_path(n, false), exit_list(n),passive_set(n), active_set_pointer(n)  {
+Gabow::Gabow(int n) : num_vertices(n), co(n), incoming_edges(n), in_path(n, false), exit_list(n),passive_set(n), active_set_handles(n), active_set(n)  {
     in_which_active_set.resize(n,-1);
     growth_path.reserve(n); // cannot become larger
     growth_path_edges.reserve(n);
-    active_set.resize(n);
 }
 
 void Gabow::create_edge(int from, int to, int weight) {

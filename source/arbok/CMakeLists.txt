@@ -10,6 +10,8 @@ set(HEADERS
         include/${target}/tarjan/impl.h
         include/${target}/data_structures/treap.h
         include/${target}/data_structures/activeset.h
+        include/${target}/data_structures/fibheap.h
+        include/${target}/data_structures/edgelink.h
         include/${target}/data_structures/compressed_tree.h
         include/${target}/data_structures/compressed_tree.inl
         include/${target}/utils/cf_solution.h
@@ -19,7 +21,8 @@ set(SOURCES
         src/utils/cf_solution.cpp
         src/data_structures/dsu.cpp
         src/data_structures/treap.cpp
-        src/data_structures/activeset.cpp
+        src/data_structures/dummy_active_set.cpp
+        src/data_structures/fibheap_active_set.cpp
         src/gabow/gabow.cpp
         src/tarjan/tarjan.cpp
         src/tarjan/tarjan_matrix.cpp
