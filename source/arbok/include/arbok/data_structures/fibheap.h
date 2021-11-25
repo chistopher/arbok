@@ -14,6 +14,7 @@ public:
     using value_type = T;
     using value_compare = Compare;
 protected:
+    using home_heap_ptr_type = fibonacci_heap<T,Compare>*;
     class node {
         friend fibonacci_heap;
     private:
@@ -25,8 +26,9 @@ protected:
             node *_parent,
             node *_child,
             bool _is_loser,
-            uint8_t _order
-        ) : key(_key), left(_left), right(_right), parent(_parent), child(_child), is_loser(_is_loser), order(_order) { }
+            uint8_t _order,
+            home_heap_ptr_type *_home_wrapper
+        ) : key(_key), left(_left), right(_right), parent(_parent), child(_child), is_loser(_is_loser), order(_order), home_wrapper(_home_wrapper) { }
 
         // data
         value_type key;
@@ -36,6 +38,7 @@ protected:
         node *child;
         bool is_loser;
         uint8_t order;
+        home_heap_ptr_type *home_wrapper;
 
         // methods
         void self_hug() {
@@ -51,15 +54,15 @@ protected:
             right->left = this;
             new_sibling->right = this;
         }
-        void lose_child(node *which, node *root) {
+        void lose_child(node *which, node *rt) {
             if (which == child) {
                 if (child == child->left) child = nullptr; // no child left
-                else child = lost->left; // replace child
+                else child = which->left; // replace child
             }
             if (parent == nullptr) return; // if we are in root we remain there
             if (!is_loser) is_loser = true;
             else {
-                throw_in_root(root);
+                throw_in_root(rt);
             }
         }
         void adopt_by(node *new_parent) {
@@ -67,23 +70,23 @@ protected:
             parent = new_parent;
             parent->child = this;
             if (parent) parent->order++;
-            left_sibling = this;
-            right_sibling = this;
+            left = this;
+            right = this;
         }
-        void throw_in_root(node *root) {
+        void throw_in_root(node *rt) {
             // tuck left and right sibling together
             if (left != nullptr) left->right = right;
             if (right != nullptr) right->left = left;
 
             // tell parent
-            if (parent != nullptr) parent->lose_child(this, root);
+            if (parent != nullptr) parent->lose_child(this, rt);
 
             // go to root
-            merge_brother(root);
+            merge_brother(rt);
 
             is_loser = false;
         }
-        void merge_over(node *other) { 
+        void merge_over(node *other) {
             // we should be in the root list
             assert(parent == nullptr);
             // other should be in the root list
@@ -115,7 +118,7 @@ protected:
                 // clear parent pointers of children
                 child->clear_parent(child);
                 // put child right of us
-                
+
                 // connect righthand sibling with righthand end of children
                 child->left->right = right;
                 right->left = child->left;
@@ -134,14 +137,14 @@ protected:
 
             return left; // return left sibling as new root
         }
-        void decrease_key(const value_type& new_key, node *root) {
+        void decrease_key(const value_type& new_key, node *rt) {
 
             assert(Compare()(new_key, key)); // new key should be smaller than current key
             key = new_key; // this is a copy, i hope this is okay
 
             // if we have a parent and we have a larger key than it -> heap property violation
             if (parent != nullptr && Compare()(key, parent->key))
-                throw_in_root(root);
+                throw_in_root(rt);
         }
         static void merge_lists(node *a, node *b) {
             node *al = a;
@@ -155,14 +158,14 @@ protected:
             br->left = ar;
             bl->right = al;
         }
-        node *remove(node *root) { // removes this from the fibonacci heap, returns new root
+        node *remove(node *rt) { // removes this from the fibonacci heap, returns new root
             if (parent == nullptr) { // we are a root
                 if (left == this) { // we are the only root
                     if (child != nullptr) { // we have children
                         child->clear_parent(child);
                         return child;
                     } else { // we have no children
-                        return nullptr
+                        return nullptr;
                     }
                 } else { // we are not the only root
                     left->right = right;
@@ -170,7 +173,7 @@ protected:
                     return left;
                 }
             }
-            
+
             // we are not a root and have a parent
             // TODO maybe we have to do parent->order-- here
             if (left == this) { // we have no siblings
@@ -181,19 +184,30 @@ protected:
                 if (right != nullptr) right->left = left;
             }
 
-            // clear children's pointers to us
-            child->clear_parent(child);
+            if (child != nullptr) { // if we have children
+                // clear children's pointers to us
+                child->clear_parent(child);
 
-            // insert child list into root list
-            merge_lists(child, root);
+                // insert child list into root list
+                merge_lists(child, rt);
+            }
 
-            return root;
+            return rt;
+        }
+    public:
+        home_heap_ptr_type home_heap() {
+            return *home_wrapper;
         }
     };
 
     // data
     node *root = nullptr;
+    std::vector<home_heap_ptr_type*> home_wrappers{{new home_heap_ptr_type()}};
 
+    void reset() {
+        root = nullptr;
+        home_wrappers = {new home_heap_ptr_type()};
+    }
     node *cleanup() { // cleans up and returns the top element
         // TODO
     }
@@ -201,6 +215,11 @@ public:
     using handle = node*;
     fibonacci_heap() = default;
     fibonacci_heap(const fibonacci_heap&) = delete;
+    ~fibonacci_heap() {
+        for (home_heap_ptr_type* w : home_wrappers) {
+            delete w;
+        }
+    }
 
     value_type pop() {
         node *top_element = cleanup();
@@ -209,8 +228,8 @@ public:
         return result_key;
     }
     handle push(const value_type& key) {
-        handle new_node = new node{key, nullptr, nullptr, nullptr, nullptr, false, 0};
-        if (empty()) {
+        handle new_node = new node{key, nullptr, nullptr, nullptr, nullptr, false, 0, home_wrappers.front()};
+        if (root == nullptr) {
             root = new_node;
             new_node->self_hug();
         } else {
@@ -230,11 +249,13 @@ public:
         root = x->remove(root); // set new root
         delete x;
     }
-    void meld(fibonacci_heap&& other) {
+    void meld(fibonacci_heap& other) {
         other->root = nullptr;
-        // TODO update home of other nodes
-        // TODO move home structs here
-        // TODO call deconstructor of other???
+        for (home_heap_ptr_type* w : other->home_wrappers) { // TODO keeping all the home wrappers might be too expensive
+            *w = this; // update homes of other's nodes
+            home_wrappers.push_back(w); // keep the home wrappers
+        }
+        other->reset();
         node::merge_lists(root, other->root);
     }
     void decrease_key(handle x, const value_type& new_key) {
