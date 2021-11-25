@@ -158,13 +158,13 @@ protected:
             br->left = ar;
             bl->right = al;
         }
-        node *remove(node *rt) { // removes this from the fibonacci heap, returns new root
+        node *remove(node *rt, bool children_stay = true) { // removes this from the fibonacci heap, returns new root
             if (parent == nullptr) { // we are a root
                 if (left == this) { // we are the only root
-                    if (child != nullptr) { // we have children
+                    if (children_stay && child != nullptr) { // we have children and they should stay in this heap
                         child->clear_parent(child);
                         return child;
-                    } else { // we have no children
+                    } else { // no children or we take them with us
                         return nullptr;
                     }
                 } else { // we are not the only root
@@ -184,7 +184,7 @@ protected:
                 if (right != nullptr) right->left = left;
             }
 
-            if (child != nullptr) { // if we have children
+            if (children_stay && child != nullptr) { // we have children and they should stay in this heap
                 // clear children's pointers to us
                 child->clear_parent(child);
 
@@ -242,8 +242,8 @@ public:
         if (root != nullptr) x->throw_in_root(root);
         else root = x;
     }
-    void steal(handle x) { // steal entire subtree out
-        // TODO
+    void steal(handle x) { // steal entire subtree out, handle is the stolen subtree
+        x->remove(root, false);
     }
     void remove(handle x) { // remove a single element, invalidates handle
         root = x->remove(root); // set new root
