@@ -4,6 +4,7 @@
 #include <vector>
 #include <utility>
 #include <memory>
+#include <optional>
 
 #include <arbok/data_structures/fibheap.h>
 #include <arbok/data_structures/edgelink.h>
@@ -18,8 +19,6 @@ namespace arbok
     class AbstractActiveSet
     {
     public:
-        virtual unsigned long int size() const = 0;
-        virtual bool empty() const = 0;
         virtual EdgeLink pop() = 0;
         virtual void meld(std::shared_ptr<AbstractActiveSet> other) = 0;
         virtual std::shared_ptr<AbstractActiveSetHandle> insert(EdgeLink v) = 0;
@@ -32,14 +31,12 @@ namespace arbok
     class FibHeapActiveSetHandle : public AbstractActiveSetHandle
     {
     public:
-        fheap::fibonacci_heap<EdgeLink>::handle handle;
+        std::optional<fheap::fibonacci_heap<EdgeLink>::handle> handle;
     };
 
     class FibHeapActiveSet : public AbstractActiveSet
     {
     public:
-        virtual unsigned long int size() const;
-        virtual bool empty() const;
         virtual EdgeLink pop();
         virtual void meld(std::shared_ptr<AbstractActiveSet> other);
         virtual std::shared_ptr<AbstractActiveSetHandle> insert(EdgeLink v);
@@ -55,8 +52,6 @@ namespace arbok
     class DummyActiveSet : public AbstractActiveSet
     {
     public:
-        virtual unsigned long int size() const;
-        virtual bool empty() const;
         virtual EdgeLink pop();
         virtual void meld(std::shared_ptr<AbstractActiveSet> other);
         virtual std::shared_ptr<AbstractActiveSetHandle> insert(EdgeLink v);
@@ -72,7 +67,7 @@ namespace arbok
     class DummyActiveSetHandle : public AbstractActiveSetHandle
     {
     public:
-        std::list<EdgeLink>::iterator it;
+        std::optional<std::list<EdgeLink>::iterator> it;
         DummyActiveSet *in_which_active_set; // cannot use smart ptr here because we need to convert this to smart ptr which is not straightforward
     };
 

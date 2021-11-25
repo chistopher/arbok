@@ -1,5 +1,6 @@
 
 #include <arbok/gabow/gabow.h>
+#include <arbok/data_structures/activeset.h>
 
 #include <optional>
 #include <iostream>
@@ -9,10 +10,32 @@
 
 using namespace arbok;
 
-Gabow::Gabow(int n) : num_vertices(n), co(n), incoming_edges(n), in_path(n, false), exit_list(n),passive_set(n), active_set_handles(n), active_set(n)  {
+Gabow::Gabow(int n,  GabowVariant variant) : num_vertices(n), co(n), incoming_edges(n), in_path(n, false), exit_list(n),passive_set(n), variant_(variant)  {
     in_which_active_set.resize(n,-1);
     growth_path.reserve(n); // cannot become larger
     growth_path_edges.reserve(n);
+
+        for (int i = 0; i < n; i++) {
+            active_set.push_back(new_active_set());
+            active_set_handle.push_back(new_active_set_handle());
+        }
+
+}
+
+std::shared_ptr<AbstractActiveSet>  Gabow::new_active_set() {
+    if (variant_ == GabowVariant::DUMMY) {
+        return std::make_shared<DummyActiveSet>();
+    } else if (variant_ == GabowVariant::FIB) {
+        return std::make_shared<FibHeapActiveSet>();
+    }
+}
+
+std::shared_ptr<AbstractActiveSetHandle>  Gabow::new_active_set_handle() {
+    if (variant_ == GabowVariant::DUMMY) {
+        return std::make_shared<DummyActiveSetHandle>();
+    } else if (variant_ == GabowVariant::FIB) {
+        return std::make_shared<FibHeapActiveSetHandle>();
+    }
 }
 
 void Gabow::create_edge(int from, int to, int weight) {
@@ -62,8 +85,8 @@ void Gabow::insert_vertex_into_activeset(int v, int u, int key) {
     assert(!exit_list[v].empty());
     auto& edge = edges[exit_list[v].front()];
     assert(key == edge.currentWeight());
-    auto it = active_set[u].insert(edge);
-    active_set_pointer[v] = it;
+    auto handle = active_set[u]->insert(edge);
+    active_set_handle[v] = handle;
     in_which_active_set[v] = u;
 }
 
@@ -97,9 +120,9 @@ void Gabow::extendPath(int u) {
     // remove active edge that led to extend operation
     assert(prev_root == co.find(in_which_active_set[u]));
     assert(prev_root == co.find(edges[exit_list[u].front()].to));
-    active_set[prev_root].remove(active_set_pointer[u]);
+    active_set[prev_root]->remove(active_set_handle[u]);
     in_which_active_set[u] = -1;
-    active_set_pointer[u] = {};
+    active_set_handle[u] = new_active_set_handle();
     exit_list[u].pop_front();
 
     // remove rest of exit list
@@ -141,7 +164,7 @@ void Gabow::extendPath(int u) {
                     add_edge_to_exit_list(rep_x, edge_id);
                     assert(in_which_active_set[rep_x] == u);
                     // we don't need to steal because this is a multi-edge and the heap elem is already in the right set
-                    active_set[u].decreaseKey(active_set_pointer[rep_x], edge);
+                    active_set[u]->decreaseKey(active_set_handle[rep_x], edge);
                 }
             }
         }
@@ -224,8 +247,8 @@ int Gabow::contractPathPrefix(int u) {
             //std::cout << "removing " << rep_vi << " from active set of " << co.find(first_edge.e.to) << std::endl;
             assert(in_which_active_set[vi] != -1);
             assert(co.same(in_which_active_set[vi], first_edge.to));
-            active_set[co.find(first_edge.to)].remove(active_set_pointer[vi]);
-            active_set_pointer[vi] = HackActiveSetDummy::iterator(); // TODO default constructed iterator is not the best choice for an empty value here
+            active_set[co.find(first_edge.to)]->remove(active_set_handle[vi]);
+            active_set_handle[vi] = new_active_set_handle();
             in_which_active_set[vi] = -1;
         }
         assert(in_which_active_set[vi]==-1);
@@ -246,7 +269,7 @@ int Gabow::contractPathPrefix(int u) {
         assert(passive_set[vi].empty());
         in_path[vi] = false; // TODO do this somewhere else maybe
         if (vi == new_root) continue;
-        active_set[new_root].meld(std::move(active_set[vi])); // after this meld, in_which_active_set pointers still point to the vi instead of new_root. remember to make a lookup later
+        active_set[new_root]->meld(active_set[vi]); // after this meld, in_which_active_set pointers still point to the vi instead of new_root. remember to make a lookup later
         assert(active_set[vi].empty());
     }
     in_path[new_root] = true;
@@ -273,12 +296,13 @@ long long Gabow::run(int root) {
     int cur_root = root;
 
     long long answer = 0;
-    while (!active_set[cur_root].empty()) { // should be the same as "not everything contracted yet" because of strongly connected
+    // TODO: cannot use empty() here because fheap can't keep track of size()
+    while (!active_set[cur_root]->empty()) { // should be the same as "not everything contracted yet" because of strongly connected
 
         assert(co.find(cur_root) == cur_root);
         // do not extract here because extend does this manually and contract does this when clearing out all exit lists of contracted vertices
         // TODO: F-Heap does not support top, only pop! Hence, we will need to change that.
-        EdgeLink edge = active_set[cur_root].top();
+        EdgeLink edge = active_set[cur_root]->pop();
         int u = co.find(edge.from);
         assert(exit_list[u].front() == edge.id);
         assert(u != cur_root); // no self loop
@@ -287,7 +311,7 @@ long long Gabow::run(int root) {
         //std::cout << std::endl <<  "removing minimum from active set of " << cur_root << " with weight " << edge.e.weight << ", offset " << co.find_value(u) <<  std::endl;
 
         // reconstruction stuff
-        int forest_id = static_cast<int>(size(chosen));
+        int forest_id = static_cast<int>(std::size(chosen));
         chosen.push_back(edge.id);
         forest.push_back(forest_id); // new edge initially has no parent
 
@@ -319,15 +343,15 @@ void Gabow::transfer_active_status(const EdgeLink& source, const EdgeLink& targe
     assert(co.same(in_which_active_set[x], source.to)); //
     auto& source_set = active_set[co.find(source.to)];
     auto& target_set = active_set[co.find(target.to)];
-    source_set.decreaseKey(active_set_pointer[x], target);
-    target_set.steal(active_set_pointer[x], source_set);
+    source_set->decreaseKey(active_set_handle[x], target);
+    target_set->steal(active_set_handle[x]);
     in_which_active_set[x] = co.find(target.to); // TODO remove later
 
 }
 
 std::vector<Edge> Gabow::reconstruct(int root) {
 
-    auto n = static_cast<int>(size(chosen));
+    auto n = static_cast<int>(std::size(chosen));
 
     // build leafs arary (first chosen edge for each node)
     std::vector<int> leaf(num_vertices, -1);

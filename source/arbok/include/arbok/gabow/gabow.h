@@ -15,10 +15,12 @@
 namespace arbok
 {
 
+enum class GabowVariant { DUMMY, FIB };
+
     class Gabow
     {
     public:
-        Gabow(int n);
+        Gabow(int n, GabowVariant variant);
         ~Gabow() = default;
 
         void create_edge(int from, int to, int weight);
@@ -41,7 +43,7 @@ namespace arbok
         std::vector<std::list<int>> exit_list;   // stores the index into edges
         std::vector<std::list<int>> passive_set; // stores the index into edges
         std::vector<std::shared_ptr<AbstractActiveSet>> active_set;
-        std::vector<std::shared_ptr<AbstractActiveSetHandle>> active_set_handles; // for each node its handle
+        std::vector<std::shared_ptr<AbstractActiveSetHandle>> active_set_handle; // for each node its handle
         std::vector<int> in_which_active_set;                                     // TODO remove in final impl; this is just for debugging
 
         // reconstruction
@@ -58,6 +60,10 @@ namespace arbok
         void ensure_strongly_connected(int root);
         void extendPath(int u);
         int contractPathPrefix(int u);
+    private:
+        std::shared_ptr<AbstractActiveSet> new_active_set();
+        std::shared_ptr<AbstractActiveSetHandle> new_active_set_handle();
+        GabowVariant variant_;
     };
 
 } // end namespace arbok

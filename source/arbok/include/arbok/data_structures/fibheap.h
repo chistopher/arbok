@@ -13,7 +13,6 @@ class fibonacci_heap {
 public:
     using value_type = T;
     using value_compare = Compare;
-    using size_type = std::size_t;
 protected:
     class node {
         friend fibonacci_heap;
@@ -144,6 +143,18 @@ protected:
             if (parent != nullptr && Compare()(key, parent->key))
                 throw_in_root(root);
         }
+        static void merge_lists(node *a, node *b) {
+            node *al = a;
+            node *ar = a->left;
+            node *bl = b;
+            node *br = b->right;
+
+            // new order: bl <-> al <...> ar <-> br
+            al->left = bl;
+            ar->right = br;
+            br->left = ar;
+            bl->right = al;
+        }
         node *remove(node *root) { // removes this from the fibonacci heap, returns new root
             if (parent == nullptr) { // we are a root
                 if (left == this) { // we are the only root
@@ -173,24 +184,14 @@ protected:
             // clear children's pointers to us
             child->clear_parent(child);
 
-            // tuck childrens list into the root list
-            node *cl = child;
-            node *cr = child->left;
-            node *rl = root;
-            node *rr = root->right;
-
-            // new order: rl <-> cl <...> cr <-> rr
-            cl->left = rl;
-            cr->right = rr;
-            rr->left = cr;
-            rl->right = cl;
+            // insert child list into root list
+            merge_lists(child, root);
 
             return root;
         }
     };
 
     // data
-    size_type n = 0;
     node *root = nullptr;
 
     node *cleanup() { // cleans up and returns the top element
@@ -200,9 +201,6 @@ public:
     using handle = node*;
     fibonacci_heap() = default;
     fibonacci_heap(const fibonacci_heap&) = delete;
-
-    bool empty() const { return n == 0; }
-    size_type size() const { return n; }
 
     value_type pop() {
         node *top_element = cleanup();
@@ -219,24 +217,25 @@ public:
             new_node->throw_in_root(root);
             // cleanup();
         }
-        n++;
         return new_node;
     }
     void push(handle x) {
         if (root != nullptr) x->throw_in_root(root);
         else root = x;
-        n++;
     }
     void steal(handle x) { // steal entire subtree out
         // TODO
     }
     void remove(handle x) { // remove a single element, invalidates handle
-        root = x->remove(root); // we have a new root
-        n--;
+        root = x->remove(root); // set new root
         delete x;
     }
     void meld(fibonacci_heap&& other) {
-        // TODO
+        other->root = nullptr;
+        // TODO update home of other nodes
+        // TODO move home structs here
+        // TODO call deconstructor of other???
+        node::merge_lists(root, other->root);
     }
     void decrease_key(handle x, const value_type& new_key) {
         x->decrease_key(new_key, root);

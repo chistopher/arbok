@@ -42,21 +42,25 @@ namespace arbok
     void DummyActiveSet::remove(std::shared_ptr<AbstractActiveSetHandle> handle)
     {
         std::shared_ptr<DummyActiveSetHandle> handle_ = std::static_pointer_cast<DummyActiveSetHandle>(handle);
+        assert(handle_->it); // don't do this on empty handle
+        assert(handle_->in_which_active_set != nullptr);
         assert(this == handle_->in_which_active_set);
-        m_elems_.erase(handle_->it);
+        m_elems_.erase(handle_->it.value());
     }
 
     void DummyActiveSet::decreaseKey(std::shared_ptr<AbstractActiveSetHandle> handle, EdgeLink new_key)
     {
         std::shared_ptr<DummyActiveSetHandle> handle_ = std::static_pointer_cast<DummyActiveSetHandle>(handle);
+        assert(handle_->it); // don't do this on empty handle
         assert(this == handle_->in_which_active_set);
-        *(handle_->it) = new_key;
+        *(handle_->it.value()) = new_key;
     }
 
     void DummyActiveSet::steal(std::shared_ptr<AbstractActiveSetHandle> handle)
     {
         std::shared_ptr<DummyActiveSetHandle> handle_ = std::static_pointer_cast<DummyActiveSetHandle>(handle);
-        m_elems_.splice(std::end(m_elems_), handle_->in_which_active_set->m_elems_, handle_->it);
+        assert(handle_->it); // don't do this on empty handle
+        m_elems_.splice(std::end(m_elems_), handle_->in_which_active_set->m_elems_, handle_->it.value());
         handle_->in_which_active_set = this;
     }
 
