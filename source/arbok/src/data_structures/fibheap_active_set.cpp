@@ -3,7 +3,7 @@
 namespace arbok
 {
 
-    unsigned long int FibHeapActiveSet::size() const
+    /*unsigned long int FibHeapActiveSet::size() const
     {
         return static_cast<unsigned long int>(fheap_.size());
     }
@@ -11,7 +11,7 @@ namespace arbok
     bool FibHeapActiveSet::empty() const
     {
         return fheap_.empty();
-    }
+    } */
 
     EdgeLink FibHeapActiveSet::pop()
     {

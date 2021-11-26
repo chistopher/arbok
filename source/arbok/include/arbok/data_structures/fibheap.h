@@ -249,7 +249,7 @@ public:
         root = x->remove(root); // set new root
         delete x;
     }
-    void meld(fibonacci_heap& other) {
+    void meld(fibonacci_heap&& other) {
         other->root = nullptr;
         for (home_heap_ptr_type* w : other->home_wrappers) { // TODO keeping all the home wrappers might be too expensive
             *w = this; // update homes of other's nodes

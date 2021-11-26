@@ -3,7 +3,7 @@
 namespace arbok
 {
 
-    unsigned long int DummyActiveSet::size() const
+    /*unsigned long int DummyActiveSet::size() const
     {
         return static_cast<unsigned long int>(std::size(m_elems_));
     }
@@ -11,7 +11,7 @@ namespace arbok
     bool DummyActiveSet::empty() const
     {
         return std::empty(m_elems_); 
-    }
+    } */
 
     EdgeLink DummyActiveSet::pop()
     {
