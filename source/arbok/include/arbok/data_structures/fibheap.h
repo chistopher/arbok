@@ -250,13 +250,13 @@ public:
         delete x;
     }
     void meld(fibonacci_heap&& other) {
-        other->root = nullptr;
-        for (home_heap_ptr_type* w : other->home_wrappers) { // TODO keeping all the home wrappers might be too expensive
+        other.root = nullptr;
+        for (home_heap_ptr_type* w : other.home_wrappers) { // TODO keeping all the home wrappers might be too expensive
             *w = this; // update homes of other's nodes
             home_wrappers.push_back(w); // keep the home wrappers
         }
-        other->reset();
-        node::merge_lists(root, other->root);
+        other.reset();
+        node::merge_lists(root, other.root);
     }
     void decrease_key(handle x, const value_type& new_key) {
         x->decrease_key(new_key, root);
