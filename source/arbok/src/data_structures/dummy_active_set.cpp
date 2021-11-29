@@ -44,7 +44,7 @@ namespace arbok
         std::shared_ptr<DummyActiveSetHandle> handle_ = std::static_pointer_cast<DummyActiveSetHandle>(handle);
         assert(handle_->it); // don't do this on empty handle
         assert(handle_->in_which_active_set != nullptr);
-        assert(this == handle_->in_which_active_set);
+        //assert(this == handle_->in_which_active_set);
         m_elems_.erase(handle_->it.value());
     }
 
@@ -52,7 +52,7 @@ namespace arbok
     {
         std::shared_ptr<DummyActiveSetHandle> handle_ = std::static_pointer_cast<DummyActiveSetHandle>(handle);
         assert(handle_->it); // don't do this on empty handle
-        assert(this == handle_->in_which_active_set);
+        //assert(this == handle_->in_which_active_set); // TODO this breaks due to merge; assert(co.same(this,in_which_active_set) should work if these were indices instead of pointers
         *(handle_->it.value()) = new_key;
     }
 

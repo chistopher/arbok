@@ -19,23 +19,21 @@ Gabow::Gabow(int n,  GabowVariant variant) : num_vertices(n), co(n), incoming_ed
             active_set.push_back(new_active_set());
             active_set_handle.push_back(new_active_set_handle());
         }
-
+    num_reps = num_vertices; // TODO remove this memeber
 }
 
 std::shared_ptr<AbstractActiveSet>  Gabow::new_active_set() {
     if (variant_ == GabowVariant::DUMMY) {
         return std::make_shared<DummyActiveSet>();
-    } else if (variant_ == GabowVariant::FIB) {
-        return std::make_shared<FibHeapActiveSet>();
     }
+    return std::make_shared<DummyActiveSet>(); // default
 }
 
 std::shared_ptr<AbstractActiveSetHandle>  Gabow::new_active_set_handle() {
     if (variant_ == GabowVariant::DUMMY) {
         return std::make_shared<DummyActiveSetHandle>();
-    } else if (variant_ == GabowVariant::FIB) {
-        return std::make_shared<FibHeapActiveSetHandle>();
     }
+    return std::make_shared<DummyActiveSetHandle>(); // default
 }
 
 void Gabow::create_edge(int from, int to, int weight) {
@@ -111,28 +109,12 @@ void Gabow::init_root(int root) {
 // Algorithm 3 in Report
 void Gabow::extendPath(int u) {
     //std::cout << "extending path by find(" << co.find(u) << ") = " << u << std::endl;
-    int prev_root = growth_path.back();
     assert(in_path[u] == false);
     assert(co.find(u) == u); 
     in_path[u] = true;
     growth_path.push_back(u);
 
-    // remove active edge that led to extend operation
-    assert(prev_root == co.find(in_which_active_set[u]));
-    assert(prev_root == co.find(edges[exit_list[u].front()].to));
-    active_set[prev_root]->remove(active_set_handle[u]);
-    in_which_active_set[u] = -1;
-    active_set_handle[u] = new_active_set_handle();
-    exit_list[u].pop_front();
-
-    // remove rest of exit list
-    for (int edge_id : exit_list[u]) {
-        auto& edgelink = edges[edge_id];
-        assert(edgelink.passive_set_iter); // edge is passive
-        passive_set[co.find(edgelink.to)].erase(edgelink.passive_set_iter.value());
-        edgelink.passive_set_iter = std::nullopt;
-    }
-    exit_list[u].clear();
+    assert(exit_list[u].empty());
 
     // lines 6-20 in report
 
@@ -183,6 +165,7 @@ int Gabow::contractPathPrefix(int u) {
 
     assert(find(begin(growth_path), end(growth_path), rep_u) != end(growth_path));
     int k = int(find(rbegin(growth_path), rend(growth_path), rep_u) - rbegin(growth_path));
+    num_reps -= k; // TODO remove this
 
     for (int i = 0; i <= k; i++) {
         // the incoming edge that we chose for vertex vi corresponds to the same index in growth_path_edges ()
@@ -224,6 +207,10 @@ int Gabow::contractPathPrefix(int u) {
                 assert(std::find(exit_list[rep_x].begin(), exit_list[rep_x].end(), edge_id) != exit_list[rep_x].end());
                 assert(edge.exit_list_iter.has_value());
                 assert(std::find(exit_list[rep_x].begin(), exit_list[rep_x].end(), edge_id) == edge.exit_list_iter.value());
+                // TODO this is the only place we use `exit_list_iter`.
+                //  we don't need it if edge is always the second one!
+                //  think about multiedges here!
+                //  should still work if edge order in exit_list[rep_x] has edges to vi in same order as they are in passive set[vi]
                 exit_list[rep_x].erase(edge.exit_list_iter.value());
                 edge.exit_list_iter = std::nullopt;
             }
@@ -270,7 +257,7 @@ int Gabow::contractPathPrefix(int u) {
         in_path[vi] = false; // TODO do this somewhere else maybe
         if (vi == new_root) continue;
         active_set[new_root]->meld(active_set[vi]); // after this meld, in_which_active_set pointers still point to the vi instead of new_root. remember to make a lookup later
-        assert(active_set[vi].empty());
+        //assert(active_set[vi].empty()); // TODO uncomment this as soon as we have .empty()
     }
     in_path[new_root] = true;
 
@@ -297,7 +284,8 @@ long long Gabow::run(int root) {
 
     long long answer = 0;
     // TODO: cannot use empty() here because fheap can't keep track of size()
-    while (!active_set[cur_root]->empty()) { // should be the same as "not everything contracted yet" because of strongly connected
+    //while (!active_set[cur_root]->empty()) { // should be the same as "not everything contracted yet" because of strongly connected
+    while (num_reps>1) { // should be the same as "not everything contracted yet" because of strongly connected
 
         assert(co.find(cur_root) == cur_root);
         // do not extract here because extend does this manually and contract does this when clearing out all exit lists of contracted vertices
@@ -307,6 +295,21 @@ long long Gabow::run(int root) {
         assert(exit_list[u].front() == edge.id);
         assert(u != cur_root); // no self loop
         assert(co.find(in_which_active_set[u]) == cur_root);
+
+        // clear out exit list of u
+        // first the active edge ...
+        in_which_active_set[u] = -1;
+        active_set_handle[u] = new_active_set_handle(); // TODO how about a reset?
+        exit_list[u].pop_front();
+        // ... then all the passive edges
+        for (int edge_id : exit_list[u]) {
+            auto& edgelink = edges[edge_id];
+            assert(edgelink.passive_set_iter); // edge is passive
+            passive_set[co.find(edgelink.to)].erase(edgelink.passive_set_iter.value());
+            edgelink.passive_set_iter = std::nullopt;
+            edgelink.exit_list_iter.reset();
+        }
+        exit_list[u].clear();
 
         //std::cout << std::endl <<  "removing minimum from active set of " << cur_root << " with weight " << edge.e.weight << ", offset " << co.find_value(u) <<  std::endl;
 

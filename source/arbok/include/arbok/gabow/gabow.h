@@ -20,7 +20,7 @@ enum class GabowVariant { DUMMY, FIB };
     class Gabow
     {
     public:
-        Gabow(int n, GabowVariant variant);
+        Gabow(int n, GabowVariant variant=GabowVariant::DUMMY);
         ~Gabow() = default;
 
         void create_edge(int from, int to, int weight);
@@ -31,6 +31,7 @@ enum class GabowVariant { DUMMY, FIB };
 
     protected:
         const int num_vertices;
+        int num_reps;
         CompressedTree<int> co; // for actual merges and managing offsets
 
         std::vector<EdgeLink> edges;                  // all edges
