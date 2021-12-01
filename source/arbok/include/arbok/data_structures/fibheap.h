@@ -15,6 +15,23 @@ public:
     using value_compare = Compare;
 protected:
     using home_heap_ptr_type = fibonacci_heap<T,Compare>*;
+    class home_heap_dsf_node {
+        friend fibonacci_heap;
+    private:
+        home_heap_dsf_node *next = nullptr; // endogeneous linked list
+        home_heap_dsf_node *parent = nullptr;
+        home_heap_ptr_type home_heap;
+        home_heap_dsf_node *find() {
+            if (parent == nullptr) return this;
+            return parent = parent->find();
+        }
+        home_heap_dsf_node() = delete;
+        explicit home_heap_dsf_node(const home_heap_ptr_type _home_heap) : home_heap(_home_heap) {}
+    public:
+        home_heap_ptr_type get_home_heap() {
+            return find()->home_heap;
+        }
+    };
     class node {
         friend fibonacci_heap;
     private:
@@ -27,7 +44,7 @@ protected:
             node *_child,
             bool _is_loser,
             uint8_t _order,
-            home_heap_ptr_type *_home_wrapper
+            home_heap_dsf_node *_home_wrapper
         ) : key(_key), left(_left), right(_right), parent(_parent), child(_child), is_loser(_is_loser), order(_order), home_wrapper(_home_wrapper) { }
 
         // data
@@ -38,7 +55,7 @@ protected:
         node *child;
         bool is_loser;
         uint8_t order;
-        home_heap_ptr_type *home_wrapper;
+        home_heap_dsf_node *home_wrapper;
 
         // methods
         void self_hug() {
@@ -177,7 +194,7 @@ protected:
             // we are not a root and have a parent
             // TODO maybe we have to do parent->order-- here
             if (left == this) { // we have no siblings
-                parent->lose_child(this);
+                parent->lose_child(this, rt);
             } else { // we have siblings
                 // tuck left and right sibling together
                 if (left != nullptr) left->right = right;
@@ -196,39 +213,46 @@ protected:
         }
     public:
         home_heap_ptr_type home_heap() {
-            return *home_wrapper;
+            return home_wrapper->get_home_heap();
         }
     };
 
     // data
     node *root = nullptr;
-    std::vector<home_heap_ptr_type*> home_wrappers{{new home_heap_ptr_type()}};
+    home_heap_dsf_node *first_home_heap_dsf_node = new home_heap_dsf_node(this);
+    home_heap_dsf_node *last_home_heap_dsf_node = first_home_heap_dsf_node;
 
     void reset() {
         root = nullptr;
-        home_wrappers = {new home_heap_ptr_type()};
+        first_home_heap_dsf_node = new home_heap_dsf_node(this);
+        last_home_heap_dsf_node = first_home_heap_dsf_node;
     }
     node *cleanup() { // cleans up and returns the top element
         // TODO
+        // TODO move displaced roots (children of top element) back to their home heap in the end
     }
 public:
     using handle = node*;
     fibonacci_heap() = default;
     fibonacci_heap(const fibonacci_heap&) = delete;
     ~fibonacci_heap() {
-        for (home_heap_ptr_type* w : home_wrappers) {
-            delete w;
+        home_heap_dsf_node *next = first_home_heap_dsf_node;
+        while (next != nullptr) {
+            auto tmp = next;
+            next = next->next;
+            delete tmp;
         }
     }
 
     value_type pop() {
-        node *top_element = cleanup();
+        node *top_element = cleanup(); // cleanup cleans up and returns us the top node
         value_type result_key = top_element->key;
         delete top_element;
         return result_key;
     }
+    
     handle push(const value_type& key) {
-        handle new_node = new node{key, nullptr, nullptr, nullptr, nullptr, false, 0, home_wrappers.front()};
+        handle new_node = new node{key, nullptr, nullptr, nullptr, nullptr, false, 0, first_home_heap_dsf_node};
         if (root == nullptr) {
             root = new_node;
             new_node->self_hug();
@@ -250,13 +274,10 @@ public:
         delete x;
     }
     void meld(fibonacci_heap&& other) {
-        other.root = nullptr;
-        for (home_heap_ptr_type* w : other.home_wrappers) { // TODO keeping all the home wrappers might be too expensive
-            *w = this; // update homes of other's nodes
-            home_wrappers.push_back(w); // keep the home wrappers
-        }
-        other.reset();
+        last_home_heap_dsf_node->next = other.first_home_heap_dsf_node;
+        last_home_heap_dsf_node = other.last_home_heap_dsf_node;
         node::merge_lists(root, other.root);
+        other.reset();
     }
     void decrease_key(handle x, const value_type& new_key) {
         x->decrease_key(new_key, root);

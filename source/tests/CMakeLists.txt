@@ -8,7 +8,6 @@ endif (NOT GTEST_FOUND)
 set(target lighttests)
 
 add_executable(${target}
-    test_pqactiveset.cpp
     test_find_data.cpp
     test_compressed_tree.cpp
 )
@@ -21,7 +20,6 @@ gtest_discover_tests(${target})
 set(target fulltests)
 
 add_executable(${target}
-    test_pqactiveset.cpp
     test_find_data.cpp
     test_fastestspeedrun.cpp
 )

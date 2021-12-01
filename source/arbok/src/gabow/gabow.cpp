@@ -25,6 +25,8 @@ Gabow::Gabow(int n,  GabowVariant variant) : num_vertices(n), co(n), incoming_ed
 std::shared_ptr<AbstractActiveSet>  Gabow::new_active_set() {
     if (variant_ == GabowVariant::DUMMY) {
         return std::make_shared<DummyActiveSet>();
+    } else if (variant_ == GabowVariant::FIB) {
+        return std::make_shared<FibHeapActiveSet>();
     }
     return std::make_shared<DummyActiveSet>(); // default
 }
@@ -32,6 +34,8 @@ std::shared_ptr<AbstractActiveSet>  Gabow::new_active_set() {
 std::shared_ptr<AbstractActiveSetHandle>  Gabow::new_active_set_handle() {
     if (variant_ == GabowVariant::DUMMY) {
         return std::make_shared<DummyActiveSetHandle>();
+    } else if (variant_ == GabowVariant::FIB) {
+        return std::make_shared<FibHeapActiveSetHandle>();
     }
     return std::make_shared<DummyActiveSetHandle>(); // default
 }
