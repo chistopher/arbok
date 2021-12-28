@@ -159,7 +159,8 @@ protected:
             assert(Compare()(new_key, key)); // new key should be smaller than current key
             key = new_key; // this is a copy, i hope this is okay
 
-            // if we have a parent and we have a larger key than it -> heap property violation
+            // if we have a parent and we have a smaller key than it -> heap
+            // property violation
             if (parent != nullptr && Compare()(key, parent->key))
                 throw_in_root(rt);
         }
@@ -227,9 +228,90 @@ protected:
         first_home_heap_dsf_node = new home_heap_dsf_node(this);
         last_home_heap_dsf_node = first_home_heap_dsf_node;
     }
+
+    template <class F> void traverse_horizontal(node *start, F &&f) {
+      // note that the callback function "f" is allowed to mutate its argument
+      if (start != nullptr) {
+          node *next = start;
+          std::vector<node *> nodes;
+          do {
+              nodes.push_back(next);
+          } while ((next = next->right) != start);
+          for (node *n : nodes)
+              f(n);
+      }
+    }
+
     node *cleanup() { // cleans up and returns the top element
-        // TODO
-        // TODO move displaced roots (children of top element) back to their home heap in the end
+        // find top element in rootlist
+        node *top_element = root;
+        traverse_horizontal(root, [&](node *n) {
+            if (Compare()(n->key, top_element->key)) {
+                top_element = n;
+            }
+        });
+
+        // merge children of top element into root list
+        traverse_horizontal(top_element->child, [&](node *n) {
+            n->self_hug(); // so we don't mutate shit here
+            if (n->home_heap() != this) {
+                // child must be moved back into the home heap.
+                // technically we should be using "steal" here
+                n->home_heap()->push(n->remove(root, false));
+            } else {
+                // put the child left of us in the root list
+                // TODO this be done similarly to the case above
+                n->left = top_element->left;
+                n->right = top_element;
+                top_element->left->right = n;
+                top_element->left = n;
+                n->parent = nullptr; // child is now root
+            }
+        });
+
+        // remove top element from root list
+        top_element->left->right = top_element->right;
+        top_element->right->left = top_element->left;
+        root = top_element->left;
+        if (top_element->left == top_element) {
+            // if top_element is root element -> it must be the only element
+            // since we remove it, we have no root left and are done
+            root = nullptr;
+            return top_element;
+      }
+
+      // I boldly assume that we'll never have
+      // more than ~10^20 (F_99) elements in our heap
+      std::array<node *, 100> order_rep;
+
+      {
+          node *cur = root;
+          while (true) {
+              node *existing = order_rep[cur->order];
+              if (existing != nullptr) {
+                  // a node with the same order as cur exists
+                  if (cur == existing) {
+                      root = cur;
+                      break;
+                  }
+                  order_rep[cur->order] = nullptr; // clear the spot
+                  if (Compare()(existing->key, cur->key)) {
+                      // cur's key is bigger
+                      existing->merge_over(cur);
+                      cur = existing;
+                  } else {
+                      // existing's key is bigger
+                      cur->merge_over(existing);
+                  }
+              } else {
+                  // no node of the same order as cur exists
+                  order_rep[cur->order] = cur;
+                  cur = cur->right;
+              }
+          }
+      }
+
+      return top_element;
     }
 public:
     using handle = node*;
@@ -250,7 +332,7 @@ public:
         delete top_element;
         return result_key;
     }
-    
+
     handle push(const value_type& key) {
         handle new_node = new node{key, nullptr, nullptr, nullptr, nullptr, false, 0, first_home_heap_dsf_node};
         if (root == nullptr) {
