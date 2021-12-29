@@ -165,6 +165,8 @@ protected:
                 throw_in_root(rt);
         }
         static void merge_lists(node *a, node *b) {
+            assert(a != nullptr);
+            assert(b != nullptr);
             node *al = a;
             node *ar = a->left;
             node *bl = b;
