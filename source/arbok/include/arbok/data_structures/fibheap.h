@@ -164,9 +164,24 @@ protected:
             if (parent != nullptr && Compare()(key, parent->key))
                 throw_in_root(rt);
         }
+
+        static void ptr_swap(void** a, void** b)
+        {
+            void* tmp = *a;
+            *a = *b;
+            *b = tmp;
+        }
+
         static void merge_lists(node *a, node *b) {
-            assert(a != nullptr);
-            assert(b != nullptr);
+            if (a == nullptr && b == nullptr) return;
+            
+            if (a != nullptr && b == nullptr) return;
+
+            if (a == nullptr && b != nullptr) {
+                ptr_swap((void**)&a, (void**)&b);
+                return;
+            }
+
             node *al = a;
             node *ar = a->left;
             node *bl = b;
