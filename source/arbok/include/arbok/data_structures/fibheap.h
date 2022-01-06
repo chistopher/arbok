@@ -154,7 +154,15 @@ protected:
 
             return left; // return left sibling as new root
         }
+        void unsafe_setkey(const value_type& new_key) {
+            key = new_key;
+        }
         void decrease_key(const value_type& new_key, node *rt) {
+            if (!Compare()(new_key, key)) {
+                // Gabow does weird things
+                unsafe_setkey(new_key);
+                return;
+            }
 
             assert(Compare()(new_key, key)); // new key should be smaller than current key
             key = new_key; // this is a copy, i hope this is okay
@@ -262,6 +270,8 @@ protected:
     }
 
     node *cleanup() { // cleans up and returns the top element
+        // we called pop, so there must be a root
+        assert(root != nullptr);
         // find top element in rootlist
         node *top_element = root;
         traverse_horizontal(root, [&](node *n) {
@@ -297,40 +307,42 @@ protected:
             // since we remove it, we have no root left and are done
             root = nullptr;
             return top_element;
-      }
+        }
 
-      // I boldly assume that we'll never have
-      // more than ~10^20 (F_99) elements in our heap
-      std::array<node *, 100> order_rep;
+        // I boldly assume that we'll never have
+        // more than ~10^20 (F_99) elements in our heap
+        std::array<node *, 100> order_rep;
+        std::fill(order_rep.begin(), order_rep.end(), nullptr);
 
-      {
-          node *cur = root;
-          while (true) {
-              node *existing = order_rep[cur->order];
-              if (existing != nullptr) {
-                  // a node with the same order as cur exists
-                  if (cur == existing) {
-                      root = cur;
-                      break;
-                  }
-                  order_rep[cur->order] = nullptr; // clear the spot
-                  if (Compare()(existing->key, cur->key)) {
-                      // cur's key is bigger
-                      existing->merge_over(cur);
-                      cur = existing;
-                  } else {
-                      // existing's key is bigger
-                      cur->merge_over(existing);
-                  }
-              } else {
-                  // no node of the same order as cur exists
-                  order_rep[cur->order] = cur;
-                  cur = cur->right;
-              }
-          }
-      }
+        {
+            node *cur = root;
+            while (true) {
+                node *existing = order_rep[cur->order];
+                if (existing != nullptr) {
+                    // a node with the same order as cur exists
+                    if (cur == existing) {
+                        root = cur;
+                        break;
+                    }
+                    order_rep[cur->order] = nullptr; // clear the spot
+                    assert(cur != nullptr);
+                    if (Compare()(existing->key, cur->key)) {
+                        // cur's key is bigger
+                        existing->merge_over(cur);
+                        cur = existing;
+                    } else {
+                        // existing's key is bigger
+                        cur->merge_over(existing);
+                    }
+                } else {
+                    // no node of the same order as cur exists
+                    order_rep[cur->order] = cur;
+                    cur = cur->right;
+                }
+            }
+        }
 
-      return top_element;
+        return top_element;
     }
 public:
     using handle = node*;
@@ -365,9 +377,13 @@ public:
     }
     void push(handle x) {
         if (root != nullptr) x->throw_in_root(root);
-        else root = x;
+        else {
+            root = x;
+            root->self_hug();
+        }
     }
-    void steal(handle x) { // steal entire subtree out, handle is the stolen subtree
+    void steal(handle x) { // steal entire subtree from home heap of x, push it into ourself
+        // TODO correct implementation
         x->remove(root, false);
     }
     void remove(handle x) { // remove a single element, invalidates handle
@@ -392,6 +408,9 @@ public:
 
     void decrease_key(handle x, const value_type& new_key) {
         x->decrease_key(new_key, root);
+    }
+    void unsafe_setkey(handle x, const value_type& new_key) {
+        x->unsafe_setkey(new_key);
     }
 };
 

@@ -7,6 +7,7 @@ CompressedTree<T>::CompressedTree(int n) : parent(n,-1), value(n) {
 
 template<typename T>
 int CompressedTree<T>::find(int i) {
+    assert(i < parent.size());
     if(parent[i]<0) return i;
     auto root = find(parent[i]);
     if(parent[i]!=root)
