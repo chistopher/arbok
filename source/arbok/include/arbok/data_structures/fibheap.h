@@ -226,7 +226,6 @@ protected:
                 child->clear_parent(child);
 
                 // insert child list into root list
-                assert(child != nullptr);
                 merge_lists(child, rt);
             }
 
@@ -378,9 +377,19 @@ public:
     void meld(fibonacci_heap&& other) {
         last_home_heap_dsf_node->next = other.first_home_heap_dsf_node;
         last_home_heap_dsf_node = other.last_home_heap_dsf_node;
+        if (root == nullptr) {
+            root = other.root;
+            other.reset();
+            return;
+        } else if (other.root == nullptr) {
+            other.reset();
+            return;
+        }
+        
         node::merge_lists(root, other.root);
         other.reset();
     }
+
     void decrease_key(handle x, const value_type& new_key) {
         x->decrease_key(new_key, root);
     }
