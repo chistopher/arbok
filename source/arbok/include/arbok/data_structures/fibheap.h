@@ -173,14 +173,16 @@ protected:
         }
 
         static void merge_lists(node *a, node *b) {
-            if (a == nullptr && b == nullptr) return;
+            assert(a != nullptr);
+            assert(b != nullptr);
+            /*if (a == nullptr && b == nullptr) return;
             
             if (a != nullptr && b == nullptr) return;
 
             if (a == nullptr && b != nullptr) {
                 ptr_swap((void**)&a, (void**)&b);
                 return;
-            }
+            } */
 
             node *al = a;
             node *ar = a->left;
@@ -224,6 +226,7 @@ protected:
                 child->clear_parent(child);
 
                 // insert child list into root list
+                assert(child != nullptr);
                 merge_lists(child, rt);
             }
 

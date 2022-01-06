@@ -20,7 +20,7 @@ enum class GabowVariant { DUMMY, FIB };
     class Gabow
     {
     public:
-        Gabow(int n, GabowVariant variant=GabowVariant::DUMMY);
+        Gabow(int n, GabowVariant variant=GabowVariant::FIB);
         ~Gabow() = default;
 
         void create_edge(int from, int to, int weight);
