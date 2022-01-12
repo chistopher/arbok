@@ -173,13 +173,6 @@ protected:
                 throw_in_root(rt);
         }
 
-        static void ptr_swap(void** a, void** b)
-        {
-            void* tmp = *a;
-            *a = *b;
-            *b = tmp;
-        }
-
         static void merge_lists(node *a, node *b) {
             assert(a != nullptr);
             assert(b != nullptr);
@@ -203,41 +196,31 @@ protected:
             br->left = ar;
             bl->right = al;
         }
-        node *remove(node *rt, bool children_stay = true) { // removes this from the fibonacci heap, returns new root
-            if (parent == nullptr) { // we are a root
-                if (left == this) { // we are the only root
-                    if (children_stay && child != nullptr) { // we have children and they should stay in this heap
-                        child->clear_parent(child);
-                        return child;
-                    } else { // no children or we take them with us
-                        return nullptr;
-                    }
-                } else { // we are not the only root
-                    left->right = right;
-                    right->left = left;
-                    return left;
-                }
-            }
-
-            // we are not a root and have a parent
-            // TODO maybe we have to do parent->order-- here
-            if (left == this) { // we have no siblings
-                parent->lose_child(this, rt);
-            } else { // we have siblings
-                // tuck left and right sibling together
-                if (left != nullptr) left->right = right;
-                if (right != nullptr) right->left = left;
-            }
-
-            if (children_stay && child != nullptr) { // we have children and they should stay in this heap
+        node *remove(bool children_stay = true) { // removes this from the fibonacci heap, returns new root
+            if (children_stay && child != nullptr) {
                 // clear children's pointers to us
                 child->clear_parent(child);
 
+                // TODO potentially we move some children into NOT-their-own home heap here
                 // insert child list into root list
-                merge_lists(child, rt);
+                node *childrens_root = child->home_heap()->root;
+                if (childrens_root == nullptr) {
+                    child->home_heap()->root = child;
+                } else {
+                    merge_lists(child, childrens_root);
+                }
+                child = nullptr;
             }
+            if (parent != nullptr) {
+                parent->lose_child(this, parent->home_heap()->root);
+            } else {// we are a root
+                left->right = right;
+                right->left = left;
+            }
+            parent = nullptr;
 
-            return rt;
+            // This is okay because the result is not used in the "distributed" fibheap
+            return home_heap()->root;
         }
     public:
         home_heap_ptr_type home_heap() {
@@ -283,19 +266,8 @@ protected:
         // merge children of top element into root list
         traverse_horizontal(top_element->child, [&](node *n) {
             n->self_hug(); // so we don't mutate shit here
-            if (n->home_heap() != this) {
-                // child must be moved back into the home heap.
-                // technically we should be using "steal" here
-                n->home_heap()->push(n->remove(root, false));
-            } else {
-                // put the child left of us in the root list
-                // TODO this be done similarly to the case above
-                n->left = top_element->left;
-                n->right = top_element;
-                top_element->left->right = n;
-                top_element->left = n;
-                n->parent = nullptr; // child is now root
-            }
+            n->parent = nullptr;
+            n->home_heap()->steal(n);
         });
 
         // remove top element from root list
@@ -383,11 +355,12 @@ public:
         }
     }
     void steal(handle x) { // steal entire subtree from home heap of x, push it into ourself
-        // TODO correct implementation
-        x->remove(root, false);
+        x->remove(false);
+        push(x);
     }
     void remove(handle x) { // remove a single element, invalidates handle
-        root = x->remove(root); // set new root
+        // fibheap::remove cannot be used in the "distributed" fibheap
+        root = x->remove(); // set new root
         delete x;
     }
     void meld(fibonacci_heap&& other) {

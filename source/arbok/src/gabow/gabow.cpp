@@ -293,7 +293,6 @@ long long Gabow::run(int root) {
 
         assert(co.find(cur_root) == cur_root);
         // do not extract here because extend does this manually and contract does this when clearing out all exit lists of contracted vertices
-        // TODO: F-Heap does not support top, only pop! Hence, we will need to change that.
         EdgeLink edge = active_set[cur_root]->pop();
         int u = co.find(edge.from);
         assert(exit_list[u].front() == edge.id);
@@ -350,6 +349,7 @@ void Gabow::transfer_active_status(const EdgeLink& source, const EdgeLink& targe
     assert(co.same(in_which_active_set[x], source.to)); //
     auto& source_set = active_set[co.find(source.to)];
     auto& target_set = active_set[co.find(target.to)];
+
     source_set->decreaseKey(active_set_handle[x], target);
     target_set->steal(active_set_handle[x]);
     in_which_active_set[x] = co.find(target.to); // TODO remove later
