@@ -1,3 +1,5 @@
+#pragma once
+
 #include <algorithm>
 #include <cassert>
 #include <cstdlib>
@@ -216,6 +218,7 @@ protected:
             } else {// we are a root
                 left->right = right;
                 right->left = left;
+                // TODO: What do we do if home_heap()->root is pointing to us? I tried home_heap()->root = right but this breaks the sorting test in cleanup
             }
             parent = nullptr;
 
