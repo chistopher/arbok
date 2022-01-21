@@ -25,6 +25,7 @@ namespace arbok
         virtual void remove(std::shared_ptr<AbstractActiveSetHandle> handle) = 0;
         // hacky: decrease key should update the EdgeLink at it to be equivalent to the new_key edgelink, i.e., Node->EdgeLink = new_key
         virtual void decreaseKey(std::shared_ptr<AbstractActiveSetHandle> handle, EdgeLink new_key) = 0;
+        virtual void unsafeSetKey(std::shared_ptr<AbstractActiveSetHandle> handle, EdgeLink new_key) = 0;
         virtual void steal(std::shared_ptr<AbstractActiveSetHandle> handle) = 0;
     };
 
@@ -43,6 +44,7 @@ namespace arbok
         virtual void remove(std::shared_ptr<AbstractActiveSetHandle> handle);
         // hacky: decrease key should update the EdgeLink at it to be equivalent to the new_key edgelink, i.e., Node->EdgeLink = new_key
         virtual void decreaseKey(std::shared_ptr<AbstractActiveSetHandle> handle, EdgeLink new_key);
+        virtual void unsafeSetKey(std::shared_ptr<AbstractActiveSetHandle> handle, EdgeLink new_key);
         virtual void steal(std::shared_ptr<AbstractActiveSetHandle> handle);
 
     private:
@@ -58,6 +60,7 @@ namespace arbok
         virtual void remove(std::shared_ptr<AbstractActiveSetHandle> handle);
         // hacky: decrease key should update the EdgeLink at it to be equivalent to the new_key edgelink, i.e., Node->EdgeLink = new_key
         virtual void decreaseKey(std::shared_ptr<AbstractActiveSetHandle> handle, EdgeLink new_key);
+        virtual void unsafeSetKey(std::shared_ptr<AbstractActiveSetHandle> handle, EdgeLink new_key);
         virtual void steal(std::shared_ptr<AbstractActiveSetHandle> handle);
 
     private:

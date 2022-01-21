@@ -350,10 +350,10 @@ void Gabow::transfer_active_status(const EdgeLink& source, const EdgeLink& targe
     auto& source_set = active_set[co.find(source.to)];
     auto& target_set = active_set[co.find(target.to)];
 
-    source_set->decreaseKey(active_set_handle[x], target);
+    // we also tried decreaseKey here as previously used, but this also fails.
+    source_set->unsafeSetKey(active_set_handle[x], target);
     target_set->steal(active_set_handle[x]);
     in_which_active_set[x] = co.find(target.to); // TODO remove later
-
 }
 
 std::vector<Edge> Gabow::reconstruct(int root) {

@@ -6,6 +6,7 @@
 #include <functional>
 #include <iostream>
 #include <random>
+#include <queue>
 #include <vector>
 
 namespace arbok::fheap {
@@ -26,6 +27,10 @@ protected:
         home_heap_dsf_node *find() {
             if (parent == nullptr) return this;
             return parent = parent->find();
+        }
+        void set_parent(home_heap_dsf_node *new_parent) {
+            assert(new_parent != nullptr);
+            this->find()->parent = new_parent;
         }
         home_heap_dsf_node() = delete;
         explicit home_heap_dsf_node(const home_heap_ptr_type _home_heap) : home_heap(_home_heap) {}
@@ -65,6 +70,7 @@ protected:
             right = this;
         }
         void merge_brother(node *new_sibling) {
+            assert(new_sibling != nullptr);
             if (parent != nullptr) parent->order--;
             parent = new_sibling->parent;
             if (parent != nullptr) parent->order++;
@@ -171,8 +177,9 @@ protected:
 
             // if we have a parent and we have a smaller key than it -> heap
             // property violation
-            if (parent != nullptr && Compare()(key, parent->key))
+            if (parent != nullptr && Compare()(key, parent->key)) {
                 throw_in_root(rt);
+            }
         }
 
         static void merge_lists(node *a, node *b) {
@@ -218,7 +225,15 @@ protected:
             } else {// we are a root
                 left->right = right;
                 right->left = left;
-                // TODO: What do we do if home_heap()->root is pointing to us? I tried home_heap()->root = right but this breaks the sorting test in cleanup
+
+                // the following should in theory only be possible if this node is not displaced
+                if (home_heap()->root == this) {
+                    if (this->left == this) {
+                        home_heap()->root = nullptr;
+                    } else {
+                        home_heap()->root = left;
+                    }
+                }
             }
             parent = nullptr;
 
@@ -242,7 +257,7 @@ protected:
         last_home_heap_dsf_node = first_home_heap_dsf_node;
     }
 
-    template <class F> void traverse_horizontal(node *start, F &&f) {
+    template <class F> static void traverse_horizontal(node *start, F &&f) {
       // note that the callback function "f" is allowed to mutate its argument
       if (start != nullptr) {
           node *next = start;
@@ -324,11 +339,29 @@ public:
     fibonacci_heap() = default;
     fibonacci_heap(const fibonacci_heap&) = delete;
     ~fibonacci_heap() {
+        // delete DSF nodes
         home_heap_dsf_node *next = first_home_heap_dsf_node;
         while (next != nullptr) {
             auto tmp = next;
             next = next->next;
             delete tmp;
+        }
+
+        // delete heap nodes
+        std::queue<handle> subtrees_left;
+        auto add_siblings = [&subtrees_left](node *n) {
+            traverse_horizontal(n, [&subtrees_left](node *n_) {
+                subtrees_left.push(n_);
+            });
+        };
+        add_siblings(root);
+        while (!subtrees_left.empty()) {
+            node *n = subtrees_left.front();
+            subtrees_left.pop();
+            if (n->child != nullptr) {
+                add_siblings(n->child);
+            }
+            delete n;
         }
     }
 
@@ -367,6 +400,9 @@ public:
         delete x;
     }
     void meld(fibonacci_heap&& other) {
+        if (other.root == nullptr) return;
+        // union the trees in the DSF
+        other.first_home_heap_dsf_node->find()->set_parent(first_home_heap_dsf_node);
         last_home_heap_dsf_node->next = other.first_home_heap_dsf_node;
         last_home_heap_dsf_node = other.last_home_heap_dsf_node;
         if (root == nullptr) {
@@ -385,7 +421,7 @@ public:
     void decrease_key(handle x, const value_type& new_key) {
         x->decrease_key(new_key, root);
     }
-    void unsafe_setkey(handle x, const value_type& new_key) {
+    static void unsafe_setkey(handle x, const value_type& new_key) {
         x->unsafe_setkey(new_key);
     }
 };

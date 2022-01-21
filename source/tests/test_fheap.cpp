@@ -99,7 +99,38 @@ TEST_F(FHeapTest, BasicMeldTest) {
     ASSERT_EQ(fheap_.pop(), 1);
 }
 
+TEST_F(FHeapTest, AdvancedMeldTest) {
+    fheap::fibonacci_heap<int64_t> fheap2;
+    fheap::fibonacci_heap<int64_t> fheap3;
+    fheap::fibonacci_heap<int64_t> fheap4;
 
+    fheap_.push(42);
+    fheap2.push(1337);
+    fheap2.push(2);
+    fheap3.push(10);
+    fheap3.push(11);
+    fheap4.push(12);
+    fheap4.push(1);
+
+    fheap3.meld(std::move(fheap4));
+    ASSERT_EQ(fheap3.pop(), 1);
+    fheap3.push(14);
+
+    fheap_.meld(std::move(fheap2));
+    fheap_.meld(std::move(fheap3));
+
+    ASSERT_EQ(fheap_.pop(), 2);
+    ASSERT_EQ(fheap_.pop(), 10);
+    ASSERT_EQ(fheap_.pop(), 11);
+    ASSERT_EQ(fheap_.pop(), 12);
+    ASSERT_EQ(fheap_.pop(), 14);
+    ASSERT_EQ(fheap_.pop(), 42);
+    ASSERT_EQ(fheap_.pop(), 1337);
+
+    // heap is empty now & still works
+    fheap_.push(1);
+    ASSERT_EQ(fheap_.pop(), 1);
+}
 
 
 } // namespace arbok
