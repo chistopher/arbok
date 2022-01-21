@@ -80,7 +80,7 @@ void Gabow::add_edge_to_exit_list(int v, int edge_id) {
 }
 
 void Gabow::insert_vertex_into_activeset(int v, int u, int key) {
-    //std::cout << "inserting " << v << " (find = " << co.find(v) << ") into active set of " << u << " with key " << key << std::endl;
+    std::cout << "inserting " << v << " (find = " << co.find(v) << ") into active set of " << u << " with key " << key << std::endl;
     assert(v == co.find(v));
     //v = co.find(v);
     assert(in_which_active_set[v] == -1);
@@ -112,7 +112,7 @@ void Gabow::init_root(int root) {
 
 // Algorithm 3 in Report
 void Gabow::extendPath(int u) {
-    //std::cout << "extending path by find(" << co.find(u) << ") = " << u << std::endl;
+    std::cout << "extending path by find(" << co.find(u) << ") = " << u << std::endl;
     assert(in_path[u] == false);
     assert(co.find(u) == u); 
     in_path[u] = true;
@@ -123,7 +123,7 @@ void Gabow::extendPath(int u) {
     // lines 6-20 in report
 
     for (int edge_id : incoming_edges[u]) {
-        //std::cout << std::endl << "handling edge " << edge_id << " from " << edges[edge_id].e.from << " to " << edges[edge_id].e.to << std::endl;
+        std::cout << std::endl << "handling edge " << edge_id << " from " << edges[edge_id].from << " to " << edges[edge_id].to << std::endl;
         auto& edge = edges[edge_id];
         assert(edge.from == co.find(edge.from) || !in_path[edge.from]);
         int rep_x = co.find(edge.from);
@@ -135,12 +135,15 @@ void Gabow::extendPath(int u) {
             auto& front_edge = edges[front_edge_id];
             int vi = front_edge.to;
             if (vi != u) {
-                //std::cout << "exit list not empty, but edge in there goes to " << vi << ", not to " << u << " (edge id = " << front_edge_id << ")" << std::endl;
+                std::cout << "exit list not empty, but edge in there goes to " << vi << ", not to " << u << " (edge id = " << front_edge_id << ")" << std::endl;
                 int rep_vi = co.find(vi);
                 insert_edge_into_passiveset(front_edge_id, rep_vi);
                 assert(in_which_active_set[rep_x] != -1);
                 assert(co.find(in_which_active_set[rep_x]) == rep_vi); // TODO this should fail after use *move* because we cannot maintain in_wich_active_set anymore
-                //std::cout << "moving " << rep_x << " represented by " << as_ptr << " from heap of find(" << vi << ") = " << rep_vi << " to heap of " << u << " with new key " << edge.weight << std::endl;
+                std::cout << "moving " << rep_x << " represented by " << rep_x << " from heap of find(" << vi << ") = " << rep_vi << " to heap of " << u << " with new key " << edge.weight << std::endl;
+                if (rep_x == 0) {
+                    std::cout << "break here!" << std::endl;
+                }
                 add_edge_to_exit_list(rep_x, edge_id);
                 transfer_active_status(front_edge,edge);
             } else {
@@ -314,7 +317,7 @@ long long Gabow::run(int root) {
         }
         exit_list[u].clear();
 
-        //std::cout << std::endl <<  "removing minimum from active set of " << cur_root << " with weight " << edge.e.weight << ", offset " << co.find_value(u) <<  std::endl;
+        std::cout << std::endl <<  "removing minimum from active set of " << cur_root << " with weight " << edge.currentWeight() <<  std::endl;
 
         // reconstruction stuff
         int forest_id = static_cast<int>(std::size(chosen));

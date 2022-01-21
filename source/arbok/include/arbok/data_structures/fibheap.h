@@ -223,6 +223,8 @@ protected:
             if (parent != nullptr) {
                 parent->lose_child(this, parent->home_heap()->root);
             } else {// we are a root
+                assert(left != nullptr);
+                assert(right != nullptr);
                 left->right = right;
                 right->left = left;
 
@@ -285,6 +287,7 @@ protected:
         traverse_horizontal(top_element->child, [&](node *n) {
             n->self_hug(); // so we don't mutate shit here
             n->parent = nullptr;
+            // TODO: This moves everything back into their home heaps, apparently even stolen nodes in the root list. We do not want that, I think?
             n->home_heap()->steal(n);
         });
 
@@ -422,6 +425,9 @@ public:
         x->decrease_key(new_key, root);
     }
     static void unsafe_setkey(handle x, const value_type& new_key) {
+        assert(x->left != nullptr);
+        assert(x->right != nullptr);
+        
         x->unsafe_setkey(new_key);
     }
 };

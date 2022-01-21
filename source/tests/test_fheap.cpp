@@ -82,6 +82,56 @@ TEST_F(FHeapTest, BasicStealTest) {
     ASSERT_EQ(fheap_.pop(), 1337);
 }
 
+
+TEST_F(FHeapTest, GetStealedTwiceTest) {
+    fheap::fibonacci_heap<int64_t> fheap2;
+    fheap::fibonacci_heap<int64_t> fheap3;
+
+    fheap_.push(42);
+
+    auto handle1 = fheap2.push(1337);
+    fheap2.push(2);
+
+    auto handle2 = fheap3.push(4711);
+
+    fheap_.steal(handle1);
+    fheap_.steal(handle2);
+
+    fheap2.steal(handle2);
+
+    ASSERT_EQ(fheap_.pop(), 42);
+    ASSERT_EQ(fheap_.pop(), 1337);
+    ASSERT_EQ(fheap2.pop(), 2);
+    ASSERT_EQ(fheap2.pop(), 4711);
+}
+
+
+TEST_F(FHeapTest, StealFromTwoHeapsTest) {
+    fheap::fibonacci_heap<int64_t> fheap2;
+    fheap::fibonacci_heap<int64_t> fheap3;
+
+    fheap_.push(42);
+
+    auto handle1 = fheap2.push(1337);
+    fheap2.push(2);
+
+    auto handle2 = fheap3.push(4711);
+    fheap3.push(2);
+
+    fheap_.steal(handle1);
+    fheap_.steal(handle2);
+
+    ASSERT_EQ(fheap_.pop(), 42);
+    ASSERT_EQ(fheap_.pop(), 1337);
+    // Currently 4711 is apparently being moved back to its home heap, but why? Only childs of 1337 should be moved back to the home heap. 4711 is definetly not a child of 1337.
+    ASSERT_EQ(fheap_.pop(), 4711);
+    ASSERT_EQ(fheap2.pop(), 2);
+    ASSERT_EQ(fheap3.pop(), 2);
+
+}
+
+
+
 TEST_F(FHeapTest, BasicMeldTest) {
     fheap::fibonacci_heap<int64_t> fheap2;
     fheap_.push(42);
