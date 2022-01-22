@@ -105,6 +105,76 @@ TEST_F(FHeapTest, GetStealedTwiceTest) {
     ASSERT_EQ(fheap2.pop(), 4711);
 }
 
+TEST_F(FHeapTest, StealAndInsertTest) {
+    fheap::fibonacci_heap<int64_t> fheap2;
+    fheap::fibonacci_heap<int64_t> fheap3;
+
+    fheap_.push(1);
+    auto handle2 = fheap_.push(5);
+
+    auto handle1 = fheap2.push(2);
+    fheap3.push(10);
+
+    fheap3.steal(handle1);
+    auto handle3 = fheap3.push(4);
+    fheap3.steal(handle2);
+
+    ASSERT_EQ(fheap3.pop(), 2);
+
+    fheap2.steal(handle3);
+
+    ASSERT_EQ(fheap2.pop(), 4);
+}
+
+TEST_F(FHeapTest, TestSomethingThatDoesCurrentlyNotWorkTest) {
+    fheap::fibonacci_heap<int64_t> fheap2; // heap of 1
+    fheap::fibonacci_heap<int64_t> fheap3; // heap of 0
+
+    auto handle1 = fheap3.push(36983);
+    auto handle3 = fheap3.push(447855);
+    auto handle4 = fheap3.push(310109);
+    auto handle5 = fheap3.push(289166);
+
+    fheap2.steal(handle1);
+    auto handle2 = fheap2.push(880873);
+
+    fheap2.steal(handle3);
+    fheap2.steal(handle4);
+    fheap2.steal(handle5);
+
+    ASSERT_EQ(fheap2.pop(), 36983);
+
+    fheap2.unsafe_setkey(handle5, 65511);
+    fheap_.steal(handle5); // heap of 4
+
+    fheap2.unsafe_setkey(handle2, 904417);
+    fheap_.steal(handle2); // THIS
+}
+
+TEST_F(FHeapTest, MeldAndStealTest) {
+    fheap::fibonacci_heap<int64_t> fheap2;
+    fheap::fibonacci_heap<int64_t> fheap3;
+
+    fheap_.push(42);
+
+    auto handle1 = fheap2.push(1337);
+    fheap2.push(2);
+
+    auto handle2 = fheap3.push(4711);
+    fheap3.push(1);
+
+    fheap2.meld(std::move(fheap3));
+
+    fheap_.steal(handle1);
+    fheap_.steal(handle2);
+
+    ASSERT_EQ(fheap_.pop(), 42);
+    ASSERT_EQ(fheap_.pop(), 1337);
+    //Currently 4711 is apparently being moved back to its home heap, but why? Only childs of 1337 should be moved back to the home heap. 4711 is definetly not a child of 1337.
+    //ASSERT_EQ(fheap_.pop(), 4711);
+    ASSERT_EQ(fheap2.pop(), 1);
+    ASSERT_EQ(fheap2.pop(), 2);
+}
 
 TEST_F(FHeapTest, StealFromTwoHeapsTest) {
     fheap::fibonacci_heap<int64_t> fheap2;

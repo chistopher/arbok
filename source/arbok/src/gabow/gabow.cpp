@@ -86,6 +86,8 @@ void Gabow::insert_vertex_into_activeset(int v, int u, int key) {
     assert(in_which_active_set[v] == -1);
     assert(!exit_list[v].empty());
     auto& edge = edges[exit_list[v].front()];
+    std::cout << "edge weight = " << edge.currentWeight() << std::endl;
+
     assert(key == edge.currentWeight());
     auto handle = active_set[u]->insert(edge);
     active_set_handle[v] = handle;
@@ -162,7 +164,7 @@ void Gabow::extendPath(int u) {
 }
 
 int Gabow::contractPathPrefix(int u) {
-    //std::cout << "contracting path prefix as we reached find(" << u << ") = " << co.find(u) << " again. growth path is " << growth_path.size() << " long." << std::endl;
+    std::cout << "contracting path prefix as we reached find(" << u << ") = " << co.find(u) << " again. growth path is " << growth_path.size() << " long." << std::endl;
     int rep_u = co.find(u);
     assert(in_path[rep_u]);
     assert(size(growth_path) == size(growth_path_edges));

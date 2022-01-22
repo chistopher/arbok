@@ -225,6 +225,8 @@ protected:
             } else {// we are a root
                 assert(left != nullptr);
                 assert(right != nullptr);
+                assert(!(left != this && right == this));
+                assert(!(right != this && left == this));
                 left->right = right;
                 right->left = left;
 
