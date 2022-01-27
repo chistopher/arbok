@@ -63,13 +63,14 @@ protected:
         bool is_loser;
         uint8_t order;
         home_heap_dsf_node *home_wrapper;
+        home_heap_dsf_node *local_heap_wrapper = nullptr;
 
         // methods
         void self_hug() {
             left = this;
             right = this;
         }
-        void merge_brother(node *new_sibling) {
+        void merge_brother(node *new_sibling, bool copy_local_heap = false) {
             assert(new_sibling != nullptr);
             if (parent != nullptr) parent->order--;
             parent = new_sibling->parent;
@@ -78,6 +79,7 @@ protected:
             left = new_sibling;
             right->left = this;
             new_sibling->right = this;
+            if (copy_local_heap) local_heap_wrapper = new_sibling->local_heap_wrapper;
         }
         void lose_child(node *which, node *rt) {
             if (which == child) {
@@ -87,6 +89,7 @@ protected:
             if (parent == nullptr) return; // if we are in root we remain there
             if (!is_loser) is_loser = true;
             else {
+                // because rt usually is home_heap->root, rt could be nullptr, which is explicitly handled in throw_in_root
                 throw_in_root(rt);
             }
         }
@@ -106,8 +109,17 @@ protected:
             // tell parent
             if (parent != nullptr) parent->lose_child(this, rt);
 
-            // go to root
-            merge_brother(rt);
+            if (rt == nullptr) {
+                // this is very implicit ugly logic here
+                parent = nullptr;
+                self_hug();
+                home_heap()->root = this;
+                this->local_heap_wrapper = home_heap()->first_home_heap_dsf_node;
+            } else {
+                // go to root
+                merge_brother(rt, true);
+            }
+
 
             is_loser = false;
         }
@@ -221,14 +233,27 @@ protected:
                 child = nullptr;
             }
             if (parent != nullptr) {
+                left->right = right;
+                right->left = left;
                 parent->lose_child(this, parent->home_heap()->root);
             } else {// we are a root
                 assert(left != nullptr);
                 assert(right != nullptr);
                 assert(!(left != this && right == this));
                 assert(!(right != this && left == this));
+
+                if (local_heap()->root == this) {
+                    if (left == this) {
+                        // we are the only root
+                        local_heap()->root = nullptr;
+                    } else {
+                        local_heap()->root = left;
+                    }
+                } 
+                
                 left->right = right;
                 right->left = left;
+            
 
                 // the following should in theory only be possible if this node is not displaced
                 if (home_heap()->root == this) {
@@ -247,6 +272,9 @@ protected:
     public:
         home_heap_ptr_type home_heap() {
             return home_wrapper->get_home_heap();
+        }
+        home_heap_ptr_type local_heap() {
+            return local_heap_wrapper->get_home_heap(); // this is not actually a home heap
         }
     };
 
@@ -382,10 +410,13 @@ public:
         if (root == nullptr) {
             root = new_node;
             new_node->self_hug();
+            new_node->local_heap_wrapper = first_home_heap_dsf_node;
+            assert(new_node->local_heap_wrapper != nullptr);
         } else {
             new_node->throw_in_root(root);
             // cleanup();
         }
+        assert(new_node->local_heap_wrapper != nullptr);
         return new_node;
     }
     void push(handle x) {
@@ -393,7 +424,10 @@ public:
         else {
             root = x;
             root->self_hug();
+            x->local_heap_wrapper = first_home_heap_dsf_node;
+            assert(x->local_heap_wrapper != nullptr);
         }
+        assert(x->local_heap_wrapper != nullptr);
     }
     void steal(handle x) { // steal entire subtree from home heap of x, push it into ourself
         x->remove(false);

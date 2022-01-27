@@ -138,17 +138,33 @@ TEST_F(FHeapTest, TestSomethingThatDoesCurrentlyNotWorkTest) {
     fheap2.steal(handle1);
     auto handle2 = fheap2.push(880873);
 
+    auto check_homeheap_ptrs = [&]() {
+        if (handle1 != nullptr) ASSERT_EQ(handle1->home_heap(), &fheap3);
+        if (handle2 != nullptr) ASSERT_EQ(handle2->home_heap(), &fheap2);
+        if (handle3 != nullptr) ASSERT_EQ(handle3->home_heap(), &fheap3);
+        if (handle4 != nullptr) ASSERT_EQ(handle4->home_heap(), &fheap3);
+        if (handle5 != nullptr) ASSERT_EQ(handle5->home_heap(), &fheap3);
+    };
+    check_homeheap_ptrs();
+
     fheap2.steal(handle3);
+    check_homeheap_ptrs();
     fheap2.steal(handle4);
+    check_homeheap_ptrs();
     fheap2.steal(handle5);
+    check_homeheap_ptrs();
 
     ASSERT_EQ(fheap2.pop(), 36983);
+    handle1 = nullptr; // we invalidated that handle
+    check_homeheap_ptrs();
 
     fheap2.unsafe_setkey(handle5, 65511);
     fheap_.steal(handle5); // heap of 4
+    check_homeheap_ptrs();
 
     fheap2.unsafe_setkey(handle2, 904417);
     fheap_.steal(handle2); // THIS
+    check_homeheap_ptrs();
 }
 
 TEST_F(FHeapTest, MeldAndStealTest) {
@@ -174,30 +190,6 @@ TEST_F(FHeapTest, MeldAndStealTest) {
     //ASSERT_EQ(fheap_.pop(), 4711);
     ASSERT_EQ(fheap2.pop(), 1);
     ASSERT_EQ(fheap2.pop(), 2);
-}
-
-TEST_F(FHeapTest, StealFromTwoHeapsTest) {
-    fheap::fibonacci_heap<int64_t> fheap2;
-    fheap::fibonacci_heap<int64_t> fheap3;
-
-    fheap_.push(42);
-
-    auto handle1 = fheap2.push(1337);
-    fheap2.push(2);
-
-    auto handle2 = fheap3.push(4711);
-    fheap3.push(2);
-
-    fheap_.steal(handle1);
-    fheap_.steal(handle2);
-
-    ASSERT_EQ(fheap_.pop(), 42);
-    ASSERT_EQ(fheap_.pop(), 1337);
-    // Currently 4711 is apparently being moved back to its home heap, but why? Only childs of 1337 should be moved back to the home heap. 4711 is definetly not a child of 1337.
-    ASSERT_EQ(fheap_.pop(), 4711);
-    ASSERT_EQ(fheap2.pop(), 2);
-    ASSERT_EQ(fheap3.pop(), 2);
-
 }
 
 
