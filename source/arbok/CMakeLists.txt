@@ -14,6 +14,7 @@ set(HEADERS
         include/${target}/data_structures/edgelink.h
         include/${target}/data_structures/compressed_tree.h
         include/${target}/data_structures/compressed_tree.inl
+        include/${target}/data_structures/active_forest.h
         include/${target}/utils/cf_solution.h
 )
 
@@ -23,6 +24,7 @@ set(SOURCES
         src/data_structures/treap.cpp
         src/data_structures/dummy_active_set.cpp
         src/data_structures/fibheap_active_set.cpp
+        src/data_structures/active_forest.cpp
         src/gabow/gabow.cpp
         src/tarjan/tarjan.cpp
         src/tarjan/tarjan_matrix.cpp

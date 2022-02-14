@@ -1,4 +1,6 @@
 
+#include "compressed_tree.h"
+
 namespace arbok {
 
 template<typename T>
@@ -47,6 +49,11 @@ bool CompressedTree<T>::join(int i, int j) {
     parent[j] = i;
     value[j] -= value[i];
     return true;
+}
+
+template<typename T>
+size_t CompressedTree<T>::size() {
+    return std::size(parent);
 }
 
 }  // namespace arbok

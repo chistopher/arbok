@@ -11,6 +11,7 @@
 #include <arbok/tarjan/tarjan.h>
 #include <arbok/data_structures/activeset.h>
 #include <arbok/data_structures/edgelink.h>
+#include <arbok/data_structures/active_forest.h>
 
 namespace arbok
 {
@@ -43,9 +44,8 @@ enum class GabowVariant { DUMMY, FIB };
 
         std::vector<std::list<int>> exit_list;   // stores the index into edges
         std::vector<std::list<int>> passive_set; // stores the index into edges
-        std::vector<std::shared_ptr<AbstractActiveSet>> active_set;
-        std::vector<std::shared_ptr<AbstractActiveSetHandle>> active_set_handle; // for each node its handle
-        std::vector<int> in_which_active_set;                                     // TODO remove in final impl; this is just for debugging
+
+        ActiveForest active_forest;
 
         // reconstruction
         // forest over chosen edges as outlined in reconstruction paper
@@ -54,8 +54,6 @@ enum class GabowVariant { DUMMY, FIB };
         std::vector<int> chosen_path; // edges on growth path (just as growth_path_edges) but as ids into chosen
 
         void add_edge_to_exit_list(int v, int edge_id);
-        void insert_vertex_into_activeset(int v, int u, int key); // insert v into u's AS
-        void transfer_active_status(const EdgeLink &from, const EdgeLink &to);
         void insert_edge_into_passiveset(int edge_id, int u); // insert edge_id into u's PS
         void init_root(int root);
         void ensure_strongly_connected(int root);

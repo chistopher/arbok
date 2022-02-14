@@ -15,6 +15,8 @@ struct CompressedTree {
     int size(int i);
     bool join(int i, int j);
 
+    size_t size();
+
 protected:
     std::vector<int> parent;
     std::vector<T> value;
