@@ -1,27 +1,16 @@
 
-#include <tuple>
 #include <vector>
-#include <set>
 #include <list>
-#include <functional>
-#include <memory>
-#include <optional>
-#include <cassert>
 
 #include <arbok/tarjan/tarjan.h>
-#include <arbok/data_structures/activeset.h>
-#include <arbok/data_structures/edgelink.h>
+#include <arbok/gabow/edgelink.h>
 #include <arbok/data_structures/active_forest.h>
 
-namespace arbok
-{
+namespace arbok {
 
-enum class GabowVariant { DUMMY, FIB };
-
-    class Gabow
-    {
+    class Gabow {
     public:
-        Gabow(int n, GabowVariant variant=GabowVariant::FIB);
+        Gabow(int n);
         ~Gabow() = default;
 
         void create_edge(int from, int to, int weight);
@@ -59,10 +48,6 @@ enum class GabowVariant { DUMMY, FIB };
         void ensure_strongly_connected(int root);
         void extendPath(int u);
         int contractPathPrefix(int u);
-    private:
-        std::shared_ptr<AbstractActiveSet> new_active_set();
-        std::shared_ptr<AbstractActiveSetHandle> new_active_set_handle();
-        GabowVariant variant_;
     };
 
 } // end namespace arbok

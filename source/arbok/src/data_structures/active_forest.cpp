@@ -1,57 +1,132 @@
 
 #include <arbok/data_structures/active_forest.h>
 
+#include <cassert>
+
 using namespace arbok;
 using namespace std;
+
+struct FibHeapNode {
+    explicit FibHeapNode(EdgeLink key) : m_key(key) {};
+
+    EdgeLink m_key;
+    FibHeapNode *parent = nullptr;
+    list<FibHeapNode*> children;
+    list<FibHeapNode*>::iterator list_it; // iterator to myself in either children list of parent or root list of home_heap
+    // The root of any tree in an F-heap is always in its home heap.
+
+    bool is_loser = false;
+    unsigned int order = 0;
+};
 
 ActiveForest::ActiveForest(CompressedTree<int> &_co)
     : co(_co)
     , active_edge(co.size())
     , active_sets(co.size())
 {
+}
 
+ActiveForest::~ActiveForest() {
+    for(auto* v : active_edge)
+        delete v; // clang told me deleting nullptr is ok :)
 }
 
 void ActiveForest::makeActive(EdgeLink link) {
     int from = co.find(link.from);
-    int to = co.find(link.to);
-    if(!active_edge[from]) { // from has no active edge yet
-        active_edge[from] = new FibHeapNode{link};
-        active_sets[to].push_back(active_edge[from]);
-        return;
-    }
-    // from has active edge; we need to steal it
-    // TODO removal must be done without knowing pset
-    // TODO if to == find(active_edge[from].to) don't steal but just decrease key
-    //      maybe move also works when moving from the same set into itself and we just don't care?
-    auto& pset = active_sets[co.find(active_edge[from]->data.to)];
-    pset.erase(find(begin(pset),end(pset), active_edge[from]));
-    active_edge[from]->data = link;
-    active_sets[to].push_back(active_edge[from]);
+    if(!active_edge[from]) // from has no active edge yet
+        return moveHome(active_edge[from] = new FibHeapNode{link});
+
+    auto v = active_edge[from];
+    assert(currentWeight(link,co)<currentWeight(v->m_key,co) || co.find(link.to) != co.find(v->m_key.to));
+    removeFromCurrentList(v);
+    v->m_key = link;
+    moveHome(v); // heap property is only violated when v's children get displaced
 }
 
-EdgeLink ActiveForest::deleteActiveEdge(int i) {
+void ActiveForest::deleteActiveEdge(int i) {
     auto v = active_edge[i];
 
-    // delete from previous active set
-    auto& pset = active_sets[co.find(v->data.to)];
-    pset.erase(find(begin(pset),end(pset), v));
+    for(auto* child : v->children)
+        moveHome(child);
+    v->children.clear(); // TODO actually we do not need this cleanup
 
-    // delete the edge itself
-    auto res = v->data;
+    removeFromCurrentList(v);
     active_edge[i] = nullptr;
     delete v;
-    return res;
 }
 
 EdgeLink ActiveForest::extractMin(int i) {
-    auto it = min_element(begin(active_sets[i]), end(active_sets[i]), [this](FibHeapNode* a, FibHeapNode* b) {
-        return value(a) < value(b);
+    // find top element in rootlist
+    assert(!empty(active_sets[i])); // list not empty
+    FibHeapNode* v_min = *min_element(begin(active_sets[i]), end(active_sets[i]), [this](auto a, auto b){
+        return currentWeight(a->m_key, co) < currentWeight(b->m_key, co);
     });
-    return deleteActiveEdge(co.find((*it)->data.from));
+    auto data = v_min->m_key;
+    assert(v_min == active_edge[co.find(data.from)]); // edge is active edge
+    assert(co.find(data.to) == i); // edge is in home heap
+
+    // delete edge from root list, moving all children back in their home heaps (possibly this one)
+    deleteActiveEdge(co.find(data.from));
+
+    // merge rem nodes by rank and create new root list
+    vector<FibHeapNode*> order_rep;
+    for(auto v : active_sets[i]) {
+        while(size(order_rep)>v->order && order_rep[v->order]) {
+            auto other = order_rep[v->order];
+            order_rep[v->order] = nullptr;
+            if(currentWeight(v->m_key, co) > currentWeight(other->m_key,co))
+                swap(v,other);
+            assert(!other->parent);
+            v->children.push_back(other);
+            v->order++;
+            other->parent = v;
+            other->list_it = prev(end(v->children));
+            assert(v!=other);
+            assert(find(begin(v->children), end(v->children), other) == other->list_it);
+        }
+        while(size(order_rep)<=v->order) order_rep.push_back(nullptr);
+        order_rep[v->order] = v;
+    }
+    active_sets[i].clear();
+    for(auto v : order_rep)
+        if(v) v->list_it = active_sets[i].insert(end(active_sets[i]),v);
+
+    return data;
 }
 
 void ActiveForest::mergeHeaps(int i, int j) {
     active_sets[i].splice(end(active_sets[i]), active_sets[j]);
-    active_sets[j].clear();
+    assert(active_sets[j].empty());
+}
+
+list<FibHeapNode*>& ActiveForest::home_heap(FibHeapNode* v) {
+    return active_sets[co.find(v->m_key.to)];
+}
+
+void ActiveForest::removeFromCurrentList(FibHeapNode* v) {
+    auto& lst = v->parent ? v->parent->children : home_heap(v);
+    assert(count(begin(lst),end(lst),v));
+    assert(find(begin(lst),end(lst),v)==v->list_it);
+    lst.erase(v->list_it);
+    if(v->parent) {
+        loseChild(v->parent);
+        v->parent = nullptr;
+    }
+}
+
+void ActiveForest::moveHome(FibHeapNode* v) {
+    auto& home = home_heap(v);
+    assert(find(begin(home),end(home),v)==end(home));
+    v->list_it = home.insert(end(home), v);
+    v->parent = nullptr;
+}
+
+void ActiveForest::loseChild(FibHeapNode* v) {
+    if(!v->parent) return;
+    if(v->is_loser) {
+        loseChild(v->parent); // cascade
+        v->parent->children.erase(v->list_it);
+        moveHome(v);
+    }
+    v->is_loser ^= 1;
 }

@@ -10,7 +10,6 @@ set(target lighttests)
 add_executable(${target}
     test_find_data.cpp
     test_compressed_tree.cpp
-    test_fheap.cpp
 )
 
 target_link_libraries(${target} GTest::Main arbok)

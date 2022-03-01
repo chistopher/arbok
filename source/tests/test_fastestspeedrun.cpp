@@ -73,7 +73,6 @@ void testImpl(const string& testcase_name) {
     isArborescence(graph, arbo, ans, n+1, 0);
 }
 
-/*
 TEST_P(CodeforcesTest, MatrixTarjan) {
     testImpl<arbok::MatrixTarjan>(GetParam());
 }
@@ -89,7 +88,6 @@ TEST_P(CodeforcesTest, TreapTarjan) {
 TEST_P(CodeforcesTest, PQTarjan) {
     testImpl<arbok::PQTarjan>(GetParam());
 }
-*/
 
 TEST_P(CodeforcesTest, Gabow) {
     testImpl<arbok::Gabow>(GetParam());

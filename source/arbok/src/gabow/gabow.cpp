@@ -1,6 +1,5 @@
 
 #include <arbok/gabow/gabow.h>
-#include <arbok/data_structures/activeset.h>
 
 #include <optional>
 #include <iostream>
@@ -10,7 +9,7 @@
 
 using namespace arbok;
 
-Gabow::Gabow(int n,  GabowVariant variant)
+Gabow::Gabow(int n)
     : num_vertices(n)
     , co(n)
     , incoming_edges(n)
@@ -18,29 +17,10 @@ Gabow::Gabow(int n,  GabowVariant variant)
     , exit_list(n)
     , passive_set(n)
     , active_forest(co)
-    , variant_(variant)
 {
     growth_path.reserve(n); // cannot become larger
     growth_path_edges.reserve(n);
     num_reps = num_vertices; // TODO remove this memeber
-}
-
-std::shared_ptr<AbstractActiveSet>  Gabow::new_active_set() {
-    if (variant_ == GabowVariant::DUMMY) {
-        return std::make_shared<DummyActiveSet>();
-    } else if (variant_ == GabowVariant::FIB) {
-        return std::make_shared<FibHeapActiveSet>();
-    }
-    return std::make_shared<DummyActiveSet>(); // default
-}
-
-std::shared_ptr<AbstractActiveSetHandle>  Gabow::new_active_set_handle() {
-    if (variant_ == GabowVariant::DUMMY) {
-        return std::make_shared<DummyActiveSetHandle>();
-    } else if (variant_ == GabowVariant::FIB) {
-        return std::make_shared<FibHeapActiveSetHandle>();
-    }
-    return std::make_shared<DummyActiveSetHandle>(); // default
 }
 
 void Gabow::create_edge(int from, int to, int weight) {
@@ -57,7 +37,7 @@ void Gabow::create_edge(int from, int to, int weight) {
     }
 
     int edge_id = static_cast<int>(edges.size()); // currently we assume we don't have too many edges to go out of int bounds...
-    edges.emplace_back(from, to, weight, edge_id, co);
+    edges.emplace_back(from, to, weight, edge_id);
 
     incoming_edges[to].push_back(edge_id);
 }
@@ -162,7 +142,7 @@ int Gabow::contractPathPrefix(int u) {
         auto& edge = edges[edge_id];
         assert(co.find(edge.to) == vi);
         assert(co.find(vi) == vi); // all nodes on growth path are representatives
-        co.add_value(vi, -edge.currentWeight());
+        co.add_value(vi, -currentWeight(edge,co));
     }
 
     assert(empty(passive_set[growth_path.back()]));
@@ -181,7 +161,7 @@ int Gabow::contractPathPrefix(int u) {
 
             // the exit list of x should look like: (x,vj), (x,vi), ...
             // since all passive edges from nodes v0...v_{i-1} were deleted or became active
-            if (first_edge.currentWeight() > edge.currentWeight()) {
+            if (currentWeight(first_edge,co) > currentWeight(edge,co)) {
                 // we delete first_edge (x,vj) of x's exit list making the 2nd element (edge / (x,vi)) active
                 // we reuse the active_set element of x which is currently (x,vj) located in the active set of vj
                 // for this we move the active_set_element to the active set of vi and change the key of the element to (x,vi)
@@ -220,7 +200,7 @@ int Gabow::contractPathPrefix(int u) {
             exit_list[vi].pop_front();
             active_forest.deleteActiveEdge(vi);
         }
-        assert(active_forest.active_edge[vi]==nullptr);
+        //assert(active_forest.active_edge[vi]==nullptr);
     }    
 
     // merge prefix in dsu
@@ -239,7 +219,7 @@ int Gabow::contractPathPrefix(int u) {
         in_path[vi] = false; // TODO do this somewhere else maybe
         if (vi == new_root) continue;
         active_forest.mergeHeaps(new_root, vi);
-        assert(active_forest.active_sets[vi].empty());
+        //assert(active_forest.active_sets[vi].empty());
     }
     in_path[new_root] = true;
 
@@ -296,7 +276,7 @@ long long Gabow::run(int root) {
         forest.push_back(forest_id); // new edge initially has no parent
 
         if (edge.weight < std::numeric_limits<int>::max())
-            answer += edge.currentWeight();
+            answer += currentWeight(edge,co);
 
         growth_path_edges.push_back(edge.id); // needed in both cases
         chosen_path.push_back(forest_id);
