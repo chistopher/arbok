@@ -10,13 +10,10 @@ struct FibHeapNode {
     explicit FibHeapNode(EdgeLink key) : m_key(key) {};
 
     EdgeLink m_key;
-    FibHeapNode *parent = nullptr;
+    FibHeapNode *parent = nullptr; // The root of any tree in an F-heap is always in its home heap
     list<FibHeapNode*> children;
     list<FibHeapNode*>::iterator list_it; // iterator to myself in either children list of parent or root list of home_heap
-    // The root of any tree in an F-heap is always in its home heap.
-
     bool is_loser = false;
-    unsigned int order = 0;
 };
 
 ActiveForest::ActiveForest(CompressedTree<int> &_co)
@@ -71,21 +68,20 @@ EdgeLink ActiveForest::extractMin(int i) {
     // merge rem nodes by rank and create new root list
     vector<FibHeapNode*> order_rep;
     for(auto v : active_sets[i]) {
-        while(size(order_rep)>v->order && order_rep[v->order]) {
-            auto other = order_rep[v->order];
-            order_rep[v->order] = nullptr;
+        v->is_loser = false;
+        while(size(order_rep)>size(v->children) && order_rep[size(v->children)]) {
+            auto other = order_rep[size(v->children)];
+            order_rep[size(v->children)] = nullptr;
             if(currentWeight(v->m_key, co) > currentWeight(other->m_key,co))
                 swap(v,other);
             assert(!other->parent);
-            v->children.push_back(other);
-            v->order++;
+            other->list_it = v->children.insert(end(v->children), other);
             other->parent = v;
-            other->list_it = prev(end(v->children));
             assert(v!=other);
             assert(find(begin(v->children), end(v->children), other) == other->list_it);
         }
-        while(size(order_rep)<=v->order) order_rep.push_back(nullptr);
-        order_rep[v->order] = v;
+        while(size(order_rep)<=size(v->children)) order_rep.push_back(nullptr);
+        order_rep[size(v->children)] = v;
     }
     active_sets[i].clear();
     for(auto v : order_rep)
