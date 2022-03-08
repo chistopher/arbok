@@ -64,6 +64,7 @@ long long Tarjan::run(int root) {
         if (cy.join(min_edge.from, min_edge.to))
             continue;
 
+        contractions++;
         // we built a cycle. now merge incoming edges of cycle into one node
         int merged = v;
         auto next_in_cyc = [&](int last) { return co.find(inc[queue_id[last]].from); };

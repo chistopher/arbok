@@ -8,6 +8,7 @@
 
 #include <arbok/utils/paths.h>
 #include <arbok/tarjan/tarjan.h>
+#include <arbok/gabow/gabow.h>
 #include <cassert>
 
 using namespace std;
@@ -90,6 +91,7 @@ Graph giantCC(const Graph& graph) {
 
 Graph fromFile(const string& file) {
     ifstream inf(file);
+    if(!inf) cout << "failed to load " << file << endl, exit(1);
     bool weighted = file.ends_with("wsoap");
     int n,m;
     inf>>n>>m;
@@ -142,29 +144,10 @@ map<string, string> parseArgs(int argc, char** argv) {
     return params;
 }
 
-int main(int argc, char* argv[]) {
-    ios::sync_with_stdio(false);
+template<class Algo>
+void run(map<string, string>& args) {
 
-    auto args = parseArgs(argc, argv);
-
-    auto input  = args.contains("input")   ?   args["input"]   : DATA_DIR + "konect/slashdot-zoo.soap"s;
-    auto csv    = args.contains("csv")  ?   args["csv"]  : "";
-    auto algo   = args.contains("algo") ?   args["algo"] : "pq";
-
-    cout << "PARAMETER: " << endl;
-    cout << input << ' ' << csv << ' ' << algo << endl;
-
-    map algos{pair
-              {"set"s, arbok::TarjanVariant::SET},
-              {"matrix", arbok::TarjanVariant::MATRIX},
-              {"pq", arbok::TarjanVariant::PQ},
-              {"treap", arbok::TarjanVariant::TREAP},
-    };
-    if(!algos.contains(algo)) {
-        cerr << "invalid algo: " << algo << endl;
-        return 1;
-    }
-
+    auto input  = DATA_DIR + args["input"];
 
     ScopedTimer timer("load graph");
     auto graph = fromFile(input);
@@ -178,7 +161,6 @@ int main(int argc, char* argv[]) {
 
     cout << "n      =" << graph.n << endl;
     cout << "m      =" << size(graph.edges) << endl;
-
 
     if(!graph.weighted) {
         ScopedTimer scoped("add random weights");
@@ -211,7 +193,7 @@ int main(int argc, char* argv[]) {
 
     // construct algo DS
     timer = ScopedTimer("construct algo DS");
-    arbok::Tarjan alg(graph.n,algos[algo]);
+    Algo alg(graph.n);
     for(auto e : graph.edges) alg.create_edge(e.from, e.to, e.weight);
 
     timer = ScopedTimer("run algo");
@@ -225,19 +207,52 @@ int main(int argc, char* argv[]) {
     isArborescence(graph, arbo, res, graph.n, root);
     timer.stop();
 
-    if(!empty(csv)) {
-        ofstream ouf(csv, ios::app);
+    if(!empty(args["csv"])) {
+        ofstream ouf(args["csv"], ios::app);
         ouf << input
             << ',' << graph.n
             << ',' << size(graph.edges)
             << ',' << graph.weighted
-            << ',' << algo
+            << ',' << args["algo"]
             << ',' << dur << endl;
     }
 
+    cout << "n      =" << graph.n << endl;
+    cout << "m      =" << size(graph.edges) << endl;
+    cout << "merge  =" << alg.contractions << endl;
     cout << "w      =" << res << endl;
     cout << "w%1e9  =" << res%int(1e9) << endl;
     cout << "w/1e9  =" << res/1'000'000'000 << endl;
+
+}
+
+int main(int argc, char* argv[]) {
+    ios::sync_with_stdio(false);
+
+    map<string,string> defaults{
+            {"input",   "konect/slashdot-zoo.soap"},
+            {"csv",     ""},
+            {"algo",    "pq"}
+    };
+    auto args = parseArgs(argc, argv);
+    cout << "PARAMETER: " << endl;
+    for(auto [key,val] : defaults) {
+        if(args.contains(key)) continue;
+        cout << key << " not given, default assumed (" << val << ")" << endl;
+        args[key] = val;
+    }
+    for(auto [key,val] : args) {
+        if(!defaults.contains(key)) cerr << "ERROR: unrecognized param: " << key, exit(1);
+        cout << '\t' << key << ": " << val << endl;
+    }
+
+    auto algo = args["algo"];
+    if(algo=="set") run<arbok::SetTarjan>(args);
+    else if(algo=="matrix") run<arbok::MatrixTarjan>(args);
+    else if(algo=="pq") run<arbok::PQTarjan>(args);
+    else if(algo=="treap") run<arbok::TreapTarjan>(args);
+    else if(algo=="gabow") run<arbok::Gabow>(args);
+    else cerr << "invalid algo: " << algo, exit(1);
 
     return 0;
 }

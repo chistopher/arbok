@@ -27,6 +27,7 @@ public:
     long long run(int root);
     std::vector<Edge> reconstruct(int root);
 
+    int contractions = 0;
 protected:
     const int num_vertices;
     DSU cy; // for weakly connected components

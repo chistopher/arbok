@@ -1,6 +1,7 @@
 #pragma once
 
-#include <arbok/data_structures/compressed_tree.h>
+#include <list>
+
 #include <arbok/gabow/edgelink.h>
 
 struct FibHeapNode; // FWD
@@ -13,7 +14,7 @@ namespace arbok {
         ~ActiveForest();
 
         void makeActive(EdgeLink link); // creates new fibheap handle or reuses the one in active_edge[link.from]
-        void deleteActiveEdge(int i); // returns the deleted edge object
+        void deleteActiveEdge(int i);
         EdgeLink extractMin(int i); // extract min from heap of node i
         void mergeHeaps(int i, int j);
 

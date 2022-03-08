@@ -19,6 +19,7 @@ namespace arbok {
 
         std::vector<Edge> reconstruct(int root);
 
+        int contractions = 0;
     protected:
         const int num_vertices;
         int num_reps;
@@ -43,8 +44,6 @@ namespace arbok {
         std::vector<int> chosen_path; // edges on growth path (just as growth_path_edges) but as ids into chosen
 
         void add_edge_to_exit_list(int v, int edge_id);
-        void insert_edge_into_passiveset(int edge_id, int u); // insert edge_id into u's PS
-        void init_root(int root);
         void ensure_strongly_connected(int root);
         void extendPath(int u);
         int contractPathPrefix(int u);
