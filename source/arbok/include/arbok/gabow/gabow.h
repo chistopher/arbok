@@ -32,8 +32,8 @@ namespace arbok {
         std::vector<int> growth_path_edges;
         std::vector<bool> in_path;
 
-        std::vector<std::list<int>> exit_list;   // stores the index into edges
-        std::vector<std::list<int>> passive_set; // stores the index into edges
+        std::vector<std::vector<int>> exit_list;   // stores the index into edges
+        std::vector<std::vector<int>> passive_set; // stores the index into edges
 
         ActiveForest active_forest;
 

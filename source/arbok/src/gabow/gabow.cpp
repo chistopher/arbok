@@ -46,7 +46,7 @@ void Gabow::ensure_strongly_connected(int root) {
 
 void Gabow::add_edge_to_exit_list(int v, int edge_id) {
     assert(co.find(v) == co.find(edges[edge_id].from));
-    exit_list[v].push_front(edge_id);
+    exit_list[v].push_back(edge_id);
 }
 
 // Algorithm 3 in Report
@@ -70,19 +70,19 @@ void Gabow::extendPath(int u) {
             add_edge_to_exit_list(rep_x, edge_id);
             active_forest.makeActive(edge);
         } else {
-            int front_edge_id = exit_list[rep_x].front();
+            int front_edge_id = exit_list[rep_x].back();
             auto& front_edge = edges[front_edge_id];
             int vi = front_edge.to;
             if (vi != u) {
                 int rep_vi = co.find(vi);
-                // front edge is passive now
-                passive_set[rep_vi].push_front(front_edge_id);
+                // active edge is passive now
+                passive_set[rep_vi].push_back(front_edge_id);
                 // and edge becomes active
                 add_edge_to_exit_list(rep_x, edge_id);
                 active_forest.makeActive(edge);
             } else {
                 if (edge.weight < front_edge.weight) { // we can use weight here since u was never contracted
-                    exit_list[rep_x].pop_front();
+                    exit_list[rep_x].pop_back();
                     add_edge_to_exit_list(rep_x, edge_id);
                     active_forest.makeActive(edge);
                 }
@@ -121,11 +121,13 @@ int Gabow::contractPathPrefix(int u) {
         int vi = growth_path[size(growth_path)-i-1];
         assert(co.find(vi) == vi); // all nodes on growth path are representatives
         // invariant: after we are done with vi, all exit lists of nodes x have no passive edges from vertices v0,..,vi
-        for (int edge_id : passive_set[vi]) {
+        //for (int edge_id : passive_set[vi]) {
+        for(auto it=rbegin(passive_set[vi]); it!=rend(passive_set[vi]); ++it) { // iterate in reverse
+            int edge_id = *it;
             if(edges[edge_id].ignore) continue;
             auto& edge = edges[edge_id];
             int rep_x = co.find(edge.from); // algo 4 line 8 of report says no DSU lookup, but text says so, and it makes sense to do so (I think)
-            int first_edge_id = exit_list[rep_x].front();
+            int first_edge_id = exit_list[rep_x].back();
             auto& first_edge = edges[first_edge_id];
 
             assert(vi == co.find(edge.to));
@@ -135,13 +137,13 @@ int Gabow::contractPathPrefix(int u) {
             // with multi-edges this depends on the fact that edge order in exit_list[rep_x] has edges to vi in same order as they are in passive set[vi]
             assert(co.find(first_edge.to)!=vi); // equivalent to "no multi-edges"
             assert(size(exit_list[rep_x])>=2); // namely first_edge and edge
-            assert(std::find(exit_list[rep_x].begin(), exit_list[rep_x].end(), edge_id) == ++begin(exit_list[rep_x]));
+            assert(std::find(exit_list[rep_x].begin(), exit_list[rep_x].end(), edge_id) == prev(prev(end(exit_list[rep_x]))));
+            exit_list[rep_x].pop_back(); // we delete one of the two for sure
             if (currentWeight(first_edge,co) > currentWeight(edge,co)) {
                 // we delete first_edge (x,vj) of x's exit list making the 2nd element (edge / (x,vi)) active
-                exit_list[rep_x].pop_front();
                 active_forest.makeActive(edge);
             } else {
-                exit_list[rep_x].erase(++begin(exit_list[rep_x]));
+                exit_list[rep_x].back() = first_edge_id; // this amounts to the same as deleting the second to last elem in the vector
             }
         }
 
@@ -154,7 +156,7 @@ int Gabow::contractPathPrefix(int u) {
         assert(exit_list[vi].size() < 2); // exit list is empty or single element
 
         if (!exit_list[vi].empty()) {
-            exit_list[vi].pop_front();
+            exit_list[vi].pop_back();
             active_forest.deleteActiveEdge(vi);
         }
     }
@@ -216,11 +218,11 @@ long long Gabow::run(int root) {
         assert(co.find(cur_root) == cur_root);
         EdgeLink edge = active_forest.extractMin(cur_root);
         int u = co.find(edge.from);
-        assert(exit_list[u].front() == edge.id);
+        assert(exit_list[u].back() == edge.id);
         assert(u != cur_root); // no self loop
 
         // clear out exit list of u
-        exit_list[u].pop_front(); // the active edge
+        exit_list[u].pop_back(); // the active edge
         for (int edge_id : exit_list[u]) // ... then all the passive edges
             edges[edge_id].ignore = true; // they will always point down the growth path or become self-loops
         exit_list[u].clear();
