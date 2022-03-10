@@ -31,9 +31,9 @@ template <class T, class Compare = std::less<T>> class hollow_heap {
             : key(_key), rank(_rank) {}
         value_type key;
         uint_fast8_t rank;
-        node *second_parent = nullptr;
         bool hollow = false;
-        std::vector<node *> children;
+        node *child = nullptr;
+        node *right_sibling = nullptr;
         int lazy_update = 0;
         bool operator<(const node &other) const {
             return Compare()(key, other.key);
@@ -41,13 +41,21 @@ template <class T, class Compare = std::less<T>> class hollow_heap {
     };
     node *root = nullptr;
     size_type n = 0;
+    void push_child(node *parent, node *new_child) {
+        if (parent->child == nullptr) {
+            new_child->right_sibling = nullptr;
+        } else {
+            new_child->right_sibling = parent->child;
+        }
+        parent->child = new_child;
+    }
     node *link(node *a, node *b) {
         if (*a < *b) {
-            a->children.push_back(b);
+            push_child(a, b);
             push_update(b, -(a->lazy_update));
             return a;
         } else {
-            b->children.push_back(a);
+            push_child(b, a);
             push_update(a, -(b->lazy_update));
             return b;
         }
@@ -68,11 +76,17 @@ template <class T, class Compare = std::less<T>> class hollow_heap {
                              roots_by_rank);
         }
     }
+    void ll_backwards_it(node *c, std::array<node *, 255> &roots_by_rank) {
+        if (c->right_sibling != nullptr) {
+            ll_backwards_it(c->right_sibling, roots_by_rank);
+        }
+        insert_and_rlink(c, roots_by_rank);
+    }
     void extract_root() {
         std::array<node *, 255> roots_by_rank;
         roots_by_rank.fill(nullptr);
-        for (node *c : root->children) {
-            insert_and_rlink(c, roots_by_rank);
+        if (root->child != nullptr) {
+            ll_backwards_it(root->child, roots_by_rank);
         }
         node *cur = nullptr;
         for (int r = 0; r < 255; r++) {
@@ -87,6 +101,7 @@ template <class T, class Compare = std::less<T>> class hollow_heap {
 
         if (cur != nullptr) {
             push_update(cur, root->lazy_update);
+            cur->right_sibling = nullptr;
         }
         destroy(root);
         root = cur;
