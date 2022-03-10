@@ -12,6 +12,7 @@ set(HEADERS
         include/${target}/data_structures/treap.h
         include/${target}/data_structures/compressed_tree.h
         include/${target}/data_structures/compressed_tree.inl
+        include/${target}/data_structures/hollow_heap.h
         include/${target}/utils/cf_solution.h
 )
 
@@ -25,6 +26,7 @@ set(SOURCES
         src/tarjan/tarjan_matrix.cpp
         src/tarjan/tarjan_set.cpp
         src/tarjan/tarjan_pq.cpp
+        src/tarjan/tarjan_hh.cpp
         src/tarjan/tarjan_treap.cpp
 )
 

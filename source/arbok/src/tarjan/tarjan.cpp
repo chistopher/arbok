@@ -30,6 +30,8 @@ Tarjan::Tarjan(int n, TarjanVariant variant)
         m_impl = make_unique<TreapImpl>(n);
     if(variant == TarjanVariant::PQ)
         m_impl = make_unique<PQImpl>(n);
+    if (variant == TarjanVariant::HH)
+        m_impl = make_unique<HollowHeapImpl>(n);
 }
 
 void Tarjan::create_edge(int from, int to, int weight) {

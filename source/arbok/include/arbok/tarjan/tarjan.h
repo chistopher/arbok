@@ -9,7 +9,7 @@ namespace arbok {
 
 // TODO rename this to be more expressive; what this does is manage the edges
 class TarjanImpl; // FWD
-enum class TarjanVariant { SET, MATRIX, TREAP, PQ };
+enum class TarjanVariant { SET, MATRIX, TREAP, PQ, HH };
 struct Edge {
     int from, to, weight, orig_weight;
     inline bool operator<(const Edge& rhs) const { return std::tie(weight,from) < std::tie(rhs.weight, rhs.from); }
@@ -50,5 +50,6 @@ using SetTarjan = SpecificTarjan<TarjanVariant::SET>;
 using MatrixTarjan = SpecificTarjan<TarjanVariant::MATRIX>;
 using TreapTarjan = SpecificTarjan<TarjanVariant::TREAP>;
 using PQTarjan = SpecificTarjan<TarjanVariant::PQ>;
+using HHTarjan = SpecificTarjan<TarjanVariant::HH>;
 
 }  // end namespace arbok

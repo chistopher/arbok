@@ -77,21 +77,17 @@ TEST_P(CodeforcesTest, MatrixTarjan) {
     testImpl<arbok::MatrixTarjan>(GetParam());
 }
 
-TEST_P(CodeforcesTest, SetTarjan) {
-    testImpl<arbok::SetTarjan>(GetParam());
-}
+TEST_P(CodeforcesTest, SetTarjan) { testImpl<arbok::SetTarjan>(GetParam()); }
 
 TEST_P(CodeforcesTest, TreapTarjan) {
     testImpl<arbok::TreapTarjan>(GetParam());
 }
 
-TEST_P(CodeforcesTest, PQTarjan) {
-    testImpl<arbok::PQTarjan>(GetParam());
-}
+TEST_P(CodeforcesTest, PQTarjan) { testImpl<arbok::PQTarjan>(GetParam()); }
 
-TEST_P(CodeforcesTest, Gabow) {
-    testImpl<arbok::Gabow>(GetParam());
-}
+TEST_P(CodeforcesTest, HHTarjan) { testImpl<arbok::HHTarjan>(GetParam()); }
+
+TEST_P(CodeforcesTest, Gabow) { testImpl<arbok::Gabow>(GetParam()); }
 
 // big (and slow) testcase have been removed
 INSTANTIATE_TEST_SUITE_P(Correctness, CodeforcesTest, Values(

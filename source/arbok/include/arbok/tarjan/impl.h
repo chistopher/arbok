@@ -1,7 +1,8 @@
 
+#include <arbok/data_structures/hollow_heap.h>
+#include <arbok/data_structures/treap.h>
 #include <arbok/tarjan/tarjan.h>
 #include <queue>
-#include <arbok/data_structures/treap.h>
 
 namespace arbok {
 
@@ -66,4 +67,17 @@ private:
     std::vector<treap::Node*> managedSets;
 };
 
+class HollowHeapImpl : public TarjanImpl {
+  public:
+    HollowHeapImpl(int n);
+    ~HollowHeapImpl() override = default;
+    void create_edge(int from, int to, int weight) override;
+    Edge get_min_edge(int v, arbok::DSU &dsu) override;
+    void update_incoming_edge_weights(int v, int w) override;
+    void move_edges(int from, int to) override;
+
+  private:
+    using HH = otto::hollow_heap<Edge, std::less<>>;
+    std::vector<HH> managedSets;
+};
 }
