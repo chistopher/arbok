@@ -5,14 +5,13 @@ set(target arbok)
 
 set(HEADERS
         include/${target}/data_structures/dsu.h
-        include/${target}/gabow/edgelink.h
         include/${target}/gabow/gabow.h
+        include/${target}/gabow/active_forest.h
         include/${target}/tarjan/tarjan.h
         include/${target}/tarjan/impl.h
         include/${target}/data_structures/treap.h
         include/${target}/data_structures/compressed_tree.h
         include/${target}/data_structures/compressed_tree.inl
-        include/${target}/data_structures/active_forest.h
         include/${target}/utils/cf_solution.h
 )
 
@@ -20,8 +19,8 @@ set(SOURCES
         src/utils/cf_solution.cpp
         src/data_structures/dsu.cpp
         src/data_structures/treap.cpp
-        src/data_structures/active_forest.cpp
         src/gabow/gabow.cpp
+        src/gabow/active_forest.cpp
         src/tarjan/tarjan.cpp
         src/tarjan/tarjan_matrix.cpp
         src/tarjan/tarjan_set.cpp

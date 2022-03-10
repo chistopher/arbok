@@ -2,7 +2,7 @@
 
 #include <list>
 
-#include <arbok/gabow/edgelink.h>
+#include <arbok/data_structures/compressed_tree.h>
 
 struct FibHeapNode; // FWD
 
@@ -13,9 +13,9 @@ namespace arbok {
         explicit ActiveForest(CompressedTree<int>& _co);
         ~ActiveForest();
 
-        void makeActive(EdgeLink link); // creates new fibheap handle or reuses the one in active_edge[link.from]
+        void makeActive(int from, int to, int weight, int id);
         void deleteActiveEdge(int i);
-        EdgeLink extractMin(int i); // extract min from heap of node i
+        int extractMin(int i); // extract min from heap of node i, returns edge id
         void mergeHeaps(int i, int j);
 
     private:
@@ -24,6 +24,7 @@ namespace arbok {
         void removeFromCurrentList(FibHeapNode* v);
         void moveHome(FibHeapNode* v);
         void loseChild(FibHeapNode* v);
+        int curWeight(FibHeapNode* v);
 
         CompressedTree<int>& co;
         std::vector<FibHeapNode*> active_edge; // for each node the active outgoing edge

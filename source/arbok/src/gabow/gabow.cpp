@@ -26,9 +26,8 @@ void Gabow::create_edge(int from, int to, int weight) {
     assert(0<=from && from < num_vertices);
     assert(0<=to && to < num_vertices);
     if (from == to) return;
-    int edge_id = static_cast<int>(edges.size());
-    edges.emplace_back(from, to, weight, edge_id);
-    incoming_edges[to].push_back(edge_id);
+    incoming_edges[to].push_back(int(size(edges)));
+    edges.push_back({from, to, weight,false});
 }
 
 
@@ -68,7 +67,7 @@ void Gabow::extendPath(int u) {
         int rep_x = co.find(edge.from);
         if (exit_list[rep_x].empty()) {
             add_edge_to_exit_list(rep_x, edge_id);
-            active_forest.makeActive(edge);
+            active_forest.makeActive(edge.from,edge.to,edge.weight,edge_id);
         } else {
             int front_edge_id = exit_list[rep_x].back();
             auto& front_edge = edges[front_edge_id];
@@ -79,12 +78,12 @@ void Gabow::extendPath(int u) {
                 passive_set[rep_vi].push_back(front_edge_id);
                 // and edge becomes active
                 add_edge_to_exit_list(rep_x, edge_id);
-                active_forest.makeActive(edge);
+                active_forest.makeActive(edge.from,edge.to,edge.weight,edge_id);
             } else {
                 if (edge.weight < front_edge.weight) { // we can use weight here since u was never contracted
                     exit_list[rep_x].pop_back();
                     add_edge_to_exit_list(rep_x, edge_id);
-                    active_forest.makeActive(edge);
+                    active_forest.makeActive(edge.from,edge.to,edge.weight,edge_id);
                 }
             }
         }
@@ -113,7 +112,7 @@ int Gabow::contractPathPrefix(int u) {
         auto& edge = edges[edge_id];
         assert(co.find(edge.to) == vi);
         assert(co.find(vi) == vi); // all nodes on growth path are representatives
-        co.add_value(vi, -currentWeight(edge,co));
+        co.add_value(vi, -currentWeight(edge));
     }
 
     assert(empty(passive_set[growth_path.back()]));
@@ -139,9 +138,9 @@ int Gabow::contractPathPrefix(int u) {
             assert(size(exit_list[rep_x])>=2); // namely first_edge and edge
             assert(std::find(exit_list[rep_x].begin(), exit_list[rep_x].end(), edge_id) == prev(prev(end(exit_list[rep_x]))));
             exit_list[rep_x].pop_back(); // we delete one of the two for sure
-            if (currentWeight(first_edge,co) > currentWeight(edge,co)) {
+            if (currentWeight(first_edge) > currentWeight(edge)) {
                 // we delete first_edge (x,vj) of x's exit list making the 2nd element (edge / (x,vi)) active
-                active_forest.makeActive(edge);
+                active_forest.makeActive(edge.from,edge.to,edge.weight,edge_id);
             } else {
                 exit_list[rep_x].back() = first_edge_id; // this amounts to the same as deleting the second to last elem in the vector
             }
@@ -207,7 +206,7 @@ long long Gabow::run(int root) {
     for (int edge_id: incoming_edges[root]) {
         auto& edge = edges[edge_id];
         add_edge_to_exit_list(edge.from, edge_id);
-        active_forest.makeActive(edge);
+        active_forest.makeActive(edge.from,edge.to,edge.weight,edge_id);
     }
 
     int cur_root = root;
@@ -216,26 +215,29 @@ long long Gabow::run(int root) {
     while (num_reps>1) {
 
         assert(co.find(cur_root) == cur_root);
-        EdgeLink edge = active_forest.extractMin(cur_root);
+        int edge_id =active_forest.extractMin(cur_root);
+        auto& edge = edges[edge_id];
         int u = co.find(edge.from);
         assert(exit_list[u].back() == edge.id);
         assert(u != cur_root); // no self loop
 
         // clear out exit list of u
+        // when extending the path to vertex u, all its outgoing passive edges will never ever be relevant to the algo
+        // they are still in some passive sets on the growth path, but we'll ignore them later
         exit_list[u].pop_back(); // the active edge
-        for (int edge_id : exit_list[u]) // ... then all the passive edges
-            edges[edge_id].ignore = true; // they will always point down the growth path or become self-loops
+        for (int id : exit_list[u]) // ... then all the passive edges
+            edges[id].ignore = true; // they will always point down the growth path or become self-loops
         exit_list[u].clear();
 
         // reconstruction stuff
         int forest_id = static_cast<int>(std::size(chosen));
-        chosen.push_back(edge.id);
+        chosen.push_back(edge_id);
         forest.push_back(forest_id); // new edge initially has no parent
 
         if (edge.weight < std::numeric_limits<int>::max())
-            answer += currentWeight(edge,co);
+            answer += currentWeight(edge);
 
-        growth_path_edges.push_back(edge.id); // needed in both cases
+        growth_path_edges.push_back(edge_id); // needed in both cases
         chosen_path.push_back(forest_id);
 
         if (!in_path[u]) {
@@ -270,7 +272,7 @@ std::vector<Edge> Gabow::reconstruct(int root) {
         if(del[r]) continue;
         assert(forest[r]==n || del[forest[r]]); // we have a root (first check is due to last contraction having no incoming edge)
         auto& edge = edges[chosen[r]];
-        if(edge.to != root) res.push_back(edge.id);
+        if(edge.to != root) res.push_back(chosen[r]);
         auto leaf_edge_pos = leaf[edge.to];
         // we take the edge at position r and 'delete' the path from the leaf to the root from the forest
         del[r] = true;

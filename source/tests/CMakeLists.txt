@@ -13,8 +13,6 @@ add_executable(${target}
 )
 
 target_link_libraries(${target} GTest::Main arbok)
-target_compile_options(${target} PRIVATE  -fsanitize=address -g)
-target_link_options(${target} PRIVATE  -fsanitize=address)
 gtest_discover_tests(${target})
 
 set(target fulltests)
@@ -26,7 +24,5 @@ add_executable(${target}
 )
 
 target_link_libraries(${target} GTest::Main arbok)
-target_compile_options(${target} PRIVATE -fsanitize=address -g)
-target_link_options(${target} PRIVATE -fsanitize=address)
 gtest_discover_tests(${target})
 
