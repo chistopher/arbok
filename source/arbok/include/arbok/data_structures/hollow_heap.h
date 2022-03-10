@@ -7,6 +7,8 @@
 #include <functional>
 #include <vector>
 
+// not a real hollow heap, most of the defining features have been stripped
+// (i.e. we don't need decrease key)
 namespace otto {
 template <class T, class Compare = std::less<T>> class hollow_heap {
   public:
@@ -83,7 +85,6 @@ template <class T, class Compare = std::less<T>> class hollow_heap {
             }
         }
 
-        // we can only do this because we never have hollow nodes
         if (cur != nullptr) {
             push_update(cur, root->lazy_update);
         }
@@ -137,7 +138,6 @@ template <class T, class Compare = std::less<T>> class hollow_heap {
         other.n = 0;
     }
     void apply_update(int w) {
-        // this stuff works iff we never use decrease key here
         if (root == nullptr) {
             return;
         }
