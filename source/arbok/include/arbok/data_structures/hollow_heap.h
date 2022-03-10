@@ -57,63 +57,37 @@ template <class T, class Compare = std::less<T>> class hollow_heap {
     }
     void destroy(node *a) { delete a; }
     void remove(node *x) {
-        x->hollow = true;
-        if (x == root) {
-            int root_update = x->lazy_update;
-            std::array<std::vector<node *>, 255> roots_by_rank;
-            std::function<void(node *)> collect_roots = [&](node *u) {
-                for (node *c : u->children) {
-                    if (c->second_parent != nullptr) {
-                        c->second_parent->children.push_back(c);
-                        c->second_parent = nullptr;
-                    } else if (c->hollow) {
-                        collect_roots(c);
-                    } else
-                        roots_by_rank[c->rank].push_back(c);
-                }
-                destroy(u);
-            };
-            collect_roots(root);
-            std::vector<node *> final_roots;
-            for (int r = 0; r < 255; r++) {
-                while (roots_by_rank[r].size() >= 2) {
-                    node *a = roots_by_rank[r].back();
-                    roots_by_rank[r].pop_back();
-                    node *b = roots_by_rank[r].back();
-                    roots_by_rank[r].pop_back();
-                    roots_by_rank[r + 1].push_back(ranked_link(a, b));
-                }
-                if (roots_by_rank[r].size() == 1) {
-                    final_roots.push_back(roots_by_rank[r].back());
-                }
+        int root_update = x->lazy_update;
+        std::array<std::vector<node *>, 255> roots_by_rank;
+        for (node *c : root->children) {
+            roots_by_rank[c->rank].push_back(c);
+        }
+        destroy(root);
+        std::vector<node *> final_roots;
+        for (int r = 0; r < 255; r++) {
+            while (roots_by_rank[r].size() >= 2) {
+                node *a = roots_by_rank[r].back();
+                roots_by_rank[r].pop_back();
+                node *b = roots_by_rank[r].back();
+                roots_by_rank[r].pop_back();
+                roots_by_rank[r + 1].push_back(ranked_link(a, b));
             }
-            if (final_roots.size() == 0) {
-                root = nullptr;
-            } else {
-                root = final_roots.back();
-                final_roots.pop_back();
-                for (node *fr : final_roots)
-                    root = link(root, fr);
+            if (roots_by_rank[r].size() == 1) {
+                final_roots.push_back(roots_by_rank[r].back());
+            }
+        }
+        if (final_roots.size() == 0) {
+            root = nullptr;
+        } else {
+            root = final_roots.back();
+            final_roots.pop_back();
+            for (node *fr : final_roots)
+                root = link(root, fr);
 
-                // we can only do this because we never have hollow nodes
-                push_update(root, root_update);
-            }
+            // we can only do this because we never have hollow nodes
+            push_update(root, root_update);
         }
         --n; // update size of heap
-    }
-    node *decreaseKey(node *x, const value_type &new_key) {
-        if (x == root) {
-            x->key = new_key;
-            return x;
-        } else {
-            x->hollow = true;
-            node *new_node = new node(new_key, max(0, x->rank - 2));
-            root = link(root, new_node);
-            if (root != new_node) {
-                x->second_parent = new_node;
-            }
-            return new_node;
-        }
     }
     void push_update(node *x, int w) {
         x->key.weight += w;
@@ -137,10 +111,6 @@ template <class T, class Compare = std::less<T>> class hollow_heap {
         ++n;
         return node_handle(new_node);
     };
-    void decreaseKey(node_handle &x, const value_type &new_key) {
-        x._node = decreaseKey(x._node, new_key);
-    }
-    void remove(node_handle &x) { remove(x._node); }
     void pop() { remove(root); }
     void merge(hollow_heap &other) {
         if (other.root == nullptr) {
