@@ -56,37 +56,39 @@ template <class T, class Compare = std::less<T>> class hollow_heap {
         return winner;
     }
     void destroy(node *a) { delete a; }
-    void remove(node *x) {
-        int root_update = x->lazy_update;
-        std::array<std::vector<node *>, 255> roots_by_rank;
+    void insert_and_rlink(node *c, std::array<node *, 255> &roots_by_rank) {
+        if (roots_by_rank[c->rank] == nullptr) {
+            roots_by_rank[c->rank] = c;
+        } else {
+            node *other_node_with_same_rank = roots_by_rank[c->rank];
+            roots_by_rank[c->rank] = nullptr;
+            insert_and_rlink(ranked_link(c, other_node_with_same_rank),
+                             roots_by_rank);
+        }
+    }
+    void extract_root() {
+        std::array<node *, 255> roots_by_rank;
+        roots_by_rank.fill(nullptr);
         for (node *c : root->children) {
-            roots_by_rank[c->rank].push_back(c);
+            insert_and_rlink(c, roots_by_rank);
+        }
+        node *cur = nullptr;
+        for (int r = 0; r < 255; r++) {
+            if (roots_by_rank[r] != nullptr) {
+                if (cur == nullptr) {
+                    cur = roots_by_rank[r];
+                } else {
+                    cur = link(cur, roots_by_rank[r]);
+                }
+            }
+        }
+
+        // we can only do this because we never have hollow nodes
+        if (cur != nullptr) {
+            push_update(cur, root->lazy_update);
         }
         destroy(root);
-        std::vector<node *> final_roots;
-        for (int r = 0; r < 255; r++) {
-            while (roots_by_rank[r].size() >= 2) {
-                node *a = roots_by_rank[r].back();
-                roots_by_rank[r].pop_back();
-                node *b = roots_by_rank[r].back();
-                roots_by_rank[r].pop_back();
-                roots_by_rank[r + 1].push_back(ranked_link(a, b));
-            }
-            if (roots_by_rank[r].size() == 1) {
-                final_roots.push_back(roots_by_rank[r].back());
-            }
-        }
-        if (final_roots.size() == 0) {
-            root = nullptr;
-        } else {
-            root = final_roots.back();
-            final_roots.pop_back();
-            for (node *fr : final_roots)
-                root = link(root, fr);
-
-            // we can only do this because we never have hollow nodes
-            push_update(root, root_update);
-        }
+        root = cur;
         --n; // update size of heap
     }
     void push_update(node *x, int w) {
@@ -111,7 +113,7 @@ template <class T, class Compare = std::less<T>> class hollow_heap {
         ++n;
         return node_handle(new_node);
     };
-    void pop() { remove(root); }
+    void pop() { extract_root(); }
     void merge(hollow_heap &other) {
         if (other.root == nullptr) {
             return;
