@@ -52,6 +52,7 @@ namespace arbok {
         void ensure_strongly_connected(int root);
         void extendPath(int u);
         int contractPathPrefix(int u);
+        void contractCompletePath(int root);
     };
 
 } // end namespace arbok

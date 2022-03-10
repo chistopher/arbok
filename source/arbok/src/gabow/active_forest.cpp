@@ -2,6 +2,7 @@
 #include <arbok/gabow/active_forest.h>
 
 #include <cassert>
+#include <tuple>
 
 using namespace arbok;
 using namespace std;
@@ -53,18 +54,6 @@ void ActiveForest::deleteActiveEdge(int i) {
 }
 
 int ActiveForest::extractMin(int i) {
-    // find top element in rootlist
-    assert(!empty(active_sets[i])); // list not empty
-    FibHeapNode* v_min = *min_element(begin(active_sets[i]), end(active_sets[i]), [this](auto a, auto b){
-        return curWeight(a) < curWeight(b);
-    });
-    int res_id = v_min->id;
-    assert(v_min == active_edge[co.find(v_min->from)]); // edge is active edge
-    assert(co.find(v_min->to) == i); // edge is in home heap
-
-    // delete edge from root list, moving all children back in their home heaps (possibly this one)
-    deleteActiveEdge(co.find(v_min->from));
-
     // merge rem nodes by rank and create new root list
     vector<FibHeapNode*> order_rep;
     for(auto v : active_sets[i]) {
@@ -80,13 +69,24 @@ int ActiveForest::extractMin(int i) {
             assert(v!=other);
             assert(find(begin(v->children), end(v->children), other) == other->list_it);
         }
-        while(size(order_rep)<=size(v->children)) order_rep.push_back(nullptr);
+        order_rep.resize(max(size(order_rep),size(v->children)+1),nullptr);
         order_rep[size(v->children)] = v;
     }
     active_sets[i].clear();
     for(auto v : order_rep)
         if(v) v->list_it = active_sets[i].insert(end(active_sets[i]),v);
 
+    // find top element in rootlist
+    assert(!empty(active_sets[i])); // list not empty
+    FibHeapNode* v_min = *min_element(begin(active_sets[i]), end(active_sets[i]), [this](auto a, auto b){
+        return curWeight(a) < curWeight(b);
+    });
+    assert(v_min == active_edge[co.find(v_min->from)]); // edge is active edge
+    assert(co.find(v_min->to) == i); // edge is in home heap
+
+    // delete edge from root list, moving all children back in their home heaps (possibly this one)
+    int res_id = v_min->id;
+    deleteActiveEdge(co.find(v_min->from));
     return res_id;
 }
 

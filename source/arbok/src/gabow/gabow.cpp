@@ -56,7 +56,8 @@ void Gabow::extendPath(int u) {
     in_path[u] = true;
     growth_path.push_back(u);
 
-    assert(exit_list[u].empty());
+    //for(auto e_id : exit_list[u])
+        //assert(co.same(edges[e_id].to,0));
 
     // lines 6-20 in report
 
@@ -194,32 +195,24 @@ int Gabow::contractPathPrefix(int u) {
 
 // every vertex must be reachable from root
 long long Gabow::run(int root) {
-    // TODO: test alternative approach that sets root randomly, maybe in the fastestspeedrun scenario always starting
-    // at 0 might be inefficient, because we always traverse an high-cost edge backwards first.
-
-    ensure_strongly_connected(root);
-
-    // init root
-    in_path[root] = true;
-    growth_path.push_back(root);
-    // add each incoming edge (v,s) of root to the front of the exit list of root and make it active
-    for (int edge_id: incoming_edges[root]) {
-        auto& edge = edges[edge_id];
-        add_edge_to_exit_list(edge.from, edge_id);
-        active_forest.makeActive(edge.from,edge.to,edge.weight,edge_id);
-    }
-
-    int cur_root = root;
-
+    int next = 0; // next vertex that was not processed already
     long long answer = 0;
-    while (num_reps>1) {
+    while (true) {
+        // we start a new path
+        if(empty(growth_path)) {
+            while(next<num_vertices && co.same(next,root)) next++;
+            if(next>=num_vertices) break;
+            extendPath(next);
+            continue;
+        }
 
-        assert(co.find(cur_root) == cur_root);
-        int edge_id =active_forest.extractMin(cur_root);
+        auto cur_head = growth_path.back();
+        assert(co.find(cur_head) == cur_head);
+        int edge_id =active_forest.extractMin(cur_head);
         auto& edge = edges[edge_id];
         int u = co.find(edge.from);
-        assert(exit_list[u].back() == edge.id);
-        assert(u != cur_root); // no self loop
+        assert(exit_list[u].back() == edge_id);
+        assert(u != cur_head); // no self loop
 
         // clear out exit list of u
         // when extending the path to vertex u, all its outgoing passive edges will never ever be relevant to the algo
@@ -234,22 +227,20 @@ long long Gabow::run(int root) {
         chosen.push_back(edge_id);
         forest.push_back(forest_id); // new edge initially has no parent
 
-        if (edge.weight < std::numeric_limits<int>::max())
-            answer += currentWeight(edge);
+        answer += currentWeight(edge);
 
         growth_path_edges.push_back(edge_id); // needed in both cases
         chosen_path.push_back(forest_id);
 
-        if (!in_path[u]) {
+        if(co.same(root,u)) {
+            contractCompletePath(root); // contract complete path
+        } else if (!in_path[u]) {
             assert(edge.from == u); // edge.from is not a contracted vertex
-            cur_root = u;
             extendPath(u);
         } else {
-            cur_root = contractPathPrefix(u);
+            contractPathPrefix(u);
         }
     }
-
-    for(int i=0; i<num_vertices; ++i) assert(co.find(i) == cur_root);
 
     return answer;
 }
@@ -264,13 +255,15 @@ std::vector<Edge> Gabow::reconstruct(int root) {
         auto& edge = edges[chosen[i]];
         if(leaf[edge.to]==-1) leaf[edge.to] = i;
     }
+    leaf[root] = -2;
     assert(none_of(begin(leaf), end(leaf), [](int l) { return l==-1; })); // assert each node has an incoming edge
 
     std::vector<int> res;
     std::vector del(n,false);
     for(int r=n-1; r>=0; --r) { // we exploit here that parent has always higher index; -> larger index first results in top-to-bottom traversal
         if(del[r]) continue;
-        assert(forest[r]==n || del[forest[r]]); // we have a root (first check is due to last contraction having no incoming edge)
+        //assert(forest[r]==n || del[forest[r]]); // we have a root (first check is due to last contraction having no incoming edge)
+        assert(forest[r]==r || del[forest[r]]); // we are a root or our parent was already deleted
         auto& edge = edges[chosen[r]];
         if(edge.to != root) res.push_back(chosen[r]);
         auto leaf_edge_pos = leaf[edge.to];
@@ -289,4 +282,30 @@ std::vector<Edge> Gabow::reconstruct(int root) {
     }
 
     return ret;
+}
+
+void Gabow::contractCompletePath(int root) {
+    // delete passive edges
+    auto root_rep = co.find(root);
+    for(auto vi : growth_path) {
+        in_path[vi] = false;
+        for(auto e_id : passive_set[vi]) {
+            if(edges[e_id].ignore) continue;
+            auto x = co.find(edges[e_id].from);
+            std::swap(exit_list[x][size(exit_list[x])-1], exit_list[x][size(exit_list[x])-2]); // delete second to last elem :)
+            exit_list[x].pop_back();
+        }
+    }
+    for(auto vi : growth_path) co.join(vi,root_rep);
+    for(auto vi : growth_path) active_forest.mergeHeaps(root_rep,vi); // merge all into old root_rep
+    if(root_rep != co.find(root_rep)) active_forest.mergeHeaps(co.find(root_rep), root_rep); // then move to new root_rep
+    //for(int i=0; i<num_vertices; ++i)
+    //for(auto e_id : exit_list[i])
+    //assert(co.same(edges[e_id].to, root_rep));
+    // set the parent of the contracted edges in reconstruction forest
+    for(int i=0;i<size(growth_path_edges);++i)
+        forest[chosen_path[i]] = chosen_path[i]; // they are roots in reconstruction forest
+    growth_path_edges.clear();
+    growth_path.clear();
+    chosen_path.clear();
 }
