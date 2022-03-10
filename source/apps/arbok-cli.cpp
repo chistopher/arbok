@@ -13,24 +13,19 @@
 
 using namespace std;
 
-struct ScopedTimer {
-    chrono::steady_clock::time_point start = chrono::steady_clock::now();
-    string m_desc;
-    auto stop() {
+struct Timer {
+    map<string, chrono::steady_clock::time_point> begin;
+    string last;
+    void start(const string& desc) { last = desc; begin[desc] = chrono::steady_clock::now(); }
+    auto stop(const string& desc) {
         auto end = chrono::steady_clock::now();
-        auto dur = chrono::duration_cast<chrono::milliseconds>(end-start).count();
-        cout << m_desc << " finished in " << dur << " ms" << endl;
-        m_desc.clear();
+        auto dur = chrono::duration_cast<chrono::milliseconds>(end-begin[desc]).count();
+        cout << desc << " finished in " << dur << " ms" << endl;
         return dur;
     }
-    ScopedTimer(const string& desc) : m_desc(desc) {}
-    ScopedTimer& operator=(ScopedTimer&& other) {
-        swap(start,other.start);
-        swap(m_desc,other.m_desc);
-        return *this;
-    }
-    ~ScopedTimer() { if(!empty(m_desc)) stop(); }
+    auto stop() { return stop(last); }
 };
+Timer t;
 
 struct Graph {
     struct Edge { int from, to, weight; };
@@ -107,19 +102,20 @@ Graph fromFile(const string& file) {
 
 
 void isArborescence(const Graph& graph, vector<arbok::Edge>& arbo, long long claimed_weight, int n, int root) {
+    auto check = [](bool cond){ if(!cond) cout << "no valid DMST", exit(1); };
     // weight is same as claimed
     auto check_sum = 0ll;
     for(auto e : arbo) check_sum += e.orig_weight;
-    assert(check_sum==claimed_weight);
+    check(check_sum==claimed_weight);
 
     // each node except root has one incoming edge
-    assert(size(arbo)==n-1);
+    check(size(arbo)==n-1);
     vector has_inc(n, false);
     for(auto e : arbo) {
-        assert(!has_inc[e.to]);
+        check(!has_inc[e.to]);
         has_inc[e.to] = true;
     }
-    assert(!has_inc[root]);
+    check(!has_inc[root]);
 
     // all arbo edges exists like this in the original graph
     vector<tuple<int,int,int>> edges;
@@ -127,7 +123,7 @@ void isArborescence(const Graph& graph, vector<arbok::Edge>& arbo, long long cla
     for(auto e : graph.edges) edges.emplace_back(e.from, e.to, e.weight);
     sort(begin(edges), end(edges));
     for(auto e : arbo)
-        assert(binary_search(begin(edges), end(edges), tuple{e.from, e.to, e.orig_weight}));
+        check(binary_search(begin(edges), end(edges), tuple{e.from, e.to, e.orig_weight}));
 }
 
 map<string, string> parseArgs(int argc, char** argv) {
@@ -149,26 +145,28 @@ void run(map<string, string>& args) {
 
     auto input  = DATA_DIR + args["input"];
 
-    ScopedTimer timer("load graph");
+    t.start("load graph");
     auto graph = fromFile(input);
-    timer.stop();
+    t.stop("load graph");
+
     cout << "n      =" << graph.n << endl;
     cout << "m      =" << size(graph.edges) << endl;
 
-    timer = ScopedTimer("find giant cc");
+    t.start("find giant cc");
     graph = giantCC(graph);
-    timer.stop();
+    t.stop("find giant cc");
 
     cout << "n      =" << graph.n << endl;
     cout << "m      =" << size(graph.edges) << endl;
 
     if(!graph.weighted) {
-        ScopedTimer scoped("add random weights");
+        t.start("add random weights");
         mt19937 gen(1337);
         uniform_int_distribution dist(1, 20);
         //graph.weighted = true;
         for(auto& [u,v,w] : graph.edges)
             w = dist(gen);
+        t.stop("add random weights");
     } else {
         int mn = numeric_limits<int>::max();
         int mx = numeric_limits<int>::min();
@@ -185,41 +183,61 @@ void run(map<string, string>& args) {
 
     const int INF = 1e9;
 
-    timer = ScopedTimer("add supernode");
+    t.start("add supernode");
     int root = graph.n;
     for(int i=0; i<graph.n; ++i)
         graph.edges.push_back({root,i,INF});
     graph.n++;
+    t.stop("add supernode");
 
-    // construct algo DS
-    timer = ScopedTimer("construct algo DS");
-    Algo alg(graph.n);
-    for(auto e : graph.edges) alg.create_edge(e.from, e.to, e.weight);
+    long con, run, rec;
+    long long res;
+    vector<arbok::Edge> arbo;
+    int contractions;
+    t.start("total");
+    {
+        t.start("construct algo DS");
+        Algo alg(graph.n);
+        for (auto e: graph.edges) alg.create_edge(e.from, e.to, e.weight);
+        con = t.stop();
 
-    timer = ScopedTimer("run algo");
-    auto res = alg.run(root);
-    auto dur = timer.stop();
+        t.start("run algo");
+        res = alg.run(root);
+        contractions = alg.contractions;
+        run = t.stop();
 
-    timer = ScopedTimer("reconstruct");
-    auto arbo = alg.reconstruct(root);
+        t.start("reconstruct");
+        arbo = alg.reconstruct(root);
+        rec = t.stop();
 
-    timer = ScopedTimer("validate");
+        t.start("destroy");
+    }
+    auto del = t.stop();
+    t.stop("total");
+
+    t.start("validate");
     isArborescence(graph, arbo, res, graph.n, root);
-    timer.stop();
+    t.stop();
 
     if(!empty(args["csv"])) {
         ofstream ouf(args["csv"], ios::app);
-        ouf << input
+        ouf << args["input"]
             << ',' << graph.n
             << ',' << size(graph.edges)
             << ',' << graph.weighted
+            << ',' << res
             << ',' << args["algo"]
-            << ',' << dur << endl;
+            << ',' << con
+            << ',' << run
+            << ',' << rec
+            << ',' << del
+            << ',' << contractions
+            << endl;
     }
 
     cout << "n      =" << graph.n << endl;
     cout << "m      =" << size(graph.edges) << endl;
-    cout << "merge  =" << alg.contractions << endl;
+    cout << "merges =" << contractions << endl;
     cout << "w      =" << res << endl;
     cout << "w%1e9  =" << res%int(1e9) << endl;
     cout << "w/1e9  =" << res/1'000'000'000 << endl;
