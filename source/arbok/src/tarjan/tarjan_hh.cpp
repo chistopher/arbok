@@ -16,7 +16,7 @@ Edge HollowHeapImpl::get_min_edge(int v, DSU &dsu) {
     assert(size(managedSets[v]));
     while (dsu.find(managedSets[v].top().from) == v)
         managedSets[v].pop(); // delete selfloops
-    auto res = managedSets[v].top();
+    Edge res = managedSets[v].top();
     managedSets[v].pop(); // extract the edges that is returned
     return res;
 }
