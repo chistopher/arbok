@@ -26,7 +26,6 @@ namespace arbok {
         };
 
         const int num_vertices;
-        int num_reps;
         CompressedTree<int> co; // for actual merges and managing offsets
 
         std::vector<EdgeLink> edges;                  // all edges
@@ -47,9 +46,7 @@ namespace arbok {
         std::vector<int> forest;      // forest[i]: parent in reconstruction forest of edge edges[chosen[i]] (as ids into chosen)
         std::vector<int> chosen_path; // edges on growth path (just as growth_path_edges) but as ids into chosen
 
-        void add_edge_to_exit_list(int v, int edge_id);
         inline auto currentWeight(const EdgeLink& e) { return e.weight + co.find_value(e.to); }
-        void ensure_strongly_connected(int root);
         void extendPath(int u);
         int contractPathPrefix(int u);
         void contractCompletePath(int root);
