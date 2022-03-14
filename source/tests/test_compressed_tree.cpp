@@ -55,19 +55,19 @@ TEST(CompressedTreeTest, correct_value) {
     // apply queries to both structures
     for(auto [type, node, val] : ops) {
         if(type==OPERATION::JOIN) {
-            cout << "join " << node << ' ' << val << endl;
+            //cout << "join " << node << ' ' << val << endl;
             auto joined = dsu.join(node,val);
             ASSERT_EQ(joined, parent[node] != parent[val]);
             auto root1 = parent[node];
             auto root2 = parent[val];
             for(auto& p : parent) if(p==root2) p = root1;
         } else if(type==OPERATION::ADD_VALUE) {
-            cout << "add " << node << ' ' << val << endl;
+            //cout << "add " << node << ' ' << val << endl;
             dsu.add_value(node,val);
             auto root = parent[node];
             for(int i=0;i<n;++i) if(parent[i]==root) value[i] += val;
         } else {
-            cout << "find " << node << endl;
+            //cout << "find " << node << endl;
             ASSERT_EQ(dsu.find_value(node), value[node]);
         }
     }

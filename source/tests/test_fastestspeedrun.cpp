@@ -73,24 +73,19 @@ void testImpl(const string& testcase_name) {
     isArborescence(graph, arbo, ans, n+1, 0);
 }
 
-TEST_P(CodeforcesTest, MatrixTarjan) {
-    testImpl<arbok::MatrixTarjan>(GetParam());
-}
+TEST_P(CodeforcesTest, MatrixTarjan) { testImpl<arbok::MatrixTarjan>(GetParam()); }
 
 TEST_P(CodeforcesTest, SetTarjan) { testImpl<arbok::SetTarjan>(GetParam()); }
 
-TEST_P(CodeforcesTest, TreapTarjan) {
-    testImpl<arbok::TreapTarjan>(GetParam());
-}
+TEST_P(CodeforcesTest, TreapTarjan) { testImpl<arbok::TreapTarjan>(GetParam()); }
 
 TEST_P(CodeforcesTest, PQTarjan) { testImpl<arbok::PQTarjan>(GetParam()); }
 
-TEST_P(CodeforcesTest, HHTarjan) { testImpl<arbok::HHTarjan>(GetParam()); }
+//TEST_P(CodeforcesTest, HHTarjan) { testImpl<arbok::HHTarjan>(GetParam()); }
 
 TEST_P(CodeforcesTest, Gabow) { testImpl<arbok::Gabow>(GetParam()); }
 
-// big (and slow) testcase have been removed
-INSTANTIATE_TEST_SUITE_P(Correctness, CodeforcesTest, Values(
+INSTANTIATE_TEST_SUITE_P(SmallOnes, CodeforcesTest, Values(
     "001-small1",
     "002-small2",
     "003-small3",
@@ -105,26 +100,16 @@ INSTANTIATE_TEST_SUITE_P(Correctness, CodeforcesTest, Values(
     "012-small-maximal",
     "013-medium-maximal",
     "014-biggish-maximal",
-    "015-manycycles2k5",
-    "016-ones-and-twos1-2k5",
-    "017-ones-and-twos2-2k5",
-    "018-maxanswer",
     "019-self1",
     "020-self2",
     "021-chunks1",
     "022-chain1",
     "023-chain2",
     "024-chain3",
-    "025-chain4",
     "026-rand1",
     "027-rand2",
     "028-largecyc1",
     "029-largecyc2",
-    "030-manycycles1k",
-    "031-manycycles2k",
-    "032-chain5_2k5",
-    "033-rand3_2k5",
-    "034-maxcycle",
     "035-itsybitsycycles05",
     "036-itsybitsycycles11",
     "037-itsybitsycycles12",
@@ -138,4 +123,17 @@ INSTANTIATE_TEST_SUITE_P(Correctness, CodeforcesTest, Values(
     "045-littlecycles05",
     "046-minitest_alice_jeroenkill-hand",
     "047-challenge_gregor-hand"
+));
+
+INSTANTIATE_TEST_SUITE_P(LargeOnes, CodeforcesTest, Values(
+    "015-manycycles2k5",
+    "016-ones-and-twos1-2k5",
+    "017-ones-and-twos2-2k5",
+    "018-maxanswer",
+    "025-chain4",
+    "030-manycycles1k",
+    "031-manycycles2k",
+    "032-chain5_2k5",
+    "033-rand3_2k5",
+    "034-maxcycle"
 ));
