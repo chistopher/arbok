@@ -22,7 +22,7 @@ namespace arbok {
     protected:
         struct EdgeLink {
             int from, to, weight;
-            bool ignore = false;
+            bool ignore;
         };
 
         const int num_vertices;
@@ -32,7 +32,7 @@ namespace arbok {
         std::vector<std::vector<int>> incoming_edges; // adjacency list pointing into edges
 
         std::vector<int> growth_path;
-        std::vector<int> growth_path_edges;
+        std::vector<int> path_edges; // edges on growth path but as ids into chosen
         std::vector<bool> in_path;
 
         std::vector<std::vector<int>> exit_list;   // stores the index into edges
@@ -40,11 +40,9 @@ namespace arbok {
 
         ActiveForest active_forest;
 
-        // reconstruction
         // forest over chosen edges as outlined in reconstruction paper
         std::vector<int> chosen;      // chosen edges
         std::vector<int> forest;      // forest[i]: parent in reconstruction forest of edge edges[chosen[i]] (as ids into chosen)
-        std::vector<int> chosen_path; // edges on growth path (just as growth_path_edges) but as ids into chosen
 
         inline auto currentWeight(const EdgeLink& e) { return e.weight + co.find_value(e.to); }
         void extendPath(int u);

@@ -16,7 +16,7 @@ Gabow::Gabow(int n)
     , active_forest(co)
 {
     growth_path.reserve(n); // cannot become larger
-    growth_path_edges.reserve(n);
+    path_edges.reserve(n);
 }
 
 void Gabow::create_edge(int from, int to, int weight) {
@@ -24,7 +24,7 @@ void Gabow::create_edge(int from, int to, int weight) {
     assert(0<=to && to < num_vertices);
     if (from == to) return;
     incoming_edges[to].push_back(int(size(edges)));
-    edges.push_back({from, to, weight,false});
+    edges.push_back({from, to, weight, false});
 }
 
 long long Gabow::run(int root) {
@@ -41,16 +41,14 @@ long long Gabow::run(int root) {
 
         auto cur_head = growth_path.back();
         assert(co.find(cur_head) == cur_head);
-        int edge_id =active_forest.extractMin(cur_head);
+        int edge_id = active_forest.extractMin(cur_head);
         auto& edge = edges[edge_id];
         int u = co.find(edge.from);
         assert(exit_list[u].back() == edge_id);
         assert(u != cur_head); // no self loop
 
         // clear out exit list of u
-        // when extending the path to vertex u, all its outgoing passive edges will never ever be relevant to the algo
-        // they are still in some passive sets on the growth path, but we'll ignore them later
-        exit_list[u].pop_back(); // the active edge
+        exit_list[u].pop_back(); // the active edge (was removed from active forest by extract min)
         for (int id : exit_list[u]) // ... then all the passive edges
             edges[id].ignore = true; // they will always point down the growth path or become self-loops
         exit_list[u].clear();
@@ -59,20 +57,16 @@ long long Gabow::run(int root) {
         int forest_id = static_cast<int>(std::size(chosen));
         chosen.push_back(edge_id);
         forest.push_back(forest_id); // new edge initially has no parent
+        path_edges.push_back(forest_id);
 
         answer += currentWeight(edge);
 
-        growth_path_edges.push_back(edge_id); // needed in both cases
-        chosen_path.push_back(forest_id);
-
-        if(co.same(root,u)) {
+        if(co.same(root,u))
             contractCompletePath(root); // contract complete path
-        } else if (!in_path[u]) {
-            assert(edge.from == u); // edge.from is not a contracted vertex
+        else if (!in_path[u])
             extendPath(u);
-        } else {
+        else // in path = cycle
             contractPathPrefix(u);
-        }
     }
 
     return answer;
@@ -140,103 +134,72 @@ void Gabow::extendPath(int u) {
         exit_list[rep_x].push_back(edge_id);
         active_forest.makeActive(edge.from,edge.to,edge.weight,edge_id);
     }
-
 }
 
 int Gabow::contractPathPrefix(int u) {
     contractions++;
-    int rep_u = co.find(u);
-    assert(in_path[rep_u]);
-    assert(size(growth_path) == size(growth_path_edges));
-    assert(size(growth_path_edges) == size(chosen_path));
+    assert(co.find(u) == u);
+    assert(in_path[u]);
+    assert(size(growth_path) == size(path_edges));
 
-    // TODO maybe we can merge some of these loops
-
-    assert(find(begin(growth_path), end(growth_path), rep_u) != end(growth_path));
-    int k = int(find(rbegin(growth_path), rend(growth_path), rep_u) - rbegin(growth_path));
-
-    for (int i = 0; i <= k; i++) {
-        // the incoming edge that we chose for vertex vi corresponds to the same index in growth_path_edges ()
-        int vi = growth_path[size(growth_path)-i-1];
-        int edge_id = growth_path_edges[size(growth_path)-i-1];
-        auto& edge = edges[edge_id];
-        assert(co.find(edge.to) == vi);
+    std::vector<int> prefix;
+    do {
+        auto vi = growth_path.back();
         assert(co.find(vi) == vi); // all nodes on growth path are representatives
-        co.add_value(vi, -currentWeight(edge));
-    }
+        assert(co.find(edges[chosen[path_edges.back()]].to) == vi); // synced with gp edges
+        in_path[vi] = false;
+        prefix.push_back(vi);
+        co.add_value(vi, -currentWeight(edges[chosen[path_edges.back()]]));
+        forest[path_edges.back()] = static_cast<int>(size(chosen)); // next iteration in run will find an incoming edge into the here contracted prefix; this edge will be the next in chosen
+        growth_path.pop_back();
+        path_edges.pop_back();
+    } while(prefix.back() != u);
 
-    assert(empty(passive_set[growth_path.back()]));
-    for (int i = 1; i <= k; i++) {
-        int vi = growth_path[size(growth_path)-i-1];
-        assert(co.find(vi) == vi); // all nodes on growth path are representatives
-        // invariant: after we are done with vi, all exit lists of nodes x have no passive edges from vertices v0,..,vi
-        //for (int edge_id : passive_set[vi]) {
-        for(auto it=rbegin(passive_set[vi]); it!=rend(passive_set[vi]); ++it) { // iterate in reverse
-            int edge_id = *it;
+    // condense all edges into the prefix to at most 1 per origin
+    for(int vi : prefix) {
+        // if we are here then there are no passive edges to any node earlier in prefix than vi
+        reverse(begin(passive_set[vi]),end(passive_set[vi])); // we want to iterate passive set in reverse order of insertion
+        for(auto edge_id : passive_set[vi]) {
             if(edges[edge_id].ignore) continue;
             auto& edge = edges[edge_id];
-            int rep_x = co.find(edge.from); // algo 4 line 8 of report says no DSU lookup, but text says so, and it makes sense to do so (I think)
-            int first_edge_id = exit_list[rep_x].back();
+            assert(vi == co.find(edge.to)); // edge is in correct passive set
+            int from = co.find(edge.from);
+            int first_edge_id = exit_list[from].back();
             auto& first_edge = edges[first_edge_id];
-
-            assert(vi == co.find(edge.to));
-
-            // the exit list of x should look like: (x,vj), (x,vi), ...
-            // since all passive edges from nodes v0...v_{i-1} were deleted or became active
-            // with multi-edges this depends on the fact that edge order in exit_list[rep_x] has edges to vi in same order as they are in passive set[vi]
             assert(co.find(first_edge.to)!=vi); // equivalent to "no multi-edges"
-            assert(size(exit_list[rep_x])>=2); // namely first_edge and edge
-            assert(std::find(exit_list[rep_x].begin(), exit_list[rep_x].end(), edge_id) == prev(prev(end(exit_list[rep_x]))));
-            exit_list[rep_x].pop_back(); // we delete one of the two for sure
-            if (std::pair(currentWeight(first_edge),first_edge.from) > std::pair(currentWeight(edge),edge.from)) {
-                // we delete first_edge (x,vj) of x's exit list making the 2nd element (edge / (x,vi)) active
-                active_forest.makeActive(edge.from,edge.to,edge.weight,edge_id);
-            } else {
-                exit_list[rep_x].back() = first_edge_id; // this amounts to the same as deleting the second to last elem in the vector
-            }
+            // the exit list of 'from' should have 'edge' as the first passive edge (just after the active 'first_edge')
+            // since all passive edges from nodes v0...v_{i-1} were deleted
+            // with multi-edges this depends on the fact that edge order in exit_list[rep_x] has edges to vi in same order as they are in passive_set[vi]
+            assert(size(exit_list[from])>=2); // namely first_edge and edge
+            assert(std::find(rbegin(exit_list[from]), rend(exit_list[from]), edge_id) == ++rbegin(exit_list[from]));
+            exit_list[from].pop_back(); // we delete one of the two for sure
+            if (std::pair(currentWeight(first_edge),first_edge.from) > std::pair(currentWeight(edge),edge.from))
+                active_forest.makeActive(edge.from,edge.to,edge.weight,edge_id); // we keep edge (it becomes active)
+            else
+                exit_list[from].back() = first_edge_id; // this amounts to the same as deleting the second to last elem in the exit list
         }
-
-        // clean passive_set of rep_vi here (we cannot do that while iterating)
         passive_set[vi].clear();
     }
 
-    for (int i = 1; i <= k; i++) {
-        int vi = growth_path[size(growth_path)-i-1];
+    // delete active edges inside prefix
+    for(auto vi : prefix) {
         assert(exit_list[vi].size() < 2); // exit list is empty or single element
-
-        if (!exit_list[vi].empty()) {
-            exit_list[vi].pop_back();
-            active_forest.deleteActiveEdge(vi);
-        }
+        if(empty(exit_list[vi])) continue;
+        exit_list[vi].pop_back();
+        active_forest.deleteActiveEdge(vi);
     }
 
     // merge prefix in dsu
-    for (int i = 1; i <= k; i++) {
-        co.join(growth_path.back(), growth_path[size(growth_path)-i-1]);
-    } 
-
-    int new_root = co.find(growth_path.back());
+    for(int vi : prefix)
+        co.join(vi, u);
+    int new_root = co.find(u);
 
     // meld all active sets of contracted prefix
-    for (int i = 0; i <=k; i++) {
-        int vi = growth_path[size(growth_path)-i-1];
-        assert(co.find(vi) == new_root);
-        assert(exit_list[vi].empty());
-        assert(passive_set[vi].empty());
-        in_path[vi] = false; // TODO do this somewhere else maybe
-        if (vi == new_root) continue;
-        active_forest.mergeHeaps(new_root, vi);
-        //assert(active_forest.active_sets[vi].empty());
-    }
-    in_path[new_root] = true;
+    for(int vi : prefix)
+        if (vi!=new_root)
+            active_forest.mergeHeaps(new_root, vi);
 
-    // delete contracted path prefix (since path is saved reverse in memory we delete from back)
-    for(int i=0;i<=k;++i) {
-        growth_path.pop_back(), growth_path_edges.pop_back();
-        // set the parent of the contracted edges in reconstruction forest
-        forest[chosen_path.back()] = static_cast<int>(size(chosen)); // next iteration in run will find an incoming edge into the here contracted prefix; this edge will be the next in chosen
-        chosen_path.pop_back();
-    }
+    in_path[new_root] = true;
     growth_path.push_back(new_root);
 
     return new_root;
@@ -248,10 +211,8 @@ void Gabow::contractCompletePath(int root) {
     for(auto vi : growth_path) co.join(vi,root_rep);
     for(auto vi : growth_path) active_forest.mergeHeaps(root_rep,vi); // merge all into old root_rep
     if(root_rep != co.find(root_rep)) active_forest.mergeHeaps(co.find(root_rep), root_rep); // then move to new root_rep
-    // set the parent of the contracted edges in reconstruction forest
-    for(int i=0;i<size(growth_path_edges);++i)
-        forest[chosen_path[i]] = chosen_path[i]; // they are roots in reconstruction forest
-    growth_path_edges.clear();
+    for(auto c_id : path_edges)
+        forest[c_id] = c_id; // they are roots in reconstruction forest
     growth_path.clear();
-    chosen_path.clear();
+    path_edges.clear();
 }
