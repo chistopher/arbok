@@ -15,7 +15,7 @@ namespace arbok {
 
         void makeActive(int from, int to, int weight, int id);
         void deleteActiveEdge(int i);
-        int extractMin(int i); // extract min from heap of node i, returns edge id
+        int getMin(int i); // returns min from heap of node i, does NOT delete it
         void mergeHeaps(int i, int j);
 
     private:

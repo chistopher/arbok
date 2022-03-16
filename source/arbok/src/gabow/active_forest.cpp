@@ -53,7 +53,7 @@ void ActiveForest::deleteActiveEdge(int i) {
     delete v;
 }
 
-int ActiveForest::extractMin(int i) {
+int ActiveForest::getMin(int i) {
     // merge rem nodes by rank and create new root list
     vector<FibHeapNode*> order_rep;
     for(auto v : active_sets[i]) {
@@ -84,10 +84,7 @@ int ActiveForest::extractMin(int i) {
     assert(v_min == active_edge[co.find(v_min->from)]); // edge is active edge
     assert(co.find(v_min->to) == i); // edge is in home heap
 
-    // delete edge from root list, moving all children back in their home heaps (possibly this one)
-    int res_id = v_min->id;
-    deleteActiveEdge(co.find(v_min->from));
-    return res_id;
+    return v_min->id;
 }
 
 void ActiveForest::mergeHeaps(int i, int j) {

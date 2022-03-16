@@ -41,17 +41,11 @@ long long Gabow::run(int root) {
 
         auto cur_head = growth_path.back();
         assert(co.find(cur_head) == cur_head);
-        int edge_id = active_forest.extractMin(cur_head);
+        int edge_id = active_forest.getMin(cur_head);
         auto& edge = edges[edge_id];
         int u = co.find(edge.from);
         assert(exit_list[u].back() == edge_id);
         assert(u != cur_head); // no self loop
-
-        // clear out exit list of u
-        exit_list[u].pop_back(); // the active edge (was removed from active forest by extract min)
-        for (int id : exit_list[u]) // ... then all the passive edges
-            edges[id].ignore = true; // they will always point down the growth path or become self-loops
-        exit_list[u].clear();
 
         // reconstruction stuff
         int forest_id = static_cast<int>(std::size(chosen));
@@ -155,6 +149,15 @@ int Gabow::contractPathPrefix(int u) {
         path_edges.pop_back();
     } while(prefix.back() != u);
 
+    // delete outgoing edges
+    for(auto vi : prefix) {
+        if(empty(exit_list[vi])) continue;
+        for(auto e_id : exit_list[vi])
+            edges[e_id].ignore = true;
+        exit_list[vi].clear();
+        active_forest.deleteActiveEdge(vi);
+    }
+
     // condense all edges into the prefix to at most 1 per origin
     for(int vi : prefix) {
         // if we are here then there are no passive edges to any node earlier in prefix than vi
@@ -179,14 +182,6 @@ int Gabow::contractPathPrefix(int u) {
                 exit_list[from].back() = first_edge_id; // this amounts to the same as deleting the second to last elem in the exit list
         }
         passive_set[vi].clear();
-    }
-
-    // delete active edges inside prefix
-    for(auto vi : prefix) {
-        assert(exit_list[vi].size() < 2); // exit list is empty or single element
-        if(empty(exit_list[vi])) continue;
-        exit_list[vi].pop_back();
-        active_forest.deleteActiveEdge(vi);
     }
 
     // merge prefix in dsu
