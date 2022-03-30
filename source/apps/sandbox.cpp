@@ -2,98 +2,94 @@
 #include <iostream>
 #include <fstream>
 #include <random>
+#include <cassert>
 #include <chrono>
+#include <map>
 
 #include <arbok/utils/paths.h>
-#include <arbok/tarjan/tarjan.h>
-#include <cassert>
+#include <arbok/lemon/lemon.h>
 
 using namespace std;
 using namespace arbok;
 
-void isArborescence(vector<Edge>& graph, vector<Edge>& arbo, long long claimed_weight, int n, int root) {
-    // weight is same as claimed
-    auto check_sum = 0ll;
-    for(auto e : arbo) check_sum += e.orig_weight;
-    assert(check_sum==claimed_weight);
-
-    // each node except root has one incoming edge
-    assert(size(arbo)==n-1);
-    vector has_inc(n, false);
-    for(auto e : arbo) {
-        assert(!has_inc[e.to]);
-        has_inc[e.to] = true;
+struct Timer {
+    map<string, chrono::steady_clock::time_point> begin;
+    string last;
+    void start(const string& desc) { last = desc; begin[desc] = chrono::steady_clock::now(); }
+    auto stop(const string& desc) {
+        auto end = chrono::steady_clock::now();
+        auto dur = chrono::duration_cast<chrono::milliseconds>(end-begin[desc]).count();
+        cout << desc << " finished in " << dur << " ms" << endl;
+        return dur;
     }
-    assert(!has_inc[root]);
+    auto stop() { return stop(last); }
+};
+Timer t;
 
-    // all arbo edges exists like this in the original graph
-    vector<tuple<int,int,int>> edges;
-    edges.reserve(size(graph));
-    for(auto e : graph) edges.emplace_back(e.from, e.to, e.weight);
-    sort(begin(edges), end(edges));
-    for(auto e : arbo)
-        assert(binary_search(begin(edges), end(edges), tuple{e.from, e.to, e.orig_weight}));
+struct Graph {
+    struct Edge { int from, to, weight; };
+    int n = 0;
+    vector<Edge> edges;
+    bool weighted = false;
+    Graph() {}
+    Graph(int n_, int m=0, bool weighted_=false) : n(n_), edges(m), weighted(weighted_) { }
+};
+
+Graph fromFile(const string& file) {
+    ifstream inf(file);
+    if(!inf) cout << "failed to load " << file << endl, exit(1);
+    bool weighted = file.ends_with("wsoap");
+    int n,m;
+    inf>>n>>m;
+    Graph graph(n,m,weighted);
+    for(auto& [from,to,w] : graph.edges) {
+        inf>>from>>to;
+        assert(0<=from && from<n);
+        assert(0<=to   && to<n);
+        if(weighted) inf>>w;
+    }
+    return graph;
 }
 
 int main() {
     ios::sync_with_stdio(false);
-    cout.precision(3);
-    cout << fixed;
 
-    //auto testcase = DATA_DIR + "konect/convote.soap"s;
-    auto testcase = DATA_DIR + "konect/slashdot-zoo.soap"s;
-    ifstream inf(testcase);
+    // auto graph = fromFile(DATA_DIR + "konect/slashdot-zoo.soap"s);
+    auto graph = fromFile(DATA_DIR + "konect/flickr-growth.soap"s);
 
-    int n,m;
-    inf>>n>>m;
-
-    mt19937 gen(1337);
-    uniform_int_distribution dist(1, 20);
-
-    // read graph
-    auto t1 = chrono::steady_clock::now();
-    vector<Edge> graph;
-    for(int i=0; i<m; ++i) {
-        int from, to;
-        inf>>from>>to;
-        assert(0<=from && from<n);
-        assert(0<=to   && to<n);
-
-        int w;
-        if(testcase.ends_with("wsoap")) inf>>w;
-        else w = dist(gen);
-        graph.push_back({from, to, w, w});
+    if(!graph.weighted) {
+        mt19937 gen(1337);
+        uniform_int_distribution dist(1, 20);
+        graph.weighted = true;
+        for(auto& [u,v,w] : graph.edges)
+            w = dist(gen);
     }
-    // make new supernode that is connected to all
-    for(int i=0; i<n; ++i)
-        graph.push_back({n,i,(int)1e9,(int)1e9});
-    int root = n;
 
-    // construct algo DS
-    auto t11 = chrono::steady_clock::now();
-    Tarjan alg(n+1,TarjanVariant::SET);
-    for(auto e : graph) alg.create_edge(e.from, e.to, e.weight);
+    int root = graph.n;
+    int INF = 1e9;
+    for(int i=0; i<graph.n; ++i)
+        graph.edges.push_back({root,i,INF});
+    graph.n++;
 
-    auto t2 = chrono::steady_clock::now();
-    auto res = alg.run(root);
-
-    auto t3 = chrono::steady_clock::now();
-    auto arbo = alg.reconstruct(root);
-    auto t4 = chrono::steady_clock::now();
-    isArborescence(graph, arbo, res, n+1, root);
-    auto t5 = chrono::steady_clock::now();
-
-    cout << "time loading " << chrono::duration_cast<chrono::duration<double>>(t11-t1).count() << endl;
-    cout << "time build   " << chrono::duration_cast<chrono::duration<double>>(t2-t11).count() << endl;
-    cout << "time algo    " << chrono::duration_cast<chrono::duration<double>>(t3-t2).count() << endl;
-    cout << "time reconst " << chrono::duration_cast<chrono::duration<double>>(t4-t3).count() << endl;
-    cout << "time valid   " << chrono::duration_cast<chrono::duration<double>>(t5-t4).count() << endl;
-
-    cout << endl;
-    cout << "n      =" << n << endl;
-    cout << "m      =" << m << endl;
-    cout << "w      =" << res << endl;
-    cout << "w/1e9  =" << res/1'000'000'000 << endl;
+    long long res;
+    t.start("lemon");
+    {
+        arbok::Lemon alg(graph.n);
+        for (auto[u, v, w]: graph.edges)
+            alg.create_edge(u, v, w);
+        res = alg.run(root);
+    }
+    t.stop("lemon");
+    cout << res << endl;
+    t.start("tarjan");
+    {
+        arbok::PQTarjan alg(graph.n);
+        for (auto[u, v, w]: graph.edges)
+            alg.create_edge(u, v, w);
+        res = alg.run(root);
+    }
+    t.stop("tarjan");
+    cout << res << endl;
 
     return 0;
 }
