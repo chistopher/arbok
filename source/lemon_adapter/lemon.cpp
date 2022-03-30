@@ -3,12 +3,14 @@
 
 #include <vector>
 
+using namespace std;
+using namespace arbok;
+
+#ifdef LEMON
+
 #include <lemon/list_graph.h>
 #include <lemon/smart_graph.h>
 #include <lemon/min_cost_arborescence.h>
-
-using namespace std;
-using namespace arbok;
 
 struct arbok::LemonImpl {
     LemonImpl(int n) : weights(graph), algo(graph, weights) {
@@ -42,3 +44,17 @@ arbok::Lemon::Lemon(int n) : num_vertices(n), m_impl(make_unique<LemonImpl>(n)) 
 void Lemon::create_edge(int from, int to, int weight) { m_impl->create_edge(from,to,weight); }
 long long Lemon::run(int root) { return m_impl->run(root); }
 std::vector<Edge> Lemon::reconstruct(int root) { return m_impl->reconstruct(root); }
+
+#else
+
+#include <iostream>
+struct arbok::LemonImpl { };
+Lemon::~Lemon() = default;
+arbok::Lemon::Lemon(int n) : num_vertices(n) {
+    std::cout << "ERROR: can't use lemon solver without lemon" << endl;
+    exit(1);
+}
+void Lemon::create_edge(int from, int to, int weight) { }
+long long Lemon::run(int root) { return 0; }
+std::vector<Edge> Lemon::reconstruct(int root) { return {}; }
+#endif

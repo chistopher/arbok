@@ -26,19 +26,6 @@ if (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 #add_compile_options(-g -debug inline-debug-info -DNDEBUG)
-FIND_PATH(LEMON_SOURCE_ROOT_DIR CMakeLists.txt
-        PATHS ${CMAKE_SOURCE_DIR}/lemon
-        NO_DEFAULT_PATH
-        DOC "Location of LEMON source as a CMAKE subproject")
-if (EXISTS ${LEMON_SOURCE_ROOT_DIR})
-    ADD_SUBDIRECTORY(${LEMON_SOURCE_ROOT_DIR} deps/lemon)
-    target_include_directories(lemon INTERFACE
-            ${LEMON_SOURCE_ROOT_DIR}
-            ${CMAKE_BINARY_DIR}/deps/lemon
-    )
-else ()
-    message(STATUS "lemon not found. skipping algo.")
-endif()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
