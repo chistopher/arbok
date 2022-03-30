@@ -5,11 +5,12 @@
 #include <chrono>
 #include <queue>
 #include <map>
+#include <cassert>
 
 #include <arbok/utils/paths.h>
 #include <arbok/tarjan/tarjan.h>
 #include <arbok/gabow/gabow.h>
-#include <cassert>
+#include <arbok/lemon/lemon.h>
 
 using namespace std;
 
@@ -152,43 +153,37 @@ void run(map<string, string>& args) {
     cout << "n      =" << graph.n << endl;
     cout << "m      =" << size(graph.edges) << endl;
 
-    t.start("find giant cc");
-    graph = giantCC(graph);
-    t.stop("find giant cc");
+    if(args["giantCC"]=="1") {
+        t.start("find giant cc");
+        graph = giantCC(graph);
+        t.stop("find giant cc");
 
-    cout << "n      =" << graph.n << endl;
-    cout << "m      =" << size(graph.edges) << endl;
+        cout << "n      =" << graph.n << endl;
+        cout << "m      =" << size(graph.edges) << endl;
+    }
 
     if(!graph.weighted) {
         t.start("add random weights");
         mt19937 gen(1337);
         uniform_int_distribution dist(1, 20);
-        //graph.weighted = true;
+        graph.weighted = true;
         for(auto& [u,v,w] : graph.edges)
             w = dist(gen);
         t.stop("add random weights");
-    } else {
-        int mn = numeric_limits<int>::max();
-        int mx = numeric_limits<int>::min();
-        for(auto [u,v,w] : graph.edges) {
-            mn = min(mn, w);
-            mx = max(mx, w);
-        }
-        cout << "found weights in range [" << mn << ',' << mx << "]\n";
-        if(mn<0) {
-            cout << "\tcorrecting minimum" << endl;
-            for(auto& [u,v,w] : graph.edges) w += mn;
-        }
     }
 
     const int INF = 1e9;
 
-    t.start("add supernode");
     int root = graph.n;
-    for(int i=0; i<graph.n; ++i)
-        graph.edges.push_back({root,i,INF});
-    graph.n++;
-    t.stop("add supernode");
+    if(args["root"].empty()) {
+        t.start("add supernode");
+        for (int i = 0; i < graph.n; ++i)
+            graph.edges.push_back({root, i, INF});
+        graph.n++;
+        t.stop("add supernode");
+    } else {
+        root = stoi(args["root"]);
+    }
 
     long con, run, rec;
     long long res;
@@ -215,9 +210,11 @@ void run(map<string, string>& args) {
     auto del = t.stop();
     t.stop("total");
 
-    t.start("validate");
-    isArborescence(graph, arbo, res, graph.n, root);
-    t.stop();
+    if(args["check"]!="0") {
+        t.start("validate");
+        isArborescence(graph, arbo, res, graph.n, root);
+        t.stop();
+    }
 
     if(!empty(args["csv"])) {
         ofstream ouf(args["csv"], ios::app);
@@ -250,7 +247,10 @@ int main(int argc, char* argv[]) {
     map<string,string> defaults{
             {"input",   "konect/slashdot-zoo.soap"},
             {"csv",     ""},
-            {"algo",    "pq"}
+            {"algo",    "pq"},
+            {"root",    ""},
+            {"giantCC", "0"},
+            {"check",   "1"},
     };
     auto args = parseArgs(argc, argv);
     cout << "PARAMETER: " << endl;
@@ -270,6 +270,7 @@ int main(int argc, char* argv[]) {
     else if(algo=="pq") run<arbok::PQTarjan>(args);
     else if(algo=="treap") run<arbok::TreapTarjan>(args);
     else if(algo=="gabow") run<arbok::Gabow>(args);
+    else if(algo=="lemon") run<arbok::Lemon>(args);
     else cerr << "invalid algo: " << algo, exit(1);
 
     return 0;
