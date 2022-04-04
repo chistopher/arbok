@@ -14,6 +14,7 @@ set(HEADERS
         include/${target}/data_structures/compressed_tree.inl
         include/${target}/data_structures/hollow_heap.h
         include/${target}/utils/cf_solution.h
+        include/${target}/others/felerius.h
 )
 
 set(SOURCES

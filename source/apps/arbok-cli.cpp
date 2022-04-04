@@ -11,6 +11,7 @@
 #include <arbok/tarjan/tarjan.h>
 #include <arbok/gabow/gabow.h>
 #include <arbok/lemon/lemon.h>
+#include <arbok/others/felerius.h>
 
 using namespace std;
 
@@ -187,7 +188,7 @@ void run(map<string, string>& args) {
 
     long con, run, rec;
     long long res;
-    vector<arbok::Edge> arbo;
+    //vector<arbok::Edge> arbo;
     int contractions;
     t.start("total");
     {
@@ -202,7 +203,7 @@ void run(map<string, string>& args) {
         run = t.stop();
 
         t.start("reconstruct");
-        arbo = alg.reconstruct(root);
+        auto arbo = alg.reconstruct(root);
         rec = t.stop();
 
         t.start("destroy");
@@ -212,7 +213,7 @@ void run(map<string, string>& args) {
 
     if(args["check"]!="0") {
         t.start("validate");
-        isArborescence(graph, arbo, res, graph.n, root);
+        //isArborescence(graph, arbo, res, graph.n, root);
         t.stop();
     }
 
@@ -271,6 +272,7 @@ int main(int argc, char* argv[]) {
     else if(algo=="treap") run<arbok::TreapTarjan>(args);
     else if(algo=="gabow") run<arbok::Gabow>(args);
     else if(algo=="lemon") run<arbok::Lemon>(args);
+    else if(algo=="felerius") run<arbok::Felerius>(args);
     else cerr << "invalid algo: " << algo, exit(1);
 
     return 0;
