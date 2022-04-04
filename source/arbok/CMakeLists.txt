@@ -15,6 +15,7 @@ set(HEADERS
         include/${target}/data_structures/hollow_heap.h
         include/${target}/utils/cf_solution.h
         include/${target}/others/felerius.h
+        include/${target}/others/spaghetti.h
 )
 
 set(SOURCES

@@ -12,6 +12,7 @@
 #include <arbok/gabow/gabow.h>
 #include <arbok/lemon/lemon.h>
 #include <arbok/others/felerius.h>
+#include <arbok/others/spaghetti.h>
 
 using namespace std;
 
@@ -273,6 +274,7 @@ int main(int argc, char* argv[]) {
     else if(algo=="gabow") run<arbok::Gabow>(args);
     else if(algo=="lemon") run<arbok::Lemon>(args);
     else if(algo=="felerius") run<arbok::Felerius>(args);
+    else if(algo=="spaghetti") run<arbok::Spaghetti>(args);
     else cerr << "invalid algo: " << algo, exit(1);
 
     return 0;
