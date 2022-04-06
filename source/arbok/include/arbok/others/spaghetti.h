@@ -87,7 +87,6 @@ class Spaghetti {
     std::vector<SpaghettiDS::skew_heap> heap;
 
 public:
-    int contractions = 0; // TODO remove this
     Spaghetti(int _n) : n(_n), heap(_n) {};
 
     void create_edge(int src, int dst, int weight) {

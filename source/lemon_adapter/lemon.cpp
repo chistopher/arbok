@@ -1,5 +1,5 @@
 
-#include <arbok/lemon/lemon.h>
+#include <arbok/others/lemon.h>
 
 #include <vector>
 
@@ -25,7 +25,7 @@ struct arbok::LemonImpl {
         algo.run(graph.nodeFromId(root));
         return algo.arborescenceCost();
     }
-    std::vector<Edge> reconstruct(int root) {
+    std::vector<int> reconstruct(int root) {
         return {};
     }
 
@@ -43,7 +43,7 @@ Lemon::~Lemon() = default;
 arbok::Lemon::Lemon(int n) : num_vertices(n), m_impl(make_unique<LemonImpl>(n)) { }
 void Lemon::create_edge(int from, int to, int weight) { m_impl->create_edge(from,to,weight); }
 long long Lemon::run(int root) { return m_impl->run(root); }
-std::vector<Edge> Lemon::reconstruct(int root) { return m_impl->reconstruct(root); }
+std::vector<int> Lemon::reconstruct(int root) { return m_impl->reconstruct(root); }
 
 #else
 
@@ -56,5 +56,5 @@ arbok::Lemon::Lemon(int n) : num_vertices(n) {
 }
 void Lemon::create_edge(int from, int to, int weight) { }
 long long Lemon::run(int root) { return 0; }
-std::vector<Edge> Lemon::reconstruct(int root) { return {}; }
+std::vector<int> Lemon::reconstruct(int root) { return {}; }
 #endif

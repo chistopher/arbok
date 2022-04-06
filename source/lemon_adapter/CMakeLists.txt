@@ -1,9 +1,8 @@
 
 set(target lemon_adapter)
 
-add_library(${target} SHARED include/arbok/lemon/lemon.h lemon.cpp)
+add_library(${target} SHARED include/arbok/others/lemon.h lemon.cpp)
 target_include_directories(${target} PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include)
-target_link_libraries(${target} arbok) # TODO can we get rid of this?
 
 FIND_PATH(LEMON_SOURCE_ROOT_DIR CMakeLists.txt
         PATHS ${PROJECT_SOURCE_DIR}/lemon

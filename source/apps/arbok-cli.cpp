@@ -10,7 +10,8 @@
 #include <arbok/utils/paths.h>
 #include <arbok/tarjan/tarjan.h>
 #include <arbok/gabow/gabow.h>
-#include <arbok/lemon/lemon.h>
+#include <arbok/others/lemon.h>
+#include <arbok/others/atofigh.h>
 #include <arbok/others/felerius.h>
 #include <arbok/others/spaghetti.h>
 
@@ -190,7 +191,6 @@ void run(map<string, string>& args) {
     long con, run, rec;
     long long res;
     //vector<arbok::Edge> arbo;
-    int contractions;
     t.start("total");
     {
         t.start("construct algo DS");
@@ -200,7 +200,6 @@ void run(map<string, string>& args) {
 
         t.start("run algo");
         res = alg.run(root);
-        contractions = alg.contractions;
         run = t.stop();
 
         t.start("reconstruct");
@@ -230,13 +229,11 @@ void run(map<string, string>& args) {
             << ',' << run
             << ',' << rec
             << ',' << del
-            << ',' << contractions
             << endl;
     }
 
     cout << "n      =" << graph.n << endl;
     cout << "m      =" << size(graph.edges) << endl;
-    cout << "merges =" << contractions << endl;
     cout << "w      =" << res << endl;
     cout << "w%1e9  =" << res%int(1e9) << endl;
     cout << "w/1e9  =" << res/1'000'000'000 << endl;
@@ -273,6 +270,7 @@ int main(int argc, char* argv[]) {
     else if(algo=="treap") run<arbok::TreapTarjan>(args);
     else if(algo=="gabow") run<arbok::Gabow>(args);
     else if(algo=="lemon") run<arbok::Lemon>(args);
+    else if(algo=="atofigh") run<arbok::Atofigh>(args);
     else if(algo=="felerius") run<arbok::Felerius>(args);
     else if(algo=="spaghetti") run<arbok::Spaghetti>(args);
     else cerr << "invalid algo: " << algo, exit(1);

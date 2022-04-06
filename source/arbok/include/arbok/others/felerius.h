@@ -89,7 +89,6 @@ private:
     }
 
 public:
-    int contractions = 0;
     std::vector<int> m_arb; // solution
     std::vector<std::pair<int, int>> cycles; // data to reconstruct solution from
     FeleriusDS::RollbackDsu dsu_contract;

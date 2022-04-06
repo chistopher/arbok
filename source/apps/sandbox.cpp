@@ -7,7 +7,8 @@
 #include <map>
 
 #include <arbok/utils/paths.h>
-#include <arbok/lemon/lemon.h>
+#include <arbok/others/lemon.h>
+#include "arbok/tarjan/tarjan.h"
 
 using namespace std;
 using namespace arbok;
