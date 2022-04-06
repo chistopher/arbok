@@ -147,10 +147,8 @@ map<string, string> parseArgs(int argc, char** argv) {
 template<class Algo>
 void run(map<string, string>& args) {
 
-    auto input  = DATA_DIR + args["input"];
-
     t.start("load graph");
-    auto graph = fromFile(input);
+    auto graph = fromFile(args["input"]);
     t.stop("load graph");
 
     cout << "n      =" << graph.n << endl;
@@ -244,7 +242,7 @@ int main(int argc, char* argv[]) {
     ios::sync_with_stdio(false);
 
     map<string,string> defaults{
-            {"input",   "konect/slashdot-zoo.soap"},
+            {"input",   DATA_DIR + "konect/slashdot-zoo.soap"s},
             {"csv",     ""},
             {"algo",    "pq"},
             {"root",    ""},

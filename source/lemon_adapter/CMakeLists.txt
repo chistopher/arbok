@@ -9,7 +9,7 @@ FIND_PATH(LEMON_SOURCE_ROOT_DIR CMakeLists.txt
         NO_DEFAULT_PATH
         DOC "Location of LEMON source as a CMAKE subproject")
 if (EXISTS ${LEMON_SOURCE_ROOT_DIR})
-    ADD_SUBDIRECTORY(${LEMON_SOURCE_ROOT_DIR} deps/lemon)
+    add_subdirectory(${LEMON_SOURCE_ROOT_DIR} ${CMAKE_BINARY_DIR}/deps/lemon)
     target_link_libraries(${target} lemon)
     target_compile_definitions(${target} PRIVATE LEMON) # macro to disable lemon code if not found
     target_include_directories(${target} PRIVATE

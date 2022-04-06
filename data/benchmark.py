@@ -8,7 +8,7 @@ import pandas as pd
 
 dirnames = ['konect', 'networkrepository']
 algos = ['gabow']
-#algos = ['pq', 'treap', 'set', 'gabow']
+algos = ['pq', 'treap', 'set', 'gabow']
 cli = '../cmake-build-release/arbok-cli'
 
 files = [
@@ -42,11 +42,9 @@ def quick_bench():
     df['total'] = df.con + df.run + df.rec + df['del']
     print(df.groupby('algo').sum())
 
-quick_bench()
 
-    
-
-if len(sys.argv)==1:
+if len(sys.argv)==2:
+    quick_bench()
     exit(0)
 
 for dirname in dirnames:
