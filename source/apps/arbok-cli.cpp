@@ -14,6 +14,7 @@
 #include <arbok/others/atofigh.h>
 #include <arbok/others/felerius.h>
 #include <arbok/others/spaghetti.h>
+#include <arbok/others/yosupo.h>
 
 using namespace std;
 
@@ -271,6 +272,7 @@ int main(int argc, char* argv[]) {
     else if(algo=="atofigh") run<arbok::Atofigh>(args);
     else if(algo=="felerius") run<arbok::Felerius>(args);
     else if(algo=="spaghetti") run<arbok::Spaghetti>(args);
+    else if(algo=="yosupo") run<arbok::Yosupo>(args);
     else cerr << "invalid algo: " << algo, exit(1);
 
     return 0;

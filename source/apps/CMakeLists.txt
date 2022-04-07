@@ -7,4 +7,4 @@ target_link_libraries(arbok-cli arbok lemon_adapter atofigh_adapter)
 
 add_executable(libcheck libcheck.cpp)
 
-add_executable(josupo_generator josupo_generator.cpp)
+add_executable(yosupo_generator yosupo_generator.cpp)

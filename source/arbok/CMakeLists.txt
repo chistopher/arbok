@@ -16,6 +16,7 @@ set(HEADERS
         include/${target}/utils/cf_solution.h
         include/${target}/others/felerius.h
         include/${target}/others/spaghetti.h
+        include/${target}/others/yosupo.h
 )
 
 set(SOURCES

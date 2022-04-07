@@ -59,6 +59,7 @@ struct skew_heap {
         propagate(root);
         node *temp = root;
         root = merge(root->ch[0], root->ch[1]);
+        delete temp;
     }
     edge top() {
         propagate(root);
@@ -130,7 +131,7 @@ public:
         return score;
     }
 
-    std::vector<int> reconstruct(int root) {
+    std::vector<int> reconstruct(int /* root */) {
         return {}; // TODO
     }
 };
