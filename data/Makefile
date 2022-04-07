@@ -23,3 +23,11 @@ josupo:
 	../build/josupo_generator 3 2 > ./josupo/max_random_03.wsoap
 	../build/josupo_generator 4 2 > ./josupo/max_random_04.wsoap
 
+konect:
+	./konect_download_directed.py
+	./konect_extrac_convert.py
+
+networkrepository:
+	./networkrepository_download_networks.sh
+	./networkrepository_filter_convert.py
+
