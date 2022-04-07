@@ -9,7 +9,7 @@ struct LemonImpl; // FWD
 
 class Lemon {
 public:
-    Lemon(int n);
+    Lemon(int n, int m);
     ~Lemon();
 
     void create_edge(int from, int to, int weight);

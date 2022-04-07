@@ -8,12 +8,12 @@
 using namespace std;
 using namespace arbok;
 
-TreapImpl::TreapImpl(int n) : managedSets(n, nullptr) {
+TreapImpl::TreapImpl(int n, int m) : managedSets(n, nullptr), allocator_{m} {
 }
 
 TreapImpl::~TreapImpl() {
     // BFS to delete all reachable treap nodes
-    vector<treap::Node*> toDelete;
+    /*vector<treap::Node*> toDelete;
     for(auto node : managedSets)
         if(node) toDelete.push_back(node);
     for(int next=0; next<toDelete.size(); ++next) {
@@ -21,11 +21,11 @@ TreapImpl::~TreapImpl() {
         if(cur->l) toDelete.push_back(cur->l);
         if(cur->r) toDelete.push_back(cur->r);
         delete cur;
-    }
+    } */
 }
 
 void TreapImpl::create_edge(int from, int to, int weight) {
-    managedSets[to] = treap::merge(managedSets[to], new treap::Node(from, to, weight));
+    managedSets[to] = treap::merge(managedSets[to], allocator_.new_node(treap::Node(from, to, weight)));
 }
 
 Edge TreapImpl::get_min_edge(int v, DSU& dsu) {
@@ -34,12 +34,12 @@ Edge TreapImpl::get_min_edge(int v, DSU& dsu) {
     while(res == nullptr) {
         tie(res, managedSets[v]) = treap::split_min(managedSets[v]); // res becomes min and m[v] keeps the rest
         if(dsu.find(res->x.from) == v) {
-            delete res;
+            //delete res;
             res = nullptr;
         }
     }
     auto e = res->x;
-    delete res;
+    //delete res;
     return e;
 }
 

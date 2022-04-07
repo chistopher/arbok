@@ -13,7 +13,7 @@ using namespace arbok;
 #include <boost/graph/edge_list.hpp>
 
 struct arbok::AtofighImpl {
-    AtofighImpl(int n) { }
+    AtofighImpl(int n, int m) { }
     void create_edge(int from, int to, int weight) {
         m_edges.emplace_back(from,to);
         m_weights.push_back(weight);
@@ -44,7 +44,7 @@ struct arbok::AtofighImpl {
 
 // the adapter just passes through to the impl
 Atofigh::~Atofigh() = default;
-arbok::Atofigh::Atofigh(int n) : num_vertices(n), m_impl(make_unique<AtofighImpl>(n)) { }
+arbok::Atofigh::Atofigh(int n, int m) : num_vertices(n), m_impl(make_unique<AtofighImpl>(n, m)) { }
 void Atofigh::create_edge(int from, int to, int weight) { m_impl->create_edge(from,to,weight); }
 long long Atofigh::run(int root) { return m_impl->run(root); }
 std::vector<int> Atofigh::reconstruct(int root) { return m_impl->reconstruct(root); }
@@ -54,7 +54,7 @@ std::vector<int> Atofigh::reconstruct(int root) { return m_impl->reconstruct(roo
 #include <iostream>
 struct arbok::AtofighImpl { };
 Atofigh::~Atofigh() = default;
-arbok::Atofigh::Atofigh(int n) : num_vertices(n) {
+arbok::Atofigh::Atofigh(int n, int m) : num_vertices(n) {
     std::cout << "ERROR: can't use lemon solver without lemon" << endl;
     exit(1);
 }

@@ -8,7 +8,7 @@
 using namespace std;
 using namespace arbok;
 
-MatrixImpl::MatrixImpl(int n) {
+MatrixImpl::MatrixImpl(int n, int /* m */) {
     adj.resize(n, vector(n, NO_EDGE));
 };
 

@@ -18,7 +18,7 @@ public:
 
 class SetImpl : public TarjanImpl {
 public:
-    SetImpl(int n);
+    SetImpl(int n, int /* m */);
     ~SetImpl() override = default;
     void create_edge(int from, int to, int weight) override;
     Edge get_min_edge(int v, arbok::DSU& dsu) override;
@@ -31,7 +31,7 @@ private:
 
 class PQImpl : public TarjanImpl {
 public:
-    PQImpl(int n);
+    PQImpl(int n, int /* m */);
     ~PQImpl() override = default;
     void create_edge(int from, int to, int weight) override;
     Edge get_min_edge(int v, arbok::DSU& dsu) override;
@@ -45,7 +45,7 @@ private:
 
 class MatrixImpl : public TarjanImpl {
 public:
-    MatrixImpl(int n);
+    MatrixImpl(int n, int /* m */);
     ~MatrixImpl() override = default;
     void create_edge(int from, int to, int weight) override;
     Edge get_min_edge(int v, arbok::DSU& dsu) override;
@@ -57,7 +57,7 @@ private:
 
 class TreapImpl : public TarjanImpl {
 public:
-    TreapImpl(int n);
+    TreapImpl(int n, int m);
     ~TreapImpl() override;
     void create_edge(int from, int to, int weight) override;
     Edge get_min_edge(int v, arbok::DSU& dsu) override;
@@ -65,11 +65,12 @@ public:
     void move_edges(int from, int to) override;
 private:
     std::vector<treap::Node*> managedSets;
+    treap::allocator allocator_;
 };
 
 class HollowHeapImpl : public TarjanImpl {
   public:
-    HollowHeapImpl(int n);
+    HollowHeapImpl(int n, int m);
     ~HollowHeapImpl() override = default;
     void create_edge(int from, int to, int weight) override;
     Edge get_min_edge(int v, arbok::DSU &dsu) override;
@@ -78,6 +79,7 @@ class HollowHeapImpl : public TarjanImpl {
 
   private:
     using HH = otto::hollow_heap<Edge, std::less<>>;
+    otto::hollow_heap<Edge, std::less<>>::allocator allocator_;
     std::vector<HH> managedSets;
 };
 }

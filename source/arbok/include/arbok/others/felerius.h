@@ -94,7 +94,7 @@ public:
     FeleriusDS::RollbackDsu dsu_contract;
     std::vector<int> edge; // stores index of edge = index of corresponding heap node
 
-    Felerius(int n) : heap(n,-1), m_arb(n), dsu_contract(n), edge(n,-1) {}
+    Felerius(int n, int /*m*/) : heap(n,-1), m_arb(n), dsu_contract(n), edge(n,-1) {}
 
     void create_edge(int from, int to, int weight) {
         assert(0 <= from && from < size(heap) && 0 <= to && to < size(heap));

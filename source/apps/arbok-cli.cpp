@@ -193,7 +193,7 @@ void run(map<string, string>& args) {
     t.start("total");
     {
         t.start("construct algo DS");
-        Algo alg(graph.n);
+        Algo alg(graph.n, graph.edges.size());
         for (auto e: graph.edges) alg.create_edge(e.from, e.to, e.weight);
         con = t.stop();
 

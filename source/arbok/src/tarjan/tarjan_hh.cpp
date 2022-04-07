@@ -6,7 +6,12 @@
 using namespace std;
 using namespace arbok;
 
-HollowHeapImpl::HollowHeapImpl(int n) : managedSets(n) {}
+HollowHeapImpl::HollowHeapImpl(int n, int m) : allocator_(m)  {
+    managedSets.reserve(n);
+    for (int i = 0; i < n; ++i) {
+        managedSets.emplace_back(&allocator_);
+    }
+}
 
 void HollowHeapImpl::create_edge(int from, int to, int weight) {
     managedSets[to].push({from, to, weight, weight});

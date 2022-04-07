@@ -6,7 +6,7 @@
 
 using namespace arbok;
 
-Gabow::Gabow(int n)
+Gabow::Gabow(int n, int /* m */)
     : num_vertices(n)
     , co(n)
     , incoming_edges(n)

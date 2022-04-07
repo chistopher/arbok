@@ -9,7 +9,7 @@ namespace arbok {
 
     class Gabow {
     public:
-        Gabow(int n);
+        Gabow(int n, int m);
         ~Gabow() = default;
 
         void create_edge(int from, int to, int weight);

@@ -9,7 +9,7 @@ struct AtofighImpl; // FWD
 
 class Atofigh {
 public:
-    Atofigh(int n);
+    Atofigh(int n, int m);
     ~Atofigh();
 
     void create_edge(int from, int to, int weight);

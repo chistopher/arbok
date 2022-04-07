@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cassert>
 #include <cstddef>
 #include <exception>
 #include <functional>
@@ -10,6 +11,7 @@
 // not a real hollow heap, most of the defining features have been stripped
 // (i.e. we don't need decrease key)
 namespace otto {
+
 template <class T, class Compare = std::less<T>> class hollow_heap {
   public:
     using value_type = T;
@@ -27,6 +29,7 @@ template <class T, class Compare = std::less<T>> class hollow_heap {
         node *_node;
     };
     struct node {
+        node() = default;
         node(value_type _key, uint_fast8_t _rank = 0)
             : key(_key), rank(_rank) {}
         value_type key;
@@ -39,8 +42,25 @@ template <class T, class Compare = std::less<T>> class hollow_heap {
             return Compare()(key, other.key);
         }
     };
+
+  public:
+    class allocator {
+      public:
+        allocator (int m) : node_object_allocation_(m), next_node_(0) {}
+        node* new_node(T x) {
+            assert(next_node_ < node_object_allocation_.size());
+            node_object_allocation_[next_node_].key = x;
+            return &node_object_allocation_[next_node_++];
+        }
+      private:
+        std::vector<node> node_object_allocation_;
+        int next_node_;
+    };
+
+  protected:
     node *root = nullptr;
     size_type n = 0;
+    allocator *allocator_;
     void push_child(node *parent, node *new_child) {
         if (parent->child == nullptr) {
             new_child->right_sibling = nullptr;
@@ -65,7 +85,9 @@ template <class T, class Compare = std::less<T>> class hollow_heap {
         ++(winner->rank);
         return winner;
     }
-    void destroy(node *a) { delete a; }
+    void destroy(node *a) {
+        //delete a;
+    }
     void insert_and_rlink(node *c, std::array<node *, 255> &roots_by_rank) {
         if (roots_by_rank[c->rank] == nullptr) {
             roots_by_rank[c->rank] = c;
@@ -114,13 +136,16 @@ template <class T, class Compare = std::less<T>> class hollow_heap {
 
   public:
     using handle = node_handle;
-    hollow_heap() = default;
+    hollow_heap() = delete;
+    hollow_heap(hollow_heap&&) = default;
+    hollow_heap(allocator* allocator_p) : allocator_{allocator_p} {};
     hollow_heap(const hollow_heap &) = delete;
     size_type size() const { return n; };
     bool empty() const { return n == 0; }
     const_reference top() const { return root->key; }
     node_handle push(const value_type &x) {
-        node *new_node = new node(x);
+        node *new_node = allocator_->new_node(x);
+        // node *new_node = new node(x);
         if (root == nullptr) {
             root = new_node;
         } else {
@@ -161,5 +186,6 @@ template <class T, class Compare = std::less<T>> class hollow_heap {
         push_update(root, w);
     }
 };
+
 }; // namespace otto
 

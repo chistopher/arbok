@@ -47,19 +47,22 @@ void testImpl(const string& testcase_name) {
     vector<arbok::Edge> graph;
 
     int n; inp >> n;
-    Algo alg(n+1);
+
     for (int level = 1; level <= n; level++) {
         int shortcut_item, time;
         inp >> shortcut_item >> time;
-        alg.create_edge(shortcut_item, level, time);
         graph.push_back({shortcut_item, level, time, time});
         for (int item = 0; item <= n; item++) {
             inp >> time;
             if (item != shortcut_item) {
-                alg.create_edge(item, level, time);
                 graph.push_back({item, level, time, time});
             }
         }
+    }
+
+    Algo alg(n+1, graph.size());
+    for (arbok::Edge e : graph) {
+        alg.create_edge(e.from, e.to, e.weight);
     }
 
     long long ans;
@@ -81,7 +84,7 @@ TEST_P(CodeforcesTest, TreapTarjan) { testImpl<arbok::TreapTarjan>(GetParam()); 
 
 TEST_P(CodeforcesTest, PQTarjan) { testImpl<arbok::PQTarjan>(GetParam()); }
 
-//TEST_P(CodeforcesTest, HHTarjan) { testImpl<arbok::HHTarjan>(GetParam()); }
+TEST_P(CodeforcesTest, HHTarjan) { testImpl<arbok::HHTarjan>(GetParam()); }
 
 TEST_P(CodeforcesTest, Gabow) { testImpl<arbok::Gabow>(GetParam()); }
 

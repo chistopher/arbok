@@ -9,7 +9,7 @@
 using namespace std;
 using namespace arbok;
 
-SetImpl::SetImpl(int n) : managedSets(n), offsets(n,0) {
+SetImpl::SetImpl(int n, int /* m */) : managedSets(n), offsets(n,0) {
 }
 
 void SetImpl::create_edge(int from, int to, int weight) {

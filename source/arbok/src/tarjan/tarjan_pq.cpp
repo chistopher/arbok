@@ -8,7 +8,7 @@
 using namespace std;
 using namespace arbok;
 
-PQImpl::PQImpl(int n) : managedSets(n), offsets(n,0) {
+PQImpl::PQImpl(int n, int /* m */) : managedSets(n), offsets(n,0) {
 }
 
 void PQImpl::create_edge(int from, int to, int weight) {

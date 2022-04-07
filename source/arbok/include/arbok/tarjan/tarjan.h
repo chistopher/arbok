@@ -11,16 +11,20 @@ namespace arbok {
 class TarjanImpl; // FWD
 enum class TarjanVariant { SET, MATRIX, TREAP, PQ, HH };
 struct Edge {
+    Edge() = default;
+    Edge(int f, int t, int w) : from(f), to(t), weight(w), orig_weight(w) {}
+    Edge(int f, int t, int w, int ow) : from(f), to(t), weight(w), orig_weight(ow) {}
+
     int from, to, weight, orig_weight;
     inline bool operator<(const Edge& rhs) const { return std::tie(weight,from) < std::tie(rhs.weight, rhs.from); }
     inline bool operator==(const Edge& rhs) const { return std::tie(weight,from) == std::tie(rhs.weight,rhs.from); }
     inline bool operator>(const Edge& rhs) const { return rhs < *this; }
 };
-static const Edge NO_EDGE = {(int)1e9, (int)1e9, (int)1e9, (int)1e9};
+static const Edge NO_EDGE{(int)1e9, (int)1e9, (int)1e9};
 
 class Tarjan {
 public:
-    Tarjan(int n, TarjanVariant variant);
+    Tarjan(int n, int m, TarjanVariant variant);
     ~Tarjan();
 
     void create_edge(int from, int to, int weight);
@@ -45,7 +49,7 @@ protected:
 };
 
 template<TarjanVariant var>
-struct SpecificTarjan : Tarjan { SpecificTarjan(int n) : Tarjan(n, var) {} };
+struct SpecificTarjan : Tarjan { SpecificTarjan(int n, int m) : Tarjan(n, m, var) {} };
 using SetTarjan = SpecificTarjan<TarjanVariant::SET>;
 using MatrixTarjan = SpecificTarjan<TarjanVariant::MATRIX>;
 using TreapTarjan = SpecificTarjan<TarjanVariant::TREAP>;

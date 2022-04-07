@@ -75,7 +75,7 @@ int main() {
     long long res;
     t.start("lemon");
     {
-        arbok::Lemon alg(graph.n);
+        arbok::Lemon alg(graph.n, graph.edges.size());
         for (auto[u, v, w]: graph.edges)
             alg.create_edge(u, v, w);
         res = alg.run(root);
@@ -84,7 +84,7 @@ int main() {
     cout << res << endl;
     t.start("tarjan");
     {
-        arbok::PQTarjan alg(graph.n);
+        arbok::PQTarjan alg(graph.n, graph.edges.size());
         for (auto[u, v, w]: graph.edges)
             alg.create_edge(u, v, w);
         res = alg.run(root);
