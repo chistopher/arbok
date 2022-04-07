@@ -104,7 +104,7 @@ private:
 
 
 public:
-    Yosupo(int _n) : n(_n), heap(2*_n), res(2*n), tr(2*_n,-1) {}
+    Yosupo(int _n, int /*m*/) : n(_n), heap(2*_n), res(2*n), tr(2*_n,-1) {}
 
     void create_edge(int from, int to, int weight) {
         heap[to].push({from,to,(long long)weight, m++});
