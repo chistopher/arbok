@@ -33,6 +33,8 @@ Tarjan::Tarjan(int n, int m, TarjanVariant variant)
 
 void Tarjan::create_edge(int from, int to, int weight)
 {
+    assert(0<=from && from<num_vertices);
+    assert(0<=to && to<num_vertices);
     m_impl->create_edge(from, to, weight);
 }
 

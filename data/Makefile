@@ -24,10 +24,17 @@ yosupo:
 	../build/yosupo_generator 4 2 > ./yosupo/max_random_04.wsoap
 
 konect:
+	mkdir -p konect
 	./konect_download_directed.py
 	./konect_extrac_convert.py
 
 networkrepository:
+	mkdir -p networkrepository
 	./networkrepository_download_networks.sh
 	./networkrepository_filter_convert.py
-
+	# they have floating point weights
+	rm networkrepository/advogato.wsoap
+	rm networkrepository/soc-advogato.wsoap
+	rm networkrepository/eco-foodweb-baydry.wsoap
+	rm networkrepository/foodweb-baydry.wsoap
+	rm networkrepository/foodweb-baywet.wsoap

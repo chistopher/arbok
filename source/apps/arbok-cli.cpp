@@ -172,6 +172,20 @@ void run(map<string, string>& args) {
         for(auto& [u,v,w] : graph.edges)
             w = dist(gen);
         t.stop("add random weights");
+    } else {
+        t.start("check weights"); // this is done so that INF does not overflow int
+        int mn_weight = 0;
+        for(auto& [u,v,w] : graph.edges)
+            mn_weight = min(mn_weight,w);
+        if(mn_weight<0) {
+            long long mx_weight = 0;
+            for(auto& [u,v,w] : graph.edges) {
+                w -= mn_weight;
+                mx_weight = max<long long>(mx_weight, w);
+            }
+            cout << "WARNING: found negative weights. scaling up to be positive; new max weight is " << mx_weight << endl;
+        }
+        t.stop("check weights");
     }
 
     const int INF = 1e9;
@@ -193,7 +207,7 @@ void run(map<string, string>& args) {
     t.start("total");
     {
         t.start("construct algo DS");
-        Algo alg(graph.n, graph.edges.size());
+        Algo alg(graph.n, (int)graph.edges.size());
         for (auto e: graph.edges) alg.create_edge(e.from, e.to, e.weight);
         con = t.stop();
 
