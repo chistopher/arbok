@@ -37,7 +37,7 @@ public:
     void create_edge(int from, int to, int weight) {
         assert(0<=from && from<num_vertices);
         assert(0<=to && to<num_vertices);
-        edges.emplace_back(from,to,weight);
+        edges.push_back({from,to,weight});
         static_cast<DS*>(this)->create_edge_internal(from,to,weight,int(size(edges)-1));
     }
 
