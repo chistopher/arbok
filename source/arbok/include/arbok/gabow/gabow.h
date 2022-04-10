@@ -19,20 +19,16 @@ namespace arbok {
 
         int contractions = 0;
     protected:
-        struct EdgeLink {
-            int from, to, weight;
-            bool ignore;
-        };
+        struct Edge { int from, to, weight; };
 
         const int num_vertices;
         CompressedTree<int> co; // for actual merges and managing offsets
 
-        std::vector<EdgeLink> edges;                  // all edges
+        std::vector<Edge> edges;                  // all edges
         std::vector<std::vector<int>> incoming_edges; // adjacency list pointing into edges
 
         std::vector<int> growth_path;
         std::vector<int> path_edges; // edges on growth path but as ids into chosen
-        std::vector<bool> in_path;
 
         std::vector<std::vector<int>> exit_list;   // stores the index into edges
         std::vector<std::vector<int>> passive_set; // stores the index into edges
@@ -43,7 +39,7 @@ namespace arbok {
         std::vector<int> chosen;      // chosen edges
         std::vector<int> forest;      // forest[i]: parent in reconstruction forest of edge edges[chosen[i]] (as ids into chosen)
 
-        inline auto currentWeight(const EdgeLink& e) { return e.weight + co.find_value(e.to); }
+        inline auto currentWeight(const Edge& e) { return e.weight + co.find_value(e.to); }
         void extendPath(int u);
         int contractPathPrefix(int u);
         void contractCompletePath(int root);
