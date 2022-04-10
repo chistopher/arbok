@@ -1,10 +1,7 @@
 
 #include <arbok/data_structures/treap.h>
 
-#include <tuple>
-#include <cmath>
 #include <random>
-#include <chrono>
 
 using ll = long long;
 using namespace std;
@@ -13,15 +10,17 @@ namespace arbok::treap {
 
 static mt19937 rng(1337);
 
-Node::Node(int from, int to, int weight) : y(rng()), x{from, to, weight, weight}, mn{from, to, weight, weight} {}
+constexpr pair<int,int> NO_EDGE{1e9+3,-1};
 
-Edge mn(Node *v) { return v ? v->mn : NO_EDGE; }
+Node::Node(int weight, int idx) : y(rng()), x{weight,idx}, mn{weight,idx} {}
+
+pair<int,int> mn(Node *v) { return v ? v->mn : NO_EDGE; }
 void update(Node *v) { v->mn = min({mn(v->l), v->x, mn(v->r)}); }
 
 void apply(Node *v, int lz) {
     if (!v) return;
-    v->x.weight += lz;
-    v->mn.weight += lz;
+    v->x.first += lz;
+    v->mn.first += lz;
     v->lz += lz;
 }
 

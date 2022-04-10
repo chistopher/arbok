@@ -176,7 +176,7 @@ public:
                 vis[f] = true;
                 f = tr[f];
             }
-            arb.push_back(res[i].to);
+            arb.push_back(res[i].id);
         }
         return arb;
     }

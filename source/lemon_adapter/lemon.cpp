@@ -25,8 +25,12 @@ struct arbok::LemonImpl {
         algo.run(graph.nodeFromId(root));
         return algo.arborescenceCost();
     }
-    std::vector<int> reconstruct(int root) {
-        return {};
+    std::vector<int> reconstruct(int /* root */) {
+        vector<int> arbo;
+        for(int i=0; i<graph.arcNum(); ++i)
+            if(algo.arborescence(graph.arcFromId(i)))
+                arbo.push_back(i);
+        return arbo;
     }
 
     using LGraph = lemon::SmartDigraph;

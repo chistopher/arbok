@@ -5,16 +5,20 @@
 #include <chrono>
 #include <queue>
 #include <map>
-#include <cassert>
 
 #include <arbok/utils/paths.h>
-#include <arbok/tarjan/tarjan.h>
+#include <arbok/utils/utils.h>
 #include <arbok/gabow/gabow.h>
 #include <arbok/others/lemon.h>
 #include <arbok/others/atofigh.h>
 #include <arbok/others/felerius.h>
 #include <arbok/others/spaghetti.h>
 #include <arbok/others/yosupo.h>
+#include <arbok/tarjan/tarjan_set.h>
+#include <arbok/tarjan/tarjan_pq.h>
+#include <arbok/tarjan/tarjan_matrix.h>
+#include <arbok/tarjan/tarjan_treap.h>
+#include <arbok/tarjan/tarjan_hollow.h>
 
 using namespace std;
 
@@ -31,105 +35,6 @@ struct Timer {
     auto stop() { return stop(last); }
 };
 Timer t;
-
-struct Graph {
-    struct Edge { int from, to, weight; };
-    int n = 0;
-    vector<Edge> edges;
-    bool weighted = false;
-    Graph() {}
-    Graph(int n_, int m=0, bool weighted_=false) : n(n_), edges(m), weighted(weighted_) { }
-};
-
-Graph giantCC(const Graph& graph) {
-    int n = graph.n;
-
-    // make adj list
-    vector<vector<int>> adj(n);
-    for(auto [u,v,w] : graph.edges) {
-        adj[u].push_back(v);
-        adj[v].push_back(u);
-    }
-
-    // compute ccs
-    vector<int> cc(n,-1);
-    queue<int> q;
-    int num_ccs = 0;
-    for(int i=0; i<n; ++i) {
-        if(cc[i]!=-1) continue;
-        cc[i] = num_ccs++;
-        q.push(i);
-        while(size(q)) {
-            auto v = q.front(); q.pop();
-            for(auto u : adj[v])
-                if(cc[u]==-1)
-                    cc[u] = cc[v], q.push(u);
-        }
-    }
-
-    // count cc sizes
-    vector<int> local_idx(n);
-    vector<int> cc_size(num_ccs,0);
-    for(int i=0; i<n; ++i)
-        local_idx[i] = cc_size[cc[i]]++;
-
-    // construct graph for giant
-    auto it = max_element(begin(cc_size), end(cc_size));
-    int giant_idx = int(it - begin(cc_size));
-    Graph giant;
-    giant.n = cc_size[giant_idx];
-    giant.weighted = graph.weighted;
-    for(auto [u,v,w] : graph.edges) {
-        if(cc[u]!=giant_idx) continue;
-        assert(cc[u] == giant_idx);
-        assert(cc[v] == giant_idx);
-        giant.edges.push_back({local_idx[u], local_idx[v], w});
-    }
-
-    return giant;
-}
-
-Graph fromFile(const string& file) {
-    ifstream inf(file);
-    if(!inf) cout << "failed to load " << file << endl, exit(1);
-    bool weighted = file.ends_with("wsoap");
-    int n,m;
-    inf>>n>>m;
-    Graph graph(n,m,weighted);
-    for(auto& [from,to,w] : graph.edges) {
-        inf>>from>>to;
-        assert(0<=from && from<n);
-        assert(0<=to   && to<n);
-        if(weighted) inf>>w;
-    }
-    return graph;
-}
-
-
-void isArborescence(const Graph& graph, vector<arbok::Edge>& arbo, long long claimed_weight, int n, int root) {
-    auto check = [](bool cond){ if(!cond) cout << "no valid DMST", exit(1); };
-    // weight is same as claimed
-    auto check_sum = 0ll;
-    for(auto e : arbo) check_sum += e.orig_weight;
-    check(check_sum==claimed_weight);
-
-    // each node except root has one incoming edge
-    check(size(arbo)==n-1);
-    vector has_inc(n, false);
-    for(auto e : arbo) {
-        check(!has_inc[e.to]);
-        has_inc[e.to] = true;
-    }
-    check(!has_inc[root]);
-
-    // all arbo edges exists like this in the original graph
-    vector<tuple<int,int,int>> edges;
-    edges.reserve(size(graph.edges));
-    for(auto e : graph.edges) edges.emplace_back(e.from, e.to, e.weight);
-    sort(begin(edges), end(edges));
-    for(auto e : arbo)
-        check(binary_search(begin(edges), end(edges), tuple{e.from, e.to, e.orig_weight}));
-}
 
 map<string, string> parseArgs(int argc, char** argv) {
     map<string, string> params;
@@ -149,7 +54,7 @@ template<class Algo>
 void run(map<string, string>& args) {
 
     t.start("load graph");
-    auto graph = fromFile(args["input"]);
+    auto graph = arbok::fromFile(args["input"]);
     t.stop("load graph");
 
     cout << "n      =" << graph.n << endl;
@@ -203,7 +108,7 @@ void run(map<string, string>& args) {
 
     long con, run, rec;
     long long res;
-    //vector<arbok::Edge> arbo;
+    vector<int> arbo;
     t.start("total");
     {
         t.start("construct algo DS");
@@ -216,7 +121,7 @@ void run(map<string, string>& args) {
         run = t.stop();
 
         t.start("reconstruct");
-        auto arbo = alg.reconstruct(root);
+        arbo = alg.reconstruct(root);
         rec = t.stop();
 
         t.start("destroy");
@@ -226,7 +131,8 @@ void run(map<string, string>& args) {
 
     if(args["check"]!="0") {
         t.start("validate");
-        //isArborescence(graph, arbo, res, graph.n, root);
+        if(!arbok::isArborescence(graph, arbo, res, root))
+            cout << "output no valid arborescence" << endl, exit(1);
         t.stop();
     }
 
@@ -277,10 +183,11 @@ int main(int argc, char* argv[]) {
     }
 
     auto algo = args["algo"];
-    if(algo=="set") run<arbok::SetTarjan>(args);
-    else if(algo=="matrix") run<arbok::MatrixTarjan>(args);
-    else if(algo=="pq") run<arbok::PQTarjan>(args);
-    else if(algo=="treap") run<arbok::TreapTarjan>(args);
+    if(algo=="set") run<arbok::TarjanSet>(args);
+    else if(algo=="matrix") run<arbok::TarjanMatrix>(args);
+    else if(algo=="pq") run<arbok::TarjanPQ>(args);
+    else if(algo=="treap") run<arbok::TarjanTreap>(args);
+    else if(algo=="hollow") run<arbok::TarjanHollow>(args);
     else if(algo=="gabow") run<arbok::Gabow>(args);
     else if(algo=="lemon") run<arbok::Lemon>(args);
     else if(algo=="atofigh") run<arbok::Atofigh>(args);

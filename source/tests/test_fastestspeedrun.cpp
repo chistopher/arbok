@@ -4,9 +4,18 @@
 
 #include <gtest/gtest.h>
 
-#include <arbok/tarjan/tarjan.h>
 #include <arbok/utils/paths.h>
+#include <arbok/utils/utils.h>
 #include <arbok/gabow/gabow.h>
+#include <arbok/tarjan/tarjan_set.h>
+#include <arbok/tarjan/tarjan_pq.h>
+#include <arbok/tarjan/tarjan_matrix.h>
+#include <arbok/tarjan/tarjan_treap.h>
+#include <arbok/tarjan/tarjan_hollow.h>
+#include <arbok/others/felerius.h>
+#include <arbok/others/yosupo.h>
+#include <arbok/others/atofigh.h>
+#include <arbok/others/lemon.h>
 
 using namespace std;
 using ::testing::TestWithParam;
@@ -14,56 +23,15 @@ using ::testing::Values;
 
 class CodeforcesTest : public TestWithParam<std::string> { };
 
-
-void isArborescence(vector<arbok::Edge>& graph, vector<arbok::Edge>& arbo, long long claimed_weight, int n, int root) {
-    // weight is same as claimed
-    auto check_sum = 0ll;
-    for(auto e : arbo) check_sum += e.orig_weight;
-    ASSERT_EQ(check_sum, claimed_weight);
-
-    // each node except root has one incoming edge
-    ASSERT_EQ(size(arbo), n-1);
-    vector has_inc(n, false);
-    for(auto e : arbo) {
-        assert(!has_inc[e.to]);
-        has_inc[e.to] = true;
-    }
-    ASSERT_FALSE(has_inc[root]);
-
-    // all arbo edges exists like this in the original graph
-    vector<tuple<int,int,int>> edges;
-    edges.reserve(size(graph));
-    for(auto e : graph) edges.emplace_back(e.from, e.to, e.weight);
-    sort(begin(edges), end(edges));
-    for(auto e : arbo)
-        ASSERT_TRUE(binary_search(begin(edges), end(edges), tuple{e.from, e.to, e.orig_weight}));
-}
-
 template<class Algo>
 void testImpl(const string& testcase_name) {
-    std::ifstream inp(std::string(DATA_DIR) + "fastestspeedrun/" + testcase_name + ".in"); \
     std::ifstream answer_file(std::string(DATA_DIR) + "fastestspeedrun/" + testcase_name + ".ans");
 
-    vector<arbok::Edge> graph;
+    auto graph = arbok::fromFile(DATA_DIR + "fastestspeedrun/"s + testcase_name + ".wsoap");
 
-    int n; inp >> n;
-
-    for (int level = 1; level <= n; level++) {
-        int shortcut_item, time;
-        inp >> shortcut_item >> time;
-        graph.push_back({shortcut_item, level, time, time});
-        for (int item = 0; item <= n; item++) {
-            inp >> time;
-            if (item != shortcut_item) {
-                graph.push_back({item, level, time, time});
-            }
-        }
-    }
-
-    Algo alg(n+1, graph.size());
-    for (arbok::Edge e : graph) {
+    Algo alg(graph.n, (int)size(graph.edges));
+    for(auto e : graph.edges)
         alg.create_edge(e.from, e.to, e.weight);
-    }
 
     long long ans;
     answer_file >> ans;
@@ -73,20 +41,19 @@ void testImpl(const string& testcase_name) {
 
     auto arbo = alg.reconstruct(0);
 
-    isArborescence(graph, arbo, ans, n+1, 0);
+    ASSERT_TRUE(isArborescence(graph, arbo, ans, 0));
 }
 
-TEST_P(CodeforcesTest, MatrixTarjan) { testImpl<arbok::MatrixTarjan>(GetParam()); }
-
-TEST_P(CodeforcesTest, SetTarjan) { testImpl<arbok::SetTarjan>(GetParam()); }
-
-TEST_P(CodeforcesTest, TreapTarjan) { testImpl<arbok::TreapTarjan>(GetParam()); }
-
-TEST_P(CodeforcesTest, PQTarjan) { testImpl<arbok::PQTarjan>(GetParam()); }
-
-TEST_P(CodeforcesTest, HHTarjan) { testImpl<arbok::HHTarjan>(GetParam()); }
-
+TEST_P(CodeforcesTest, TarjanMatrix) { testImpl<arbok::TarjanMatrix>(GetParam()); }
+TEST_P(CodeforcesTest, TarjanSet) { testImpl<arbok::TarjanSet>(GetParam()); }
+TEST_P(CodeforcesTest, TarjanTreap) { testImpl<arbok::TarjanTreap>(GetParam()); }
+TEST_P(CodeforcesTest, TarjanPQ) { testImpl<arbok::TarjanPQ>(GetParam()); }
+TEST_P(CodeforcesTest, TarjanHollow) { testImpl<arbok::TarjanHollow>(GetParam()); }
 TEST_P(CodeforcesTest, Gabow) { testImpl<arbok::Gabow>(GetParam()); }
+TEST_P(CodeforcesTest, Felerius) { testImpl<arbok::Felerius>(GetParam()); }
+TEST_P(CodeforcesTest, Yosupo) { testImpl<arbok::Yosupo>(GetParam()); }
+TEST_P(CodeforcesTest, Atofigh) { testImpl<arbok::Atofigh>(GetParam()); }
+TEST_P(CodeforcesTest, Lemon) { testImpl<arbok::Lemon>(GetParam()); }
 
 INSTANTIATE_TEST_SUITE_P(SmallOnes, CodeforcesTest, Values(
     "001-small1",

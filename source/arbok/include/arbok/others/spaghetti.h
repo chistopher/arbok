@@ -88,7 +88,7 @@ class Spaghetti {
     std::vector<SpaghettiDS::skew_heap> heap;
 
 public:
-    Spaghetti(int _n, int _m) : n(_n), heap(_n) {};
+    Spaghetti(int _n, int /* _m */) : n(_n), heap(_n) {};
 
     void create_edge(int src, int dst, int weight) {
         edges.push_back({src, dst, weight});

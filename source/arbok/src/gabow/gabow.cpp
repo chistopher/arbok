@@ -22,9 +22,9 @@ Gabow::Gabow(int n, int /* m */)
 void Gabow::create_edge(int from, int to, int weight) {
     assert(0<=from && from < num_vertices);
     assert(0<=to && to < num_vertices);
-    if (from == to) return;
-    incoming_edges[to].push_back(int(size(edges)));
-    edges.push_back({from, to, weight, false});
+    if (from != to)
+        incoming_edges[to].push_back(int(size(edges)));
+    edges.push_back({from, to, weight, false}); // we save even self loops to keep edge ids consistent with the outside
 }
 
 long long Gabow::run(int root) {
@@ -66,7 +66,7 @@ long long Gabow::run(int root) {
     return answer;
 }
 
-std::vector<Edge> Gabow::reconstruct(int root) {
+std::vector<int> Gabow::reconstruct(int root) {
 
     auto n = static_cast<int>(std::size(chosen));
 
@@ -95,14 +95,7 @@ std::vector<Edge> Gabow::reconstruct(int root) {
     }
 
     assert(size(res)==num_vertices-1);
-
-    std::vector<Edge> ret; // TODO change interface of reconstruct
-    for(auto idx : res) {
-        auto& e = edges[idx];
-        ret.push_back({e.from, e.to, e.weight, e.weight});
-    }
-
-    return ret;
+    return res;
 }
 
 void Gabow::extendPath(int u) {

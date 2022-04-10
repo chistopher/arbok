@@ -66,7 +66,7 @@ namespace arbok {
 class Felerius {
 private:
     struct SkewHeapNode { int l, r, from, to, weight, lz; };
-    std::vector<SkewHeapNode> nodes;
+    std::vector<SkewHeapNode> nodes; // one skew heap node per edge of the input
     std::vector<int> heap;
 
     void apply(int i, int upd) { nodes[i].weight -= upd; nodes[i].lz += upd; }
@@ -89,12 +89,11 @@ private:
     }
 
 public:
-    std::vector<int> m_arb; // solution
     std::vector<std::pair<int, int>> cycles; // data to reconstruct solution from
     FeleriusDS::RollbackDsu dsu_contract;
     std::vector<int> edge; // stores index of edge = index of corresponding heap node
 
-    Felerius(int n, int /*m*/) : heap(n,-1), m_arb(n), dsu_contract(n), edge(n,-1) {}
+    Felerius(int n, int /*m*/) : heap(n,-1), dsu_contract(n), edge(n,-1) {}
 
     void create_edge(int from, int to, int weight) {
         assert(0 <= from && from < size(heap) && 0 <= to && to < size(heap));
@@ -139,6 +138,7 @@ public:
             int vinc = dsu_contract.find(nodes[edge[vrepr]].to);
             edge[vinc] = std::exchange(edge[vrepr], it->first);
         }
+        edge.erase(find(begin(edge),end(edge),-1));
         return edge;
     }
 

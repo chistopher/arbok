@@ -2,18 +2,18 @@
 
 #include <cassert>
 #include <utility>
-#include <arbok/tarjan/tarjan.h> // TODO: We need this for the Edge data type, but maybe the Edge data type should be refactored into its own header due to encapsulation (treap shouldn't know Tarjan, per se...)
+#include <vector>
 
 namespace arbok::treap {
 
     struct Node {
         Node *l = nullptr, *r = nullptr;
         long unsigned int y;
-        Edge x, mn;
+        std::pair<int,int> x, mn; // each pair is (weight,idx) of some edge
         int lz = 0;
 
         Node() = default;
-        Node(int from, int to, int weight);
+        Node(int weight, int idx);
         Node(Node&&) = default;
         Node& operator=(const Node&) = default;
     };
@@ -31,7 +31,7 @@ namespace arbok::treap {
         int next_node_;
     };
 
-    Edge mn(Node *v);
+    std::pair<int,int> mn(Node *v);
 
     void update(Node *v);
 

@@ -2,7 +2,6 @@
 #include <vector>
 #include <list>
 
-#include <arbok/tarjan/tarjan.h>
 #include <arbok/gabow/active_forest.h>
 
 namespace arbok {
@@ -16,7 +15,7 @@ namespace arbok {
 
         long long run(int root);
 
-        std::vector<Edge> reconstruct(int root);
+        std::vector<int> reconstruct(int root);
 
         int contractions = 0;
     protected:

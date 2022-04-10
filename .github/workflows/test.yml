@@ -17,15 +17,17 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Download test data
-      run: wget -O data/fastestspeedrun.zip https://owncloud.hpi.de/s/tGKfRrmTUejNhRH/download
-
-    - name: Unpack test data
-      run: unzip data/fastestspeedrun.zip -d data
-
-    - name: Install GTest
+    - name: Prepare test data
       run: |
-        sudo apt-get update && sudo apt-get install -y libgtest-dev
+        cd data
+        make fastestspeedrun
+
+    - name: Install GTest and Boost-Graph
+      run: |
+        sudo apt-get update && sudo apt-get install -y libgtest-dev libboost-graph-dev
+
+    - name: Download Lemon
+      run: ./dependencies.sh
 
     - name: Configure
       run: |

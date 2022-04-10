@@ -33,8 +33,8 @@ struct arbok::AtofighImpl {
             ans += m_weights[e_id];
         return ans;
     }
-    std::vector<int> reconstruct(int root) {
-        return {};
+    std::vector<int> reconstruct(int /* root */) {
+        return m_arbo;
     }
 
     std::vector<std::pair<int,int>> m_edges;

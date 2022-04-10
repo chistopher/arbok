@@ -85,7 +85,7 @@ template <class T, class Compare = std::less<T>> class hollow_heap {
         ++(winner->rank);
         return winner;
     }
-    void destroy(node *a) {
+    void destroy(node* /* a */) {
         //delete a;
     }
     void insert_and_rlink(node *c, std::array<node *, 255> &roots_by_rank) {
@@ -130,7 +130,7 @@ template <class T, class Compare = std::less<T>> class hollow_heap {
         --n; // update size of heap
     }
     void push_update(node *x, int w) {
-        x->key.weight += w;
+        x->key.first += w;
         x->lazy_update += w;
     }
 

@@ -13,6 +13,6 @@ add_executable(${target}
     test_fastestspeedrun.cpp
 )
 
-target_link_libraries(${target} GTest::Main arbok)
+target_link_libraries(${target} GTest::Main arbok atofigh_adapter lemon_adapter)
 gtest_discover_tests(${target})
 
