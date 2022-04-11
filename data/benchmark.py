@@ -7,8 +7,9 @@ import sys
 import pandas as pd
 
 dirnames = ['fastestspeedrun', 'konect', 'networkrepository', 'yosupo', 'antilemon']
-#dirnames = ['fastestspeedrun']
+#dirnames = ['girgs']
 algos = ['pq', 'treap', 'hollow', 'set', 'gabow', 'lemon', 'atofigh', 'felerius', 'spaghetti', 'yosupo', 'matrix']
+#algos = ['atofigh']
 cli = '../build/arbok-cli'
 
 
@@ -34,7 +35,7 @@ for dirname in dirnames:
 
         for algo in algos:
             print(f'\trunning {algo}', end=' ')
-            if algo=='matrix' and n>100000:
+            if algo=='matrix' and n>=100000:
                 print('too large for matrix')
                 continue
 
@@ -46,10 +47,13 @@ for dirname in dirnames:
             
             st = time.time()
             try:
-                subprocess.run(clicall, stdout=logfile, timeout=60*30)
+                res = subprocess.run(clicall, stdout=logfile, timeout=60*30)
             except subprocess.TimeoutExpired:
                 print('timed out')
                 continue
             en = time.time()
-            print(f'done in {en-st:.4}s')
+            if res.returncode == 0:
+                print(f'done in {en-st:.4}s')
+            else:
+                print(f'WARNING: non-zero exit code ({res.returncode})')
 
