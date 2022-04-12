@@ -99,10 +99,11 @@ template <class T, class Compare = std::less<T>> class hollow_heap {
         }
     }
     void ll_backwards_it(node *c, std::array<node *, 255> &roots_by_rank) {
-        if (c->right_sibling != nullptr) {
-            ll_backwards_it(c->right_sibling, roots_by_rank);
+        while(c != nullptr) {
+            auto next = c->right_sibling;
+            insert_and_rlink(c, roots_by_rank);
+            c = next;
         }
-        insert_and_rlink(c, roots_by_rank);
     }
     void extract_root() {
         std::array<node *, 255> roots_by_rank;
