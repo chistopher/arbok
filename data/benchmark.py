@@ -6,7 +6,7 @@ import time
 import sys
 import pandas as pd
 
-dirnames = ['fastestspeedrun', 'konect', 'networkrepository', 'yosupo', 'antilemon']
+dirnames = ['fastestspeedrun', 'konect', 'networkrepository', 'yosupo', 'antilemon', 'girgs']
 #dirnames = ['girgs']
 algos = ['pq', 'treap', 'hollow', 'set', 'gabow', 'lemon', 'atofigh', 'felerius', 'spaghetti', 'yosupo', 'matrix']
 #algos = ['atofigh']
