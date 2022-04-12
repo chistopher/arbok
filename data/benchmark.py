@@ -53,7 +53,7 @@ for dirname in dirnames:
                 continue
             en = time.time()
             if res.returncode == 0:
-                print(f'done in {en-st:.4}s')
+                print(f'done in {en-st:.4}s', flush=True)
             else:
-                print(f'WARNING: non-zero exit code ({res.returncode})')
+                print(f'WARNING: non-zero exit code ({res.returncode})', flush=True)
 
