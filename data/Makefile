@@ -38,3 +38,8 @@ networkrepository:
 	rm networkrepository/eco-foodweb-baydry.wsoap
 	rm networkrepository/foodweb-baydry.wsoap
 	rm networkrepository/foodweb-baywet.wsoap
+
+girgs:
+	./girgs_generate.py
+	./girgs_convert.py
+
