@@ -20,6 +20,10 @@
 #include <arbok/tarjan/tarjan_treap.h>
 #include <arbok/tarjan/tarjan_hollow.h>
 
+#ifdef __linux__
+#include <sys/resource.h>
+#endif
+
 using namespace std;
 
 struct Timer {
@@ -161,6 +165,15 @@ void run(map<string, string>& args) {
 
 int main(int argc, char* argv[]) {
     ios::sync_with_stdio(false);
+
+#ifdef __linux__
+    rlimit rl;
+    getrlimit(RLIMIT_STACK,&rl);
+    rl.rlim_cur = 4 * 1024L * 1024L * 1024L; // 4GB
+    setrlimit(RLIMIT_STACK,&rl);
+#else
+    cout << "WARNING: on non-linux targets stack size might be too small for yosupo solver on very large instances (>10kk edges)" << endl;
+#endif
 
     map<string,string> defaults{
             {"input",   DATA_DIR + "konect/slashdot-zoo.soap"s},

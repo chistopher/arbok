@@ -35,7 +35,7 @@ void ActiveForest::makeActive(int from, int to, int weight, int id) {
         return moveHome(active_edge[from_rep] = new FibHeapNode(from,to,weight,id));
 
     auto v = active_edge[from_rep];
-    assert(pair(weight + co.find_value(to), from) < pair(curWeight(v),v->from) || co.find(to) != co.find(v->to));
+    assert(weight + co.find_value(to) < curWeight(v) || co.find(to) != co.find(v->to));
     removeFromCurrentList(v);
     v->to = to; v->weight = weight; v->id = id, v->from = from;
     moveHome(v); // heap property is only violated when v's children get displaced
@@ -61,7 +61,7 @@ int ActiveForest::getMin(int i) {
         while(size(order_rep)>size(v->children) && order_rep[size(v->children)]) {
             auto other = order_rep[size(v->children)];
             order_rep[size(v->children)] = nullptr;
-            if(pair(curWeight(other),other->from) < pair(curWeight(v),v->from))
+            if(curWeight(other) < curWeight(v))
                 swap(v,other);
             assert(!other->parent);
             other->list_it = v->children.insert(end(v->children), other);
@@ -79,7 +79,7 @@ int ActiveForest::getMin(int i) {
     // find top element in rootlist
     assert(!empty(active_sets[i])); // list not empty
     FibHeapNode* v_min = *min_element(begin(active_sets[i]), end(active_sets[i]), [this](auto a, auto b){
-        return pair(curWeight(a),a->from) < pair(curWeight(b),b->from);
+        return curWeight(a) < curWeight(b);
     });
     assert(v_min == active_edge[co.find(v_min->from)]); // edge is active edge
     assert(co.find(v_min->to) == i); // edge is in home heap

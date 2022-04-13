@@ -98,7 +98,7 @@ void Gabow::extendPath(int u) {
             auto& front_edge = edges[front_edge_id];
             if(u!=front_edge.to)
                 passive_set[co.find(front_edge.to)].push_back(front_edge_id); // keep both frontedge and edge
-            else if(std::pair(edge.weight,edge.from) < std::pair(front_edge.weight, front_edge.from)) // we can use weight here since u was never contracted
+            else if(edge.weight < front_edge.weight) // we can use weight here since u was never contracted
                 exit_list[rep_x].pop_back(); // discard previous front edge
             else
                 continue; // discard current edge coz it's dominated

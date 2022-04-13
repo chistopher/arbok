@@ -9,8 +9,8 @@ namespace arbok {
 
 class TarjanPQ : public Tarjan<TarjanPQ> {
     using PQElem = std::pair<int,int>; // (weight, id)
-    //using PQ = std::priority_queue<PQElem, std::vector<PQElem>, decltype([](auto a, auto b) { return a.first > b.first; })>;
-    using PQ = std::priority_queue<PQElem, std::vector<PQElem>, std::greater<>>;
+    using PQ = std::priority_queue<PQElem, std::vector<PQElem>, decltype([](auto a, auto b) { return a.first > b.first; })>;
+    //using PQ = std::priority_queue<PQElem, std::vector<PQElem>, std::greater<>>;
     std::vector<PQ> managedSets;
     std::vector<int> offsets;
 
