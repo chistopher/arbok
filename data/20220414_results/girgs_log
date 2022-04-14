@@ -1,0 +1,4000 @@
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	100
+	wseed	=	12
+	pseed	=	647760
+	sseed	=	559169
+	threads	=	1
+	file	=	girgs/girg0100_0
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 18.5547
+sampling edges ...		done in 11ms	avg deg = 100.021
+writing edge list (.txt) ...	done in 40ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	100
+	wseed	=	12
+	pseed	=	744363
+	sseed	=	598714
+	threads	=	1
+	file	=	girgs/girg0100_1
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 18.5547
+sampling edges ...		done in 10ms	avg deg = 100.278
+writing edge list (.txt) ...	done in 40ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	100
+	wseed	=	12
+	pseed	=	614242
+	sseed	=	173735
+	threads	=	1
+	file	=	girgs/girg0100_2
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 18.5547
+sampling edges ...		done in 10ms	avg deg = 100.01
+writing edge list (.txt) ...	done in 40ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	100
+	wseed	=	12
+	pseed	=	812855
+	sseed	=	348954
+	threads	=	1
+	file	=	girgs/girg0100_3
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 18.5547
+sampling edges ...		done in 10ms	avg deg = 100.049
+writing edge list (.txt) ...	done in 40ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	100
+	wseed	=	12
+	pseed	=	402343
+	sseed	=	827969
+	threads	=	1
+	file	=	girgs/girg0100_4
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 18.5547
+sampling edges ...		done in 10ms	avg deg = 100.022
+writing edge list (.txt) ...	done in 40ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	100
+	wseed	=	12
+	pseed	=	377325
+	sseed	=	322576
+	threads	=	1
+	file	=	girgs/girg0100_5
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 18.5547
+sampling edges ...		done in 10ms	avg deg = 99.9894
+writing edge list (.txt) ...	done in 40ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	100
+	wseed	=	12
+	pseed	=	410571
+	sseed	=	214901
+	threads	=	1
+	file	=	girgs/girg0100_6
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 18.5547
+sampling edges ...		done in 10ms	avg deg = 99.9088
+writing edge list (.txt) ...	done in 40ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	100
+	wseed	=	12
+	pseed	=	798528
+	sseed	=	905791
+	threads	=	1
+	file	=	girgs/girg0100_7
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 18.5547
+sampling edges ...		done in 10ms	avg deg = 99.9658
+writing edge list (.txt) ...	done in 40ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	100
+	wseed	=	12
+	pseed	=	956621
+	sseed	=	114597
+	threads	=	1
+	file	=	girgs/girg0100_8
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 18.5547
+sampling edges ...		done in 10ms	avg deg = 99.9874
+writing edge list (.txt) ...	done in 40ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	100
+	wseed	=	12
+	pseed	=	446156
+	sseed	=	666052
+	threads	=	1
+	file	=	girgs/girg0100_9
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 18.5547
+sampling edges ...		done in 10ms	avg deg = 99.9078
+writing edge list (.txt) ...	done in 40ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	200
+	wseed	=	12
+	pseed	=	418108
+	sseed	=	68517
+	threads	=	1
+	file	=	girgs/girg0200_0
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 37.9297
+sampling edges ...		done in 17ms	avg deg = 200.495
+writing edge list (.txt) ...	done in 80ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	200
+	wseed	=	12
+	pseed	=	529943
+	sseed	=	700576
+	threads	=	1
+	file	=	girgs/girg0200_1
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 37.9297
+sampling edges ...		done in 17ms	avg deg = 199.737
+writing edge list (.txt) ...	done in 80ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	200
+	wseed	=	12
+	pseed	=	365011
+	sseed	=	423192
+	threads	=	1
+	file	=	girgs/girg0200_2
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 37.9297
+sampling edges ...		done in 16ms	avg deg = 199.772
+writing edge list (.txt) ...	done in 79ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	200
+	wseed	=	12
+	pseed	=	422963
+	sseed	=	773371
+	threads	=	1
+	file	=	girgs/girg0200_3
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 37.9297
+sampling edges ...		done in 17ms	avg deg = 200.2
+writing edge list (.txt) ...	done in 80ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	200
+	wseed	=	12
+	pseed	=	838929
+	sseed	=	695991
+	threads	=	1
+	file	=	girgs/girg0200_4
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 37.9297
+sampling edges ...		done in 16ms	avg deg = 200.156
+writing edge list (.txt) ...	done in 80ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	200
+	wseed	=	12
+	pseed	=	18691
+	sseed	=	370325
+	threads	=	1
+	file	=	girgs/girg0200_5
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 37.9297
+sampling edges ...		done in 16ms	avg deg = 200.026
+writing edge list (.txt) ...	done in 80ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	200
+	wseed	=	12
+	pseed	=	623333
+	sseed	=	483323
+	threads	=	1
+	file	=	girgs/girg0200_6
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 37.9297
+sampling edges ...		done in 17ms	avg deg = 200.225
+writing edge list (.txt) ...	done in 80ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	200
+	wseed	=	12
+	pseed	=	258348
+	sseed	=	834373
+	threads	=	1
+	file	=	girgs/girg0200_7
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 37.9297
+sampling edges ...		done in 17ms	avg deg = 199.959
+writing edge list (.txt) ...	done in 80ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	200
+	wseed	=	12
+	pseed	=	893225
+	sseed	=	712258
+	threads	=	1
+	file	=	girgs/girg0200_8
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 37.9297
+sampling edges ...		done in 17ms	avg deg = 200.039
+writing edge list (.txt) ...	done in 80ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	200
+	wseed	=	12
+	pseed	=	724085
+	sseed	=	959551
+	threads	=	1
+	file	=	girgs/girg0200_9
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 37.9297
+sampling edges ...		done in 17ms	avg deg = 199.885
+writing edge list (.txt) ...	done in 80ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	300
+	wseed	=	12
+	pseed	=	633960
+	sseed	=	632725
+	threads	=	1
+	file	=	girgs/girg0300_0
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 58.0625
+sampling edges ...		done in 28ms	avg deg = 300.081
+writing edge list (.txt) ...	done in 119ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	300
+	wseed	=	12
+	pseed	=	277721
+	sseed	=	210744
+	threads	=	1
+	file	=	girgs/girg0300_1
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 58.0625
+sampling edges ...		done in 28ms	avg deg = 299.896
+writing edge list (.txt) ...	done in 120ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	300
+	wseed	=	12
+	pseed	=	574365
+	sseed	=	669358
+	threads	=	1
+	file	=	girgs/girg0300_2
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 58.0625
+sampling edges ...		done in 28ms	avg deg = 299.938
+writing edge list (.txt) ...	done in 120ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	300
+	wseed	=	12
+	pseed	=	550967
+	sseed	=	605340
+	threads	=	1
+	file	=	girgs/girg0300_3
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 58.0625
+sampling edges ...		done in 28ms	avg deg = 299.393
+writing edge list (.txt) ...	done in 119ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	300
+	wseed	=	12
+	pseed	=	811079
+	sseed	=	75746
+	threads	=	1
+	file	=	girgs/girg0300_4
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 58.0625
+sampling edges ...		done in 28ms	avg deg = 300.269
+writing edge list (.txt) ...	done in 120ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	300
+	wseed	=	12
+	pseed	=	427263
+	sseed	=	945699
+	threads	=	1
+	file	=	girgs/girg0300_5
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 58.0625
+sampling edges ...		done in 28ms	avg deg = 300.159
+writing edge list (.txt) ...	done in 119ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	300
+	wseed	=	12
+	pseed	=	649850
+	sseed	=	708416
+	threads	=	1
+	file	=	girgs/girg0300_6
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 58.0625
+sampling edges ...		done in 28ms	avg deg = 299.771
+writing edge list (.txt) ...	done in 120ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	300
+	wseed	=	12
+	pseed	=	17973
+	sseed	=	206380
+	threads	=	1
+	file	=	girgs/girg0300_7
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 58.0625
+sampling edges ...		done in 28ms	avg deg = 300.098
+writing edge list (.txt) ...	done in 119ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	300
+	wseed	=	12
+	pseed	=	206592
+	sseed	=	298766
+	threads	=	1
+	file	=	girgs/girg0300_8
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 58.0625
+sampling edges ...		done in 28ms	avg deg = 300.301
+writing edge list (.txt) ...	done in 120ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	300
+	wseed	=	12
+	pseed	=	206123
+	sseed	=	785500
+	threads	=	1
+	file	=	girgs/girg0300_9
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 0ms	scaling = 58.0625
+sampling edges ...		done in 28ms	avg deg = 300.356
+writing edge list (.txt) ...	done in 120ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	400
+	wseed	=	12
+	pseed	=	961052
+	sseed	=	596302
+	threads	=	1
+	file	=	girgs/girg0400_0
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 78.9375
+sampling edges ...		done in 31ms	avg deg = 400.083
+writing edge list (.txt) ...	done in 159ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	400
+	wseed	=	12
+	pseed	=	329549
+	sseed	=	834045
+	threads	=	1
+	file	=	girgs/girg0400_1
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 78.9375
+sampling edges ...		done in 31ms	avg deg = 399.906
+writing edge list (.txt) ...	done in 159ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	400
+	wseed	=	12
+	pseed	=	982378
+	sseed	=	349796
+	threads	=	1
+	file	=	girgs/girg0400_2
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 78.9375
+sampling edges ...		done in 31ms	avg deg = 400.078
+writing edge list (.txt) ...	done in 159ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	400
+	wseed	=	12
+	pseed	=	453161
+	sseed	=	828823
+	threads	=	1
+	file	=	girgs/girg0400_3
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 78.9375
+sampling edges ...		done in 31ms	avg deg = 399.932
+writing edge list (.txt) ...	done in 159ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	400
+	wseed	=	12
+	pseed	=	239919
+	sseed	=	48058
+	threads	=	1
+	file	=	girgs/girg0400_4
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 78.9375
+sampling edges ...		done in 31ms	avg deg = 399.958
+writing edge list (.txt) ...	done in 159ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	400
+	wseed	=	12
+	pseed	=	813691
+	sseed	=	761833
+	threads	=	1
+	file	=	girgs/girg0400_5
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 78.9375
+sampling edges ...		done in 30ms	avg deg = 399.881
+writing edge list (.txt) ...	done in 159ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	400
+	wseed	=	12
+	pseed	=	677124
+	sseed	=	889643
+	threads	=	1
+	file	=	girgs/girg0400_6
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 78.9375
+sampling edges ...		done in 31ms	avg deg = 399.945
+writing edge list (.txt) ...	done in 159ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	400
+	wseed	=	12
+	pseed	=	934711
+	sseed	=	641102
+	threads	=	1
+	file	=	girgs/girg0400_7
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 78.9375
+sampling edges ...		done in 31ms	avg deg = 399.661
+writing edge list (.txt) ...	done in 159ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	400
+	wseed	=	12
+	pseed	=	189576
+	sseed	=	552299
+	threads	=	1
+	file	=	girgs/girg0400_8
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 78.9375
+sampling edges ...		done in 31ms	avg deg = 399.747
+writing edge list (.txt) ...	done in 159ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	400
+	wseed	=	12
+	pseed	=	554117
+	sseed	=	812983
+	threads	=	1
+	file	=	girgs/girg0400_9
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 78.9375
+sampling edges ...		done in 31ms	avg deg = 400.116
+writing edge list (.txt) ...	done in 159ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	500
+	wseed	=	12
+	pseed	=	694825
+	sseed	=	782619
+	threads	=	1
+	file	=	girgs/girg0500_0
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 100.461
+sampling edges ...		done in 39ms	avg deg = 499.669
+writing edge list (.txt) ...	done in 199ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	500
+	wseed	=	12
+	pseed	=	518688
+	sseed	=	772275
+	threads	=	1
+	file	=	girgs/girg0500_1
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 100.461
+sampling edges ...		done in 39ms	avg deg = 499.934
+writing edge list (.txt) ...	done in 203ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	500
+	wseed	=	12
+	pseed	=	612116
+	sseed	=	942449
+	threads	=	1
+	file	=	girgs/girg0500_2
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 100.461
+sampling edges ...		done in 39ms	avg deg = 500.235
+writing edge list (.txt) ...	done in 199ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	500
+	wseed	=	12
+	pseed	=	25757
+	sseed	=	547670
+	threads	=	1
+	file	=	girgs/girg0500_3
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 100.461
+sampling edges ...		done in 39ms	avg deg = 499.813
+writing edge list (.txt) ...	done in 198ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	500
+	wseed	=	12
+	pseed	=	511272
+	sseed	=	788718
+	threads	=	1
+	file	=	girgs/girg0500_4
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 100.461
+sampling edges ...		done in 39ms	avg deg = 500.122
+writing edge list (.txt) ...	done in 199ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	500
+	wseed	=	12
+	pseed	=	685980
+	sseed	=	978305
+	threads	=	1
+	file	=	girgs/girg0500_5
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 100.461
+sampling edges ...		done in 39ms	avg deg = 499.84
+writing edge list (.txt) ...	done in 199ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	500
+	wseed	=	12
+	pseed	=	369737
+	sseed	=	585503
+	threads	=	1
+	file	=	girgs/girg0500_6
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 100.461
+sampling edges ...		done in 39ms	avg deg = 500.184
+writing edge list (.txt) ...	done in 199ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	500
+	wseed	=	12
+	pseed	=	837176
+	sseed	=	675980
+	threads	=	1
+	file	=	girgs/girg0500_7
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 100.461
+sampling edges ...		done in 39ms	avg deg = 500.362
+writing edge list (.txt) ...	done in 199ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	500
+	wseed	=	12
+	pseed	=	269785
+	sseed	=	70032
+	threads	=	1
+	file	=	girgs/girg0500_8
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 100.461
+sampling edges ...		done in 39ms	avg deg = 499.787
+writing edge list (.txt) ...	done in 199ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	500
+	wseed	=	12
+	pseed	=	743184
+	sseed	=	993879
+	threads	=	1
+	file	=	girgs/girg0500_9
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 100.461
+sampling edges ...		done in 39ms	avg deg = 499.653
+writing edge list (.txt) ...	done in 199ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	600
+	wseed	=	12
+	pseed	=	61760
+	sseed	=	178378
+	threads	=	1
+	file	=	girgs/girg0600_0
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 122.648
+sampling edges ...		done in 50ms	avg deg = 600.077
+writing edge list (.txt) ...	done in 238ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	600
+	wseed	=	12
+	pseed	=	331396
+	sseed	=	82235
+	threads	=	1
+	file	=	girgs/girg0600_1
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 122.648
+sampling edges ...		done in 50ms	avg deg = 599.817
+writing edge list (.txt) ...	done in 240ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	600
+	wseed	=	12
+	pseed	=	201185
+	sseed	=	998943
+	threads	=	1
+	file	=	girgs/girg0600_2
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 122.648
+sampling edges ...		done in 52ms	avg deg = 599.967
+writing edge list (.txt) ...	done in 240ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	600
+	wseed	=	12
+	pseed	=	566682
+	sseed	=	265340
+	threads	=	1
+	file	=	girgs/girg0600_3
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 122.648
+sampling edges ...		done in 50ms	avg deg = 599.871
+writing edge list (.txt) ...	done in 240ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	600
+	wseed	=	12
+	pseed	=	920212
+	sseed	=	581472
+	threads	=	1
+	file	=	girgs/girg0600_4
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 122.648
+sampling edges ...		done in 51ms	avg deg = 599.91
+writing edge list (.txt) ...	done in 238ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	600
+	wseed	=	12
+	pseed	=	157243
+	sseed	=	366183
+	threads	=	1
+	file	=	girgs/girg0600_5
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 122.648
+sampling edges ...		done in 51ms	avg deg = 600.444
+writing edge list (.txt) ...	done in 238ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	600
+	wseed	=	12
+	pseed	=	635848
+	sseed	=	923937
+	threads	=	1
+	file	=	girgs/girg0600_6
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 122.648
+sampling edges ...		done in 51ms	avg deg = 600.491
+writing edge list (.txt) ...	done in 239ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	600
+	wseed	=	12
+	pseed	=	950761
+	sseed	=	44932
+	threads	=	1
+	file	=	girgs/girg0600_7
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 122.648
+sampling edges ...		done in 51ms	avg deg = 600.162
+writing edge list (.txt) ...	done in 240ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	600
+	wseed	=	12
+	pseed	=	450829
+	sseed	=	777080
+	threads	=	1
+	file	=	girgs/girg0600_8
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 122.648
+sampling edges ...		done in 50ms	avg deg = 600.107
+writing edge list (.txt) ...	done in 239ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	600
+	wseed	=	12
+	pseed	=	163121
+	sseed	=	664713
+	threads	=	1
+	file	=	girgs/girg0600_9
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 122.648
+sampling edges ...		done in 50ms	avg deg = 599.771
+writing edge list (.txt) ...	done in 238ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	700
+	wseed	=	12
+	pseed	=	483727
+	sseed	=	398923
+	threads	=	1
+	file	=	girgs/girg0700_0
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 145.453
+sampling edges ...		done in 54ms	avg deg = 700.072
+writing edge list (.txt) ...	done in 277ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	700
+	wseed	=	12
+	pseed	=	71732
+	sseed	=	369540
+	threads	=	1
+	file	=	girgs/girg0700_1
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 145.453
+sampling edges ...		done in 54ms	avg deg = 700.023
+writing edge list (.txt) ...	done in 277ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	700
+	wseed	=	12
+	pseed	=	689084
+	sseed	=	675014
+	threads	=	1
+	file	=	girgs/girg0700_2
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 145.453
+sampling edges ...		done in 54ms	avg deg = 699.822
+writing edge list (.txt) ...	done in 280ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	700
+	wseed	=	12
+	pseed	=	630152
+	sseed	=	752224
+	threads	=	1
+	file	=	girgs/girg0700_3
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 145.453
+sampling edges ...		done in 54ms	avg deg = 699.572
+writing edge list (.txt) ...	done in 278ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	700
+	wseed	=	12
+	pseed	=	224135
+	sseed	=	142745
+	threads	=	1
+	file	=	girgs/girg0700_4
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 145.453
+sampling edges ...		done in 53ms	avg deg = 700.542
+writing edge list (.txt) ...	done in 278ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	700
+	wseed	=	12
+	pseed	=	507580
+	sseed	=	642957
+	threads	=	1
+	file	=	girgs/girg0700_5
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 145.453
+sampling edges ...		done in 53ms	avg deg = 699.982
+writing edge list (.txt) ...	done in 278ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	700
+	wseed	=	12
+	pseed	=	450463
+	sseed	=	265152
+	threads	=	1
+	file	=	girgs/girg0700_6
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 145.453
+sampling edges ...		done in 53ms	avg deg = 699.856
+writing edge list (.txt) ...	done in 278ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	700
+	wseed	=	12
+	pseed	=	167485
+	sseed	=	745954
+	threads	=	1
+	file	=	girgs/girg0700_7
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 145.453
+sampling edges ...		done in 53ms	avg deg = 699.681
+writing edge list (.txt) ...	done in 277ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	700
+	wseed	=	12
+	pseed	=	883611
+	sseed	=	412038
+	threads	=	1
+	file	=	girgs/girg0700_8
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 145.453
+sampling edges ...		done in 53ms	avg deg = 699.831
+writing edge list (.txt) ...	done in 278ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	700
+	wseed	=	12
+	pseed	=	654695
+	sseed	=	840933
+	threads	=	1
+	file	=	girgs/girg0700_9
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 145.453
+sampling edges ...		done in 55ms	avg deg = 699.351
+writing edge list (.txt) ...	done in 280ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	800
+	wseed	=	12
+	pseed	=	799780
+	sseed	=	974726
+	threads	=	1
+	file	=	girgs/girg0800_0
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 168.852
+sampling edges ...		done in 57ms	avg deg = 799.736
+writing edge list (.txt) ...	done in 322ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	800
+	wseed	=	12
+	pseed	=	437809
+	sseed	=	166820
+	threads	=	1
+	file	=	girgs/girg0800_1
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 168.852
+sampling edges ...		done in 57ms	avg deg = 799.484
+writing edge list (.txt) ...	done in 317ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	800
+	wseed	=	12
+	pseed	=	752780
+	sseed	=	652189
+	threads	=	1
+	file	=	girgs/girg0800_2
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 168.852
+sampling edges ...		done in 56ms	avg deg = 800.144
+writing edge list (.txt) ...	done in 319ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	800
+	wseed	=	12
+	pseed	=	731544
+	sseed	=	337297
+	threads	=	1
+	file	=	girgs/girg0800_3
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 168.852
+sampling edges ...		done in 57ms	avg deg = 800.243
+writing edge list (.txt) ...	done in 318ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	800
+	wseed	=	12
+	pseed	=	41286
+	sseed	=	566195
+	threads	=	1
+	file	=	girgs/girg0800_4
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 168.852
+sampling edges ...		done in 56ms	avg deg = 799.477
+writing edge list (.txt) ...	done in 318ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	800
+	wseed	=	12
+	pseed	=	629089
+	sseed	=	672458
+	threads	=	1
+	file	=	girgs/girg0800_5
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 168.852
+sampling edges ...		done in 55ms	avg deg = 799.391
+writing edge list (.txt) ...	done in 317ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	800
+	wseed	=	12
+	pseed	=	458733
+	sseed	=	800315
+	threads	=	1
+	file	=	girgs/girg0800_6
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 168.852
+sampling edges ...		done in 56ms	avg deg = 799.969
+writing edge list (.txt) ...	done in 317ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	800
+	wseed	=	12
+	pseed	=	988781
+	sseed	=	330439
+	threads	=	1
+	file	=	girgs/girg0800_7
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 168.852
+sampling edges ...		done in 56ms	avg deg = 800.041
+writing edge list (.txt) ...	done in 317ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	800
+	wseed	=	12
+	pseed	=	818729
+	sseed	=	916451
+	threads	=	1
+	file	=	girgs/girg0800_8
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 168.852
+sampling edges ...		done in 56ms	avg deg = 800.293
+writing edge list (.txt) ...	done in 318ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	800
+	wseed	=	12
+	pseed	=	376118
+	sseed	=	961811
+	threads	=	1
+	file	=	girgs/girg0800_9
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 168.852
+sampling edges ...		done in 56ms	avg deg = 798.854
+writing edge list (.txt) ...	done in 319ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	900
+	wseed	=	12
+	pseed	=	320107
+	sseed	=	461442
+	threads	=	1
+	file	=	girgs/girg0900_0
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 192.844
+sampling edges ...		done in 69ms	avg deg = 899.51
+writing edge list (.txt) ...	done in 357ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	900
+	wseed	=	12
+	pseed	=	608319
+	sseed	=	667470
+	threads	=	1
+	file	=	girgs/girg0900_1
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 192.844
+sampling edges ...		done in 70ms	avg deg = 899.849
+writing edge list (.txt) ...	done in 357ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	900
+	wseed	=	12
+	pseed	=	398675
+	sseed	=	653960
+	threads	=	1
+	file	=	girgs/girg0900_2
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 192.844
+sampling edges ...		done in 69ms	avg deg = 900.342
+writing edge list (.txt) ...	done in 357ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	900
+	wseed	=	12
+	pseed	=	860199
+	sseed	=	799638
+	threads	=	1
+	file	=	girgs/girg0900_3
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 192.844
+sampling edges ...		done in 69ms	avg deg = 900.784
+writing edge list (.txt) ...	done in 358ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	900
+	wseed	=	12
+	pseed	=	782545
+	sseed	=	404144
+	threads	=	1
+	file	=	girgs/girg0900_4
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 192.844
+sampling edges ...		done in 69ms	avg deg = 900.307
+writing edge list (.txt) ...	done in 356ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	900
+	wseed	=	12
+	pseed	=	852609
+	sseed	=	90000
+	threads	=	1
+	file	=	girgs/girg0900_5
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 192.844
+sampling edges ...		done in 68ms	avg deg = 900.315
+writing edge list (.txt) ...	done in 356ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	900
+	wseed	=	12
+	pseed	=	483155
+	sseed	=	3017
+	threads	=	1
+	file	=	girgs/girg0900_6
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 192.844
+sampling edges ...		done in 68ms	avg deg = 899.504
+writing edge list (.txt) ...	done in 357ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	900
+	wseed	=	12
+	pseed	=	359135
+	sseed	=	882126
+	threads	=	1
+	file	=	girgs/girg0900_7
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 192.844
+sampling edges ...		done in 68ms	avg deg = 900.607
+writing edge list (.txt) ...	done in 358ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	900
+	wseed	=	12
+	pseed	=	977022
+	sseed	=	515610
+	threads	=	1
+	file	=	girgs/girg0900_8
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 192.844
+sampling edges ...		done in 69ms	avg deg = 899.947
+writing edge list (.txt) ...	done in 357ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	900
+	wseed	=	12
+	pseed	=	552768
+	sseed	=	623057
+	threads	=	1
+	file	=	girgs/girg0900_9
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 192.844
+sampling edges ...		done in 69ms	avg deg = 899.836
+writing edge list (.txt) ...	done in 357ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1000
+	wseed	=	12
+	pseed	=	952411
+	sseed	=	146318
+	threads	=	1
+	file	=	girgs/girg1000_0
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 217.453
+sampling edges ...		done in 85ms	avg deg = 999.561
+writing edge list (.txt) ...	done in 395ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1000
+	wseed	=	12
+	pseed	=	38950
+	sseed	=	989067
+	threads	=	1
+	file	=	girgs/girg1000_1
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 217.453
+sampling edges ...		done in 86ms	avg deg = 1000.08
+writing edge list (.txt) ...	done in 397ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1000
+	wseed	=	12
+	pseed	=	528773
+	sseed	=	397184
+	threads	=	1
+	file	=	girgs/girg1000_2
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 217.453
+sampling edges ...		done in 87ms	avg deg = 999.808
+writing edge list (.txt) ...	done in 396ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1000
+	wseed	=	12
+	pseed	=	205055
+	sseed	=	465895
+	threads	=	1
+	file	=	girgs/girg1000_3
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 217.453
+sampling edges ...		done in 87ms	avg deg = 999.748
+writing edge list (.txt) ...	done in 397ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1000
+	wseed	=	12
+	pseed	=	119206
+	sseed	=	254830
+	threads	=	1
+	file	=	girgs/girg1000_4
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 217.453
+sampling edges ...		done in 88ms	avg deg = 1000.53
+writing edge list (.txt) ...	done in 397ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1000
+	wseed	=	12
+	pseed	=	315931
+	sseed	=	515524
+	threads	=	1
+	file	=	girgs/girg1000_5
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 217.453
+sampling edges ...		done in 87ms	avg deg = 1000.67
+writing edge list (.txt) ...	done in 397ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1000
+	wseed	=	12
+	pseed	=	829222
+	sseed	=	222790
+	threads	=	1
+	file	=	girgs/girg1000_6
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 217.453
+sampling edges ...		done in 87ms	avg deg = 999.8
+writing edge list (.txt) ...	done in 397ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1000
+	wseed	=	12
+	pseed	=	372931
+	sseed	=	344343
+	threads	=	1
+	file	=	girgs/girg1000_7
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 217.453
+sampling edges ...		done in 87ms	avg deg = 999.693
+writing edge list (.txt) ...	done in 397ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1000
+	wseed	=	12
+	pseed	=	974055
+	sseed	=	608142
+	threads	=	1
+	file	=	girgs/girg1000_8
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 217.453
+sampling edges ...		done in 86ms	avg deg = 999.721
+writing edge list (.txt) ...	done in 398ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1000
+	wseed	=	12
+	pseed	=	107965
+	sseed	=	898032
+	threads	=	1
+	file	=	girgs/girg1000_9
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 217.453
+sampling edges ...		done in 88ms	avg deg = 1000.11
+writing edge list (.txt) ...	done in 456ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1100
+	wseed	=	12
+	pseed	=	705735
+	sseed	=	159951
+	threads	=	1
+	file	=	girgs/girg1100_0
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 242.672
+sampling edges ...		done in 91ms	avg deg = 1100.42
+writing edge list (.txt) ...	done in 437ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1100
+	wseed	=	12
+	pseed	=	530392
+	sseed	=	619664
+	threads	=	1
+	file	=	girgs/girg1100_1
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 242.672
+sampling edges ...		done in 90ms	avg deg = 1099.84
+writing edge list (.txt) ...	done in 436ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1100
+	wseed	=	12
+	pseed	=	704219
+	sseed	=	45323
+	threads	=	1
+	file	=	girgs/girg1100_2
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 242.672
+sampling edges ...		done in 89ms	avg deg = 1099.73
+writing edge list (.txt) ...	done in 436ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1100
+	wseed	=	12
+	pseed	=	672246
+	sseed	=	520372
+	threads	=	1
+	file	=	girgs/girg1100_3
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 242.672
+sampling edges ...		done in 89ms	avg deg = 1099.72
+writing edge list (.txt) ...	done in 436ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1100
+	wseed	=	12
+	pseed	=	310654
+	sseed	=	155905
+	threads	=	1
+	file	=	girgs/girg1100_4
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 242.672
+sampling edges ...		done in 89ms	avg deg = 1100.6
+writing edge list (.txt) ...	done in 436ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1100
+	wseed	=	12
+	pseed	=	155328
+	sseed	=	84235
+	threads	=	1
+	file	=	girgs/girg1100_5
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 242.672
+sampling edges ...		done in 90ms	avg deg = 1099.91
+writing edge list (.txt) ...	done in 435ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1100
+	wseed	=	12
+	pseed	=	959661
+	sseed	=	680844
+	threads	=	1
+	file	=	girgs/girg1100_6
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 242.672
+sampling edges ...		done in 90ms	avg deg = 1101.01
+writing edge list (.txt) ...	done in 436ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1100
+	wseed	=	12
+	pseed	=	768524
+	sseed	=	512668
+	threads	=	1
+	file	=	girgs/girg1100_7
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 242.672
+sampling edges ...		done in 89ms	avg deg = 1100.02
+writing edge list (.txt) ...	done in 436ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1100
+	wseed	=	12
+	pseed	=	975685
+	sseed	=	770902
+	threads	=	1
+	file	=	girgs/girg1100_8
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 242.672
+sampling edges ...		done in 90ms	avg deg = 1100.56
+writing edge list (.txt) ...	done in 436ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1100
+	wseed	=	12
+	pseed	=	756775
+	sseed	=	183785
+	threads	=	1
+	file	=	girgs/girg1100_9
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 242.672
+sampling edges ...		done in 90ms	avg deg = 1100.05
+writing edge list (.txt) ...	done in 435ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1200
+	wseed	=	12
+	pseed	=	829135
+	sseed	=	170209
+	threads	=	1
+	file	=	girgs/girg1200_0
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 268.484
+sampling edges ...		done in 93ms	avg deg = 1200.32
+writing edge list (.txt) ...	done in 475ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1200
+	wseed	=	12
+	pseed	=	248563
+	sseed	=	233646
+	threads	=	1
+	file	=	girgs/girg1200_1
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 268.484
+sampling edges ...		done in 94ms	avg deg = 1199.68
+writing edge list (.txt) ...	done in 475ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1200
+	wseed	=	12
+	pseed	=	679251
+	sseed	=	745392
+	threads	=	1
+	file	=	girgs/girg1200_2
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 268.484
+sampling edges ...		done in 92ms	avg deg = 1200.09
+writing edge list (.txt) ...	done in 475ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1200
+	wseed	=	12
+	pseed	=	663354
+	sseed	=	462061
+	threads	=	1
+	file	=	girgs/girg1200_3
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 268.484
+sampling edges ...		done in 93ms	avg deg = 1200.75
+writing edge list (.txt) ...	done in 476ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1200
+	wseed	=	12
+	pseed	=	483350
+	sseed	=	844298
+	threads	=	1
+	file	=	girgs/girg1200_4
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 268.484
+sampling edges ...		done in 93ms	avg deg = 1199.84
+writing edge list (.txt) ...	done in 477ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1200
+	wseed	=	12
+	pseed	=	425765
+	sseed	=	321819
+	threads	=	1
+	file	=	girgs/girg1200_5
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 268.484
+sampling edges ...		done in 94ms	avg deg = 1199.66
+writing edge list (.txt) ...	done in 475ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1200
+	wseed	=	12
+	pseed	=	788887
+	sseed	=	26274
+	threads	=	1
+	file	=	girgs/girg1200_6
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 268.484
+sampling edges ...		done in 93ms	avg deg = 1200.6
+writing edge list (.txt) ...	done in 477ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1200
+	wseed	=	12
+	pseed	=	724779
+	sseed	=	370224
+	threads	=	1
+	file	=	girgs/girg1200_7
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 268.484
+sampling edges ...		done in 92ms	avg deg = 1199.99
+writing edge list (.txt) ...	done in 475ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1200
+	wseed	=	12
+	pseed	=	830699
+	sseed	=	107434
+	threads	=	1
+	file	=	girgs/girg1200_8
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 268.484
+sampling edges ...		done in 92ms	avg deg = 1199.51
+writing edge list (.txt) ...	done in 476ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1200
+	wseed	=	12
+	pseed	=	823116
+	sseed	=	85119
+	threads	=	1
+	file	=	girgs/girg1200_9
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 268.484
+sampling edges ...		done in 92ms	avg deg = 1199.71
+writing edge list (.txt) ...	done in 476ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1300
+	wseed	=	12
+	pseed	=	752617
+	sseed	=	951681
+	threads	=	1
+	file	=	girgs/girg1300_0
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 294.891
+sampling edges ...		done in 97ms	avg deg = 1299.72
+writing edge list (.txt) ...	done in 517ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1300
+	wseed	=	12
+	pseed	=	313800
+	sseed	=	691674
+	threads	=	1
+	file	=	girgs/girg1300_1
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 294.891
+sampling edges ...		done in 96ms	avg deg = 1299.78
+writing edge list (.txt) ...	done in 517ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1300
+	wseed	=	12
+	pseed	=	900605
+	sseed	=	164545
+	threads	=	1
+	file	=	girgs/girg1300_2
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 294.891
+sampling edges ...		done in 95ms	avg deg = 1300.28
+writing edge list (.txt) ...	done in 515ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1300
+	wseed	=	12
+	pseed	=	717492
+	sseed	=	111715
+	threads	=	1
+	file	=	girgs/girg1300_3
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 294.891
+sampling edges ...		done in 95ms	avg deg = 1300.22
+writing edge list (.txt) ...	done in 516ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1300
+	wseed	=	12
+	pseed	=	82091
+	sseed	=	576761
+	threads	=	1
+	file	=	girgs/girg1300_4
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 294.891
+sampling edges ...		done in 96ms	avg deg = 1300.05
+writing edge list (.txt) ...	done in 515ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1300
+	wseed	=	12
+	pseed	=	673727
+	sseed	=	424342
+	threads	=	1
+	file	=	girgs/girg1300_5
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 294.891
+sampling edges ...		done in 95ms	avg deg = 1299.96
+writing edge list (.txt) ...	done in 517ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1300
+	wseed	=	12
+	pseed	=	605526
+	sseed	=	257457
+	threads	=	1
+	file	=	girgs/girg1300_6
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 294.891
+sampling edges ...		done in 95ms	avg deg = 1299.38
+writing edge list (.txt) ...	done in 514ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1300
+	wseed	=	12
+	pseed	=	967839
+	sseed	=	938128
+	threads	=	1
+	file	=	girgs/girg1300_7
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 294.891
+sampling edges ...		done in 95ms	avg deg = 1300.11
+writing edge list (.txt) ...	done in 515ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1300
+	wseed	=	12
+	pseed	=	61729
+	sseed	=	238471
+	threads	=	1
+	file	=	girgs/girg1300_8
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 294.891
+sampling edges ...		done in 95ms	avg deg = 1300.25
+writing edge list (.txt) ...	done in 514ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1300
+	wseed	=	12
+	pseed	=	713629
+	sseed	=	435893
+	threads	=	1
+	file	=	girgs/girg1300_9
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 294.891
+sampling edges ...		done in 95ms	avg deg = 1300.07
+writing edge list (.txt) ...	done in 515ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1400
+	wseed	=	12
+	pseed	=	344246
+	sseed	=	578393
+	threads	=	1
+	file	=	girgs/girg1400_0
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 321.875
+sampling edges ...		done in 99ms	avg deg = 1399.65
+writing edge list (.txt) ...	done in 555ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1400
+	wseed	=	12
+	pseed	=	484094
+	sseed	=	780730
+	threads	=	1
+	file	=	girgs/girg1400_1
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 321.875
+sampling edges ...		done in 98ms	avg deg = 1399.27
+writing edge list (.txt) ...	done in 554ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1400
+	wseed	=	12
+	pseed	=	203606
+	sseed	=	77356
+	threads	=	1
+	file	=	girgs/girg1400_2
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 321.875
+sampling edges ...		done in 100ms	avg deg = 1399.84
+writing edge list (.txt) ...	done in 554ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1400
+	wseed	=	12
+	pseed	=	70919
+	sseed	=	681029
+	threads	=	1
+	file	=	girgs/girg1400_3
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 321.875
+sampling edges ...		done in 98ms	avg deg = 1399.98
+writing edge list (.txt) ...	done in 554ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1400
+	wseed	=	12
+	pseed	=	693470
+	sseed	=	378435
+	threads	=	1
+	file	=	girgs/girg1400_4
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 321.875
+sampling edges ...		done in 103ms	avg deg = 1399.73
+writing edge list (.txt) ...	done in 554ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1400
+	wseed	=	12
+	pseed	=	286284
+	sseed	=	397039
+	threads	=	1
+	file	=	girgs/girg1400_5
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 321.875
+sampling edges ...		done in 98ms	avg deg = 1399.83
+writing edge list (.txt) ...	done in 556ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1400
+	wseed	=	12
+	pseed	=	29037
+	sseed	=	982633
+	threads	=	1
+	file	=	girgs/girg1400_6
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 321.875
+sampling edges ...		done in 98ms	avg deg = 1399.85
+writing edge list (.txt) ...	done in 555ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1400
+	wseed	=	12
+	pseed	=	847862
+	sseed	=	957162
+	threads	=	1
+	file	=	girgs/girg1400_7
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 321.875
+sampling edges ...		done in 100ms	avg deg = 1400.64
+writing edge list (.txt) ...	done in 555ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1400
+	wseed	=	12
+	pseed	=	998391
+	sseed	=	62072
+	threads	=	1
+	file	=	girgs/girg1400_8
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 321.875
+sampling edges ...		done in 98ms	avg deg = 1399.18
+writing edge list (.txt) ...	done in 557ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1400
+	wseed	=	12
+	pseed	=	566104
+	sseed	=	978687
+	threads	=	1
+	file	=	girgs/girg1400_9
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 321.875
+sampling edges ...		done in 100ms	avg deg = 1400.22
+writing edge list (.txt) ...	done in 554ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1500
+	wseed	=	12
+	pseed	=	120655
+	sseed	=	683711
+	threads	=	1
+	file	=	girgs/girg1500_0
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 349.445
+sampling edges ...		done in 100ms	avg deg = 1499.69
+writing edge list (.txt) ...	done in 595ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1500
+	wseed	=	12
+	pseed	=	417596
+	sseed	=	547418
+	threads	=	1
+	file	=	girgs/girg1500_1
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 349.445
+sampling edges ...		done in 103ms	avg deg = 1500.11
+writing edge list (.txt) ...	done in 594ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1500
+	wseed	=	12
+	pseed	=	589473
+	sseed	=	301007
+	threads	=	1
+	file	=	girgs/girg1500_2
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 349.445
+sampling edges ...		done in 102ms	avg deg = 1499.92
+writing edge list (.txt) ...	done in 593ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1500
+	wseed	=	12
+	pseed	=	163491
+	sseed	=	963214
+	threads	=	1
+	file	=	girgs/girg1500_3
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 349.445
+sampling edges ...		done in 101ms	avg deg = 1499.67
+writing edge list (.txt) ...	done in 593ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1500
+	wseed	=	12
+	pseed	=	7368
+	sseed	=	892779
+	threads	=	1
+	file	=	girgs/girg1500_4
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 349.445
+sampling edges ...		done in 101ms	avg deg = 1500.82
+writing edge list (.txt) ...	done in 595ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1500
+	wseed	=	12
+	pseed	=	434448
+	sseed	=	509827
+	threads	=	1
+	file	=	girgs/girg1500_5
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 349.445
+sampling edges ...		done in 103ms	avg deg = 1500.15
+writing edge list (.txt) ...	done in 594ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1500
+	wseed	=	12
+	pseed	=	389630
+	sseed	=	804622
+	threads	=	1
+	file	=	girgs/girg1500_6
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 349.445
+sampling edges ...		done in 101ms	avg deg = 1499.96
+writing edge list (.txt) ...	done in 595ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1500
+	wseed	=	12
+	pseed	=	696483
+	sseed	=	13516
+	threads	=	1
+	file	=	girgs/girg1500_7
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 349.445
+sampling edges ...		done in 102ms	avg deg = 1499.74
+writing edge list (.txt) ...	done in 595ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1500
+	wseed	=	12
+	pseed	=	792814
+	sseed	=	59320
+	threads	=	1
+	file	=	girgs/girg1500_8
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 349.445
+sampling edges ...		done in 103ms	avg deg = 1500.01
+writing edge list (.txt) ...	done in 594ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1500
+	wseed	=	12
+	pseed	=	93534
+	sseed	=	830177
+	threads	=	1
+	file	=	girgs/girg1500_9
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 349.445
+sampling edges ...		done in 102ms	avg deg = 1499.88
+writing edge list (.txt) ...	done in 595ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1600
+	wseed	=	12
+	pseed	=	56202
+	sseed	=	798842
+	threads	=	1
+	file	=	girgs/girg1600_0
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 377.609
+sampling edges ...		done in 104ms	avg deg = 1599.31
+writing edge list (.txt) ...	done in 633ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1600
+	wseed	=	12
+	pseed	=	392258
+	sseed	=	457226
+	threads	=	1
+	file	=	girgs/girg1600_1
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 377.609
+sampling edges ...		done in 103ms	avg deg = 1600
+writing edge list (.txt) ...	done in 634ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1600
+	wseed	=	12
+	pseed	=	653442
+	sseed	=	416484
+	threads	=	1
+	file	=	girgs/girg1600_2
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 377.609
+sampling edges ...		done in 105ms	avg deg = 1600.05
+writing edge list (.txt) ...	done in 634ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1600
+	wseed	=	12
+	pseed	=	496130
+	sseed	=	12601
+	threads	=	1
+	file	=	girgs/girg1600_3
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 377.609
+sampling edges ...		done in 104ms	avg deg = 1599.89
+writing edge list (.txt) ...	done in 633ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1600
+	wseed	=	12
+	pseed	=	520866
+	sseed	=	894845
+	threads	=	1
+	file	=	girgs/girg1600_4
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 377.609
+sampling edges ...		done in 104ms	avg deg = 1600.07
+writing edge list (.txt) ...	done in 634ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1600
+	wseed	=	12
+	pseed	=	192683
+	sseed	=	77048
+	threads	=	1
+	file	=	girgs/girg1600_5
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 377.609
+sampling edges ...		done in 105ms	avg deg = 1599.49
+writing edge list (.txt) ...	done in 634ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1600
+	wseed	=	12
+	pseed	=	445704
+	sseed	=	92412
+	threads	=	1
+	file	=	girgs/girg1600_6
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 377.609
+sampling edges ...		done in 104ms	avg deg = 1600.31
+writing edge list (.txt) ...	done in 634ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1600
+	wseed	=	12
+	pseed	=	577426
+	sseed	=	548391
+	threads	=	1
+	file	=	girgs/girg1600_7
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 377.609
+sampling edges ...		done in 103ms	avg deg = 1599.93
+writing edge list (.txt) ...	done in 636ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1600
+	wseed	=	12
+	pseed	=	822565
+	sseed	=	165639
+	threads	=	1
+	file	=	girgs/girg1600_8
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 377.609
+sampling edges ...		done in 103ms	avg deg = 1599.84
+writing edge list (.txt) ...	done in 635ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1600
+	wseed	=	12
+	pseed	=	438191
+	sseed	=	927964
+	threads	=	1
+	file	=	girgs/girg1600_9
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 377.609
+sampling edges ...		done in 104ms	avg deg = 1599.31
+writing edge list (.txt) ...	done in 634ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1700
+	wseed	=	12
+	pseed	=	632253
+	sseed	=	84337
+	threads	=	1
+	file	=	girgs/girg1700_0
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 406.352
+sampling edges ...		done in 126ms	avg deg = 1699.9
+writing edge list (.txt) ...	done in 673ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1700
+	wseed	=	12
+	pseed	=	234362
+	sseed	=	195088
+	threads	=	1
+	file	=	girgs/girg1700_1
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 406.352
+sampling edges ...		done in 126ms	avg deg = 1699.71
+writing edge list (.txt) ...	done in 674ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1700
+	wseed	=	12
+	pseed	=	458042
+	sseed	=	445788
+	threads	=	1
+	file	=	girgs/girg1700_2
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 406.352
+sampling edges ...		done in 125ms	avg deg = 1700.25
+writing edge list (.txt) ...	done in 674ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1700
+	wseed	=	12
+	pseed	=	996345
+	sseed	=	573227
+	threads	=	1
+	file	=	girgs/girg1700_3
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 406.352
+sampling edges ...		done in 125ms	avg deg = 1699.31
+writing edge list (.txt) ...	done in 673ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1700
+	wseed	=	12
+	pseed	=	793105
+	sseed	=	109361
+	threads	=	1
+	file	=	girgs/girg1700_4
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 406.352
+sampling edges ...		done in 126ms	avg deg = 1700.58
+writing edge list (.txt) ...	done in 673ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1700
+	wseed	=	12
+	pseed	=	748539
+	sseed	=	663594
+	threads	=	1
+	file	=	girgs/girg1700_5
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 406.352
+sampling edges ...		done in 126ms	avg deg = 1700.01
+writing edge list (.txt) ...	done in 673ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1700
+	wseed	=	12
+	pseed	=	337014
+	sseed	=	54215
+	threads	=	1
+	file	=	girgs/girg1700_6
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 406.352
+sampling edges ...		done in 125ms	avg deg = 1700.09
+writing edge list (.txt) ...	done in 674ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1700
+	wseed	=	12
+	pseed	=	744031
+	sseed	=	514409
+	threads	=	1
+	file	=	girgs/girg1700_7
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 406.352
+sampling edges ...		done in 125ms	avg deg = 1700.18
+writing edge list (.txt) ...	done in 673ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1700
+	wseed	=	12
+	pseed	=	384605
+	sseed	=	341574
+	threads	=	1
+	file	=	girgs/girg1700_8
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 406.352
+sampling edges ...		done in 126ms	avg deg = 1699.54
+writing edge list (.txt) ...	done in 673ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1700
+	wseed	=	12
+	pseed	=	25915
+	sseed	=	378305
+	threads	=	1
+	file	=	girgs/girg1700_9
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 406.352
+sampling edges ...		done in 125ms	avg deg = 1700.46
+writing edge list (.txt) ...	done in 673ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1800
+	wseed	=	12
+	pseed	=	612880
+	sseed	=	346630
+	threads	=	1
+	file	=	girgs/girg1800_0
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 435.688
+sampling edges ...		done in 156ms	avg deg = 1800.17
+writing edge list (.txt) ...	done in 711ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1800
+	wseed	=	12
+	pseed	=	957946
+	sseed	=	226580
+	threads	=	1
+	file	=	girgs/girg1800_1
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 435.688
+sampling edges ...		done in 154ms	avg deg = 1800.94
+writing edge list (.txt) ...	done in 712ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1800
+	wseed	=	12
+	pseed	=	108518
+	sseed	=	564685
+	threads	=	1
+	file	=	girgs/girg1800_2
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 435.688
+sampling edges ...		done in 153ms	avg deg = 1800.32
+writing edge list (.txt) ...	done in 711ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1800
+	wseed	=	12
+	pseed	=	28586
+	sseed	=	995965
+	threads	=	1
+	file	=	girgs/girg1800_3
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 435.688
+sampling edges ...		done in 157ms	avg deg = 1799.57
+writing edge list (.txt) ...	done in 711ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1800
+	wseed	=	12
+	pseed	=	64925
+	sseed	=	722875
+	threads	=	1
+	file	=	girgs/girg1800_4
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 435.688
+sampling edges ...		done in 155ms	avg deg = 1800.2
+writing edge list (.txt) ...	done in 711ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1800
+	wseed	=	12
+	pseed	=	554297
+	sseed	=	40293
+	threads	=	1
+	file	=	girgs/girg1800_5
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 435.688
+sampling edges ...		done in 157ms	avg deg = 1799.82
+writing edge list (.txt) ...	done in 711ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1800
+	wseed	=	12
+	pseed	=	839775
+	sseed	=	127
+	threads	=	1
+	file	=	girgs/girg1800_6
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 435.688
+sampling edges ...		done in 155ms	avg deg = 1799.68
+writing edge list (.txt) ...	done in 713ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1800
+	wseed	=	12
+	pseed	=	675296
+	sseed	=	711286
+	threads	=	1
+	file	=	girgs/girg1800_7
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 435.688
+sampling edges ...		done in 158ms	avg deg = 1799.55
+writing edge list (.txt) ...	done in 712ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1800
+	wseed	=	12
+	pseed	=	644465
+	sseed	=	756005
+	threads	=	1
+	file	=	girgs/girg1800_8
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 435.688
+sampling edges ...		done in 154ms	avg deg = 1800.62
+writing edge list (.txt) ...	done in 711ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1800
+	wseed	=	12
+	pseed	=	478654
+	sseed	=	336984
+	threads	=	1
+	file	=	girgs/girg1800_9
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 435.688
+sampling edges ...		done in 156ms	avg deg = 1799.71
+writing edge list (.txt) ...	done in 712ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1900
+	wseed	=	12
+	pseed	=	626137
+	sseed	=	644570
+	threads	=	1
+	file	=	girgs/girg1900_0
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 465.633
+sampling edges ...		done in 157ms	avg deg = 1899.59
+writing edge list (.txt) ...	done in 750ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1900
+	wseed	=	12
+	pseed	=	469850
+	sseed	=	535943
+	threads	=	1
+	file	=	girgs/girg1900_1
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 465.633
+sampling edges ...		done in 158ms	avg deg = 1899.35
+writing edge list (.txt) ...	done in 750ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1900
+	wseed	=	12
+	pseed	=	223538
+	sseed	=	481703
+	threads	=	1
+	file	=	girgs/girg1900_2
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 465.633
+sampling edges ...		done in 159ms	avg deg = 1901.26
+writing edge list (.txt) ...	done in 751ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1900
+	wseed	=	12
+	pseed	=	613496
+	sseed	=	898652
+	threads	=	1
+	file	=	girgs/girg1900_3
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 465.633
+sampling edges ...		done in 159ms	avg deg = 1900.59
+writing edge list (.txt) ...	done in 750ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1900
+	wseed	=	12
+	pseed	=	809299
+	sseed	=	781702
+	threads	=	1
+	file	=	girgs/girg1900_4
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 465.633
+sampling edges ...		done in 160ms	avg deg = 1899.98
+writing edge list (.txt) ...	done in 749ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1900
+	wseed	=	12
+	pseed	=	389846
+	sseed	=	151734
+	threads	=	1
+	file	=	girgs/girg1900_5
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 465.633
+sampling edges ...		done in 160ms	avg deg = 1899.39
+writing edge list (.txt) ...	done in 749ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1900
+	wseed	=	12
+	pseed	=	153251
+	sseed	=	239144
+	threads	=	1
+	file	=	girgs/girg1900_6
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 465.633
+sampling edges ...		done in 160ms	avg deg = 1899.56
+writing edge list (.txt) ...	done in 750ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1900
+	wseed	=	12
+	pseed	=	841194
+	sseed	=	428586
+	threads	=	1
+	file	=	girgs/girg1900_7
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 465.633
+sampling edges ...		done in 163ms	avg deg = 1899.5
+writing edge list (.txt) ...	done in 748ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1900
+	wseed	=	12
+	pseed	=	171761
+	sseed	=	211127
+	threads	=	1
+	file	=	girgs/girg1900_8
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 465.633
+sampling edges ...		done in 161ms	avg deg = 1900.11
+writing edge list (.txt) ...	done in 748ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	1900
+	wseed	=	12
+	pseed	=	694827
+	sseed	=	278182
+	threads	=	1
+	file	=	girgs/girg1900_9
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 465.633
+sampling edges ...		done in 158ms	avg deg = 1900.22
+writing edge list (.txt) ...	done in 751ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	2000
+	wseed	=	12
+	pseed	=	405193
+	sseed	=	355284
+	threads	=	1
+	file	=	girgs/girg2000_0
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 496.203
+sampling edges ...		done in 161ms	avg deg = 2000.61
+writing edge list (.txt) ...	done in 797ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	2000
+	wseed	=	12
+	pseed	=	73465
+	sseed	=	648385
+	threads	=	1
+	file	=	girgs/girg2000_1
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 496.203
+sampling edges ...		done in 166ms	avg deg = 1999.12
+writing edge list (.txt) ...	done in 797ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	2000
+	wseed	=	12
+	pseed	=	226338
+	sseed	=	864333
+	threads	=	1
+	file	=	girgs/girg2000_2
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 496.203
+sampling edges ...		done in 161ms	avg deg = 1999.59
+writing edge list (.txt) ...	done in 791ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	2000
+	wseed	=	12
+	pseed	=	629234
+	sseed	=	495255
+	threads	=	1
+	file	=	girgs/girg2000_3
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 496.203
+sampling edges ...		done in 160ms	avg deg = 1999.57
+writing edge list (.txt) ...	done in 790ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	2000
+	wseed	=	12
+	pseed	=	281779
+	sseed	=	567269
+	threads	=	1
+	file	=	girgs/girg2000_4
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 496.203
+sampling edges ...		done in 164ms	avg deg = 2000.14
+writing edge list (.txt) ...	done in 790ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	2000
+	wseed	=	12
+	pseed	=	841023
+	sseed	=	706966
+	threads	=	1
+	file	=	girgs/girg2000_5
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 496.203
+sampling edges ...		done in 161ms	avg deg = 2000
+writing edge list (.txt) ...	done in 787ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	2000
+	wseed	=	12
+	pseed	=	973925
+	sseed	=	507896
+	threads	=	1
+	file	=	girgs/girg2000_6
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 496.203
+sampling edges ...		done in 160ms	avg deg = 2000.62
+writing edge list (.txt) ...	done in 789ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	2000
+	wseed	=	12
+	pseed	=	269150
+	sseed	=	766969
+	threads	=	1
+	file	=	girgs/girg2000_7
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 496.203
+sampling edges ...		done in 160ms	avg deg = 1999.63
+writing edge list (.txt) ...	done in 787ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	2000
+	wseed	=	12
+	pseed	=	113813
+	sseed	=	214742
+	threads	=	1
+	file	=	girgs/girg2000_8
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 496.203
+sampling edges ...		done in 161ms	avg deg = 2000.03
+writing edge list (.txt) ...	done in 906ms
+using:
+	n	=	10000
+	d	=	1
+	ple	=	2.5
+	alpha	=	inf
+	deg	=	2000
+	wseed	=	12
+	pseed	=	917542
+	sseed	=	152252
+	threads	=	1
+	file	=	girgs/girg2000_9
+	dot	=	0
+	edge	=	1
+	morton	=	Generic
+
+generating weights ...		done in 0ms	largest = 209.719
+generating positions ...	done in 0ms
+find weight scaling ...		done in 1ms	scaling = 496.203
+sampling edges ...		done in 160ms	avg deg = 2000.32
+writing edge list (.txt) ...	done in 789ms
