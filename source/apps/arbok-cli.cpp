@@ -161,6 +161,10 @@ void run(map<string, string>& args) {
     cout << "w%1e9  =" << res%int(1e9) << endl;
     cout << "w/1e9  =" << res/1'000'000'000 << endl;
 
+    if(!empty(args["outfile"])) {
+        ofstream out(args["outfile"]);
+        for(auto e : arbo) out << e << '\n';
+    }
 }
 
 int main(int argc, char* argv[]) {
@@ -182,6 +186,7 @@ int main(int argc, char* argv[]) {
             {"root",    ""},
             {"giantCC", "0"},
             {"check",   "1"},
+            {"outfile",   ""},
     };
     auto args = parseArgs(argc, argv);
     cout << "PARAMETER: " << endl;

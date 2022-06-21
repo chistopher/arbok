@@ -7,6 +7,7 @@ import random
 random.seed(1337)
 girg_cli = "../../girgs/build/gengirg"
 os.makedirs("girgs", exist_ok=True)
+os.makedirs("results", exist_ok=True)
 logfile = open('results/girgs_log', 'w')
 
 n = 10**4
