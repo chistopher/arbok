@@ -71,7 +71,7 @@ int main() {
 
 This builds a command line interface `./build/arbok-cli`, which accepts the following options.
 ```
-./build/arbok-cli input ../data/konect/slashdot-zoo.soap algo pq giantCC 0 check 1 
+./build/arbok-cli -input ../data/konect/slashdot-zoo.soap -algo pq -giantCC 0 -check 1 
 ```
 Order does not matter and all arguments are optional.
 The above command contains their defaults if omitted. 
@@ -98,6 +98,15 @@ Then, for each edge there follows a line with the two endpoints and (if weighted
 The cli recognizes weighted graphs by their file ending in `.wsoap` :)
 If the graph is not weighted, it gets uniform random weights in the range [1,20].
 Indices should be zero-based.
+```
+6 5
+1 2 3
+1 3 2
+2 3 4
+2 5 1
+3 4 2
+5 3 8
+```
 
 ### Output Format
 For the output format (see `outfile` option), each line contains the index of an edge that is part of the solution. 
@@ -105,7 +114,13 @@ Edge indices are determined by the order of edges in the input.
 Indices are zero-based.
 Note that `giantCC` changes edge indices.
 If you want more control over this use the C++ library directly.
-
+```
+3      --input[3] = (2,5)
+4      --input[4] = (3,4)
+1      --input[1] = (1,3)
+0      --input[0] = (1,2)
+5      --input[5] = (5,3)
+```
 
 # Data for Experiments
 
