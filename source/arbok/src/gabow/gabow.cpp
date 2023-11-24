@@ -1,8 +1,8 @@
 
 #include <arbok/gabow/gabow.h>
 
-#include <iostream>
 #include <cassert>
+#include <algorithm>
 
 using namespace arbok;
 

@@ -3,6 +3,7 @@
 
 #include <cassert>
 #include <tuple>
+#include <algorithm>
 
 using namespace arbok;
 using namespace std;

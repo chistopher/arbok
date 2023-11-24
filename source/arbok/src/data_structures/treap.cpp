@@ -2,6 +2,7 @@
 #include <arbok/data_structures/treap.h>
 
 #include <random>
+#include <algorithm>
 
 using ll = long long;
 using namespace std;
