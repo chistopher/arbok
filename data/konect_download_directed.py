@@ -19,7 +19,7 @@ for link_tag in soup.find_all('a'):
         continue
     if not link_tag.parent.parent.find('img', title='Unipartite, directed'):
         continue
-    print(f'network {link[:-1]} seems to be directed, tying to download')
+    print(f'network {link[:-1]} seems to be directed, trying to download')
 
     if link[:-1] in exclude:
         print(f'skipping network because of manual exclude')

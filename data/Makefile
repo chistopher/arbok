@@ -2,7 +2,7 @@ all:
 	echo "hello"
 
 fastestspeedrun:
-	wget -O fastestspeedrun.zip https://owncloud.hpi.de/s/tGKfRrmTUejNhRH/download
+	wget -O fastestspeedrun.zip https://bwsyncandshare.kit.edu/s/EfgSBYLrS7q9NyF/download/fastestspeedrun.zip
 	unzip fastestspeedrun.zip
 	rm fastestspeedrun.zip
 	./fastestspeedrun_convert.py

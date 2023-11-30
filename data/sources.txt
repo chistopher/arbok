@@ -14,7 +14,7 @@ https://snap.stanford.edu/data/
 fastestspeedrun: 
 NWERC2018 problem
 https://speedyguy17.info/icpc/data/nwerc/2018/fastestspeedrun/data/secret/
-wget -O data/fastestspeedrun.zip https://owncloud.hpi.de/s/tGKfRrmTUejNhRH/download
+https://bwsyncandshare.kit.edu/s/EfgSBYLrS7q9NyF (obtained from above url with fastestspeedrun_download.py)
 
 hrg:
 generated hyperbolic random graphs
